@@ -4,7 +4,7 @@
 DJANGO_SETTINGS_MODULE=config.settings.production
 DJANGO_SECRET_KEY=QtZ8HaX8eOpaNdY6A8Wq6KlnhdsO1tb3zjCFICyRpRgBQ595EjA08StpNqlrXLYE
 DJANGO_ADMIN_URL=vOPVG5TZNpPAQ1nAsY8ejO84RJyW6Vt0/
-DJANGO_ALLOWED_HOSTS=.alanvazquez.net
+DJANGO_ALLOWED_HOSTS=.systemtest.com
 
 # Security
 # ------------------------------------------------------------------------------
