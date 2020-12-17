@@ -5,23 +5,25 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update \
   && apt-get install -y \
   # psycopg2 dependencies
-  # gcc \
-  # musl-dev \
-  # postgresql \
-  # # Pillow dependencies
-  # jpeg \
-  # zlib \
-  # freetype \
-  # lcms2 \
-  # openjpeg \
-  # tiff \
-  # tk-dev \
-  # tcl-dev \
-  # # CFFI dependencies
-  # libffi-dev \
-  # python-cffi \
+  gcc \
+  musl-dev \
+  postgresql \
+  # Pillow dependencies
+  libjpeg-dev \
+  zlib1g-dev \
+  libfreetype6-dev \
+  liblcms2-dev \
+  libopenjp2-7-dev \
+  libtiff-dev \
+  tk-dev \
+  tcl-dev \
+  # CFFI dependencies
+  libffi-dev \
+  python-cffi \
   # https://docs.djangoproject.com/en/dev/ref/django-admin/#dbshell
-  postgresql-client
+  postgresql-client \
+  && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
+  && rm -rf /var/lib/apt/lists/*
 
 # Requirements are installed here to ensure they will be cached.
 COPY ./requirements /requirements
