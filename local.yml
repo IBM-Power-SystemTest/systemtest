@@ -3,6 +3,7 @@ version: '3'
 volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
+  local_vscode_data:
 
 services:
   django: &django
@@ -15,6 +16,7 @@ services:
       - postgres
     volumes:
       - .:/app:z
+      - local_vscode_data:/root
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
@@ -34,22 +36,6 @@ services:
     env_file:
       - ./.envs/.local/.postgres
 
-  docs:
-    image: systemtest_local_docs
-    container_name: docs
-    build:
-      context: .
-      dockerfile: ./compose/local/docs/Dockerfile
-    env_file:
-      - ./.envs/.local/.django
-    volumes:
-      - ./docs:/docs:z
-      - ./config:/app/config:z
-      - ./systemtest:/app/systemtest:z
-    ports:
-      - "7000:7000"
-    command: /start-docs
-
   redis:
     image: redis:6.0.9
     container_name: redis
@@ -61,7 +47,6 @@ services:
     depends_on:
       - redis
       - postgres
-      
     ports: []
     command: /start-celeryworker
 
@@ -72,7 +57,6 @@ services:
     depends_on:
       - redis
       - postgres
-      
     ports: []
     command: /start-celerybeat
 
