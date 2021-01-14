@@ -104,7 +104,7 @@ class Request(models.Model):
     )
 
     def __str__(self) -> str:
-        return f"{self.request_group}"
+        return f"{self.pk} {self.request_group}"
 
     class Meta:
         db_table = "pts_request"

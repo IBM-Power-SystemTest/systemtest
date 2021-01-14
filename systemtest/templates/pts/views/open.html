@@ -1,0 +1,53 @@
+{% extends 'pts/base.html' %}
+
+{% block title %}
+  PTS | Request List
+{% endblock title %}
+
+{% block container %}
+  <form method="post">
+    {% csrf_token %}
+    <table>
+      <thead>
+        <tr>
+          <th> Folio </tr>
+          <th> Status </tr>
+          <th> Hora </tr>
+          <th> Parte </tr>
+          <th> Descripcion </tr>
+          <th> Loaner </tr>
+          <th> Sistema </tr>
+          <th> Celda </tr>
+          <th> Bahia </tr>
+          <th> Usuario </tr>
+          <th> Comentario </tr>
+          <th> Serial </tr>
+        </tr>
+      </thead>
+      <tbody>
+      {% for request in object_list %}
+      {% comment %} {{ request }} {% endcomment %}
+        <tr>
+          <td> {{ request.request.pk }} </td>
+          <td> {{ request.request_track_status }} </td>
+          <td> {{ request.created }} </td>
+          <td> {{ request.part_number }} </td>
+          <td> {{ request.request.request_group.part_description }} </td>
+          <td> {{ request.request.request_group.is_loaner }} </td>
+          <td> {{ request.request.request_group.system_number }} </td>
+          <td> {{ request.request.request_group.system_cell }} </td>
+          <td> {{ request.request.request_group.request_bay }} </td>
+          <td> {{ request.user }} </td>
+          {% comment %} <td> {{ request.form }} </td> {% endcomment %}
+        </tr>
+      {% empty %}
+      {% endfor %}
+      </tbody>
+    </table>
+    {{ formf.management_form }}
+    {% for f in form %}
+      {{ f.as_p }}
+    {% endfor %}
+    <input type="submit">
+  </form>
+{% endblock container %}

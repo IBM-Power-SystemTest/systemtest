@@ -19,29 +19,41 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django db
 from django.db.models.query import QuerySet
+from django.db.models import Q
 
 # APP PTS
 from systemtest.pts import forms, models
 
 
-class OpenPartListView(ListView):
+class OpenPartListView(FormView):
+    template_name = "pts/views/open.html"
+    success_url = reverse_lazy("pts:open")
+
     model = models.RequestTrack
-    template_name = "pts/open.html"
     ordering = ("created",)
+    query = (
+        Q(request_track_status__name="OPEN") |
+        Q(request_track_status__name="TRANSIT")
+    )
+
+    form_class = formset_factory(forms.RequestUpdateListForm)
 
     def get_queryset(self) -> QuerySet:
-        query = {"request_track_status__name": "OPEN"}
-        queryset = self.model.objects.filter(**query)
-
+        queryset = self.model.objects.filter(self.query)
         return queryset.order_by(*self.ordering)
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
+        self.form_class = formset_factory(
+            forms.RequestUpdateListForm,
+            extra=len(queryset)
+        )
+        kwargs = {
+            "object_list": queryset,
+            "form": self.form_class
+        }
 
-        context["form_part_id"] = forms.RequestPartForm()
-        context["form_comment"] = forms.RequestTrackCommentForm()
-
-        return context
+        return super().get_context_data(**kwargs)
 
 
 class TransitPartListView(ListView):

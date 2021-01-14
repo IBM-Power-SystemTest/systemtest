@@ -1,7 +1,9 @@
-from typing import Any, Dict
-from django import forms
-from systemtest.pts import models
 import re
+from typing import Any, Dict
+
+from django import forms
+
+from systemtest.pts import models
 
 
 class RequestGroupForm(forms.ModelForm):
@@ -34,6 +36,7 @@ class RequestGroupForm(forms.ModelForm):
             raise forms.ValidationError("Todas las VPD son serializadas")
 
         return data
+
 
 class RequestPartForm(forms.Form):
     part_id = forms.CharField(
@@ -75,3 +78,13 @@ class RequestTrackCommentForm(forms.ModelForm):
     class Meta:
         model = models.RequestTrack
         fields = ("comment",)
+
+
+class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
+    class Meta:
+        model = models.RequestTrack
+        fields = (
+            "delay_status",
+            "comment",
+            "part_id"
+        )
