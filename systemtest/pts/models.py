@@ -1,6 +1,7 @@
 import uuid
 from django.core.validators import MaxValueValidator, RegexValidator
 from django.db import models
+from django.db.models.deletion import CASCADE, PROTECT
 from systemtest.utils import models as utils_models
 
 
@@ -75,6 +76,9 @@ class RequestStatus(utils_models.AbstractOptionsModel):
     class Meta:
         db_table = "pts_request_status"
 
+class RequestNotNcmStatus(utils_models.AbstractOptionsModel):
+    class Meta:
+        db_table = "pts_request_not_ncm"
 
 class Request(models.Model):
     request_group = models.ForeignKey(
@@ -92,6 +96,12 @@ class Request(models.Model):
         unique=True,
         validators=[MaxValueValidator(int("9"*8))]
     )
+    not_ncm_status = models.ForeignKey(
+        to=RequestNotNcmStatus,
+        on_delete=CASCADE,
+        null=True,
+        blank=True
+    )
 
     def __str__(self) -> str:
         return f"{self.request_group}"
@@ -104,6 +114,10 @@ class RequestTrackStatus(utils_models.AbstractOptionsModel):
     class Meta:
         db_table = "pts_request_track_status"
 
+
+class RequestTrackDelayStatus(utils_models.AbstractOptionsModel):
+    class Meta:
+        db_table = "pts_request_track_delay_status"
 
 class RequestTrack(models.Model):
     validate = {
@@ -140,6 +154,12 @@ class RequestTrack(models.Model):
     user = models.ForeignKey(
         to="users.User",
         on_delete=models.PROTECT
+    )
+    delay_status = models.ForeignKey(
+        to=RequestTrackDelayStatus,
+        on_delete=PROTECT,
+        null=True,
+        blank=True
     )
     comment = models.CharField(
         max_length=30,
