@@ -29,7 +29,7 @@ class OpenPartListView(FormView):
     template_name = "pts/views/open.html"
     success_url = reverse_lazy("pts:open")
 
-    model = models.RequestTrack
+    model = models.Request
     ordering = ("created",)
     query = (
         Q(request_track_status__name="OPEN") |
@@ -139,16 +139,14 @@ class RequestDetailView(LoginRequiredMixin, FormView):
         request_group.save()
 
         for serial_number in serial_number_set:
-            request = models.Request(request_group=request_group)
-            request.save()
-
-            request_track = models.RequestTrack(
-                request=request,
+            request = models.Request(
+                request_group=request_group,
                 part_number=part_number,
                 serial_number=serial_number,
                 user=user
             )
-            request_track.save()
+
+            request.save()
 
         return HttpResponseRedirect(self.get_success_url())
 

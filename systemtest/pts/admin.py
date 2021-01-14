@@ -26,22 +26,6 @@ class RequestStatusAdmin(admin.ModelAdmin):
     search_fields = ("pk", "name")
 
 
-@admin.register(models.RequestTrackStatus)
-class RequestTrackStatusAadmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-    list_display_links = ("pk",)
-    list_editable = ("name",)
-    search_fields = ("pk", "name")
-
-
-@admin.register(models.RequestTrackDelayStatus)
-class RequestTrackDelayStatusAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-    list_display_links = ("pk",)
-    list_editable = ("name",)
-    search_fields = ("pk", "name")
-
-
 @admin.register(models.RequestNotNcmStatus)
 class RequestNotNcmStatusAdmin(admin.ModelAdmin):
     list_display = ("pk", "name")
@@ -97,7 +81,7 @@ class ResquestAdmin(admin.ModelAdmin):
         "request_group",
         "request_status",
         "ncm_tag",
-        "not_ncm_status"
+        "not_ncm_status",
     )
     list_editable = (
         "request_status",
@@ -115,8 +99,8 @@ class ResquestAdmin(admin.ModelAdmin):
     # )
 
 
-@admin.register(models.RequestTrack)
-class RequestTrackAdmin(admin.ModelAdmin):
+@admin.register(models.RequestHistory)
+class RequestHistoryAdmin(admin.ModelAdmin):
     list_display = (
         "request",
         "serial_number",

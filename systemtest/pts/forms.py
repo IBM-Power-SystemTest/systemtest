@@ -74,15 +74,15 @@ class RequestPartForm(forms.Form):
         return data
 
 
-class RequestTrackCommentForm(forms.ModelForm):
+class RequestCommentForm(forms.ModelForm):
     class Meta:
-        model = models.RequestTrack
+        model = models.Request
         fields = ("comment",)
 
 
 class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
     class Meta:
-        model = models.RequestTrack
+        model = models.Request
         fields = (
             "delay_status",
             "comment",

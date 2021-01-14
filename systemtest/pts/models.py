@@ -76,11 +76,18 @@ class RequestStatus(utils_models.AbstractOptionsModel):
     class Meta:
         db_table = "pts_request_status"
 
+
 class RequestNotNcmStatus(utils_models.AbstractOptionsModel):
     class Meta:
         db_table = "pts_request_not_ncm"
 
+
 class Request(models.Model):
+    validate = {
+        "twelve_chars": RegexValidator(r"^[a-zA-Z0-9]{12}$"),
+        "seven_chars": RegexValidator(r"^[a-zA-Z0-9]{7}$")
+    }
+
     request_group = models.ForeignKey(
         to=RequestGroup,
         on_delete=models.PROTECT,
@@ -102,44 +109,6 @@ class Request(models.Model):
         null=True,
         blank=True
     )
-
-    def __str__(self) -> str:
-        return f"{self.pk} {self.request_group}"
-
-    class Meta:
-        db_table = "pts_request"
-
-
-class RequestTrackStatus(utils_models.AbstractOptionsModel):
-    class Meta:
-        db_table = "pts_request_track_status"
-
-
-class RequestTrackDelayStatus(utils_models.AbstractOptionsModel):
-    class Meta:
-        db_table = "pts_request_track_delay_status"
-
-class RequestTrack(models.Model):
-    validate = {
-        "twelve_chars": RegexValidator(r"^[a-zA-Z0-9]{12}$"),
-        "seven_chars": RegexValidator(r"^[a-zA-Z0-9]{7}$")
-    }
-
-    id = models.UUIDField(
-        primary_key=True,
-        unique=True,
-        editable=False,
-        default=uuid.uuid4
-    )
-    request = models.ForeignKey(
-        to=Request,
-        on_delete=models.PROTECT
-    )
-    request_track_status = models.ForeignKey(
-        to=RequestTrackStatus,
-        on_delete=models.PROTECT,
-        default=1
-    )
     part_number = models.CharField(
         max_length=7,
         validators=[validate["seven_chars"]]
@@ -155,11 +124,48 @@ class RequestTrack(models.Model):
         to="users.User",
         on_delete=models.PROTECT
     )
-    delay_status = models.ForeignKey(
-        to=RequestTrackDelayStatus,
-        on_delete=PROTECT,
+    comment = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True,
+        default=""
+    )
+
+    def __str__(self) -> str:
+        return f"{self.pk} {self.request_group}"
+
+    class Meta:
+        db_table = "pts_request"
+
+
+class RequestHistory(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        unique=True,
+        editable=False,
+        default=uuid.uuid4
+    )
+    request = models.ForeignKey(
+        to=Request,
+        on_delete=models.PROTECT
+    )
+    request_status = models.ForeignKey(
+        to=RequestStatus,
+        on_delete=models.PROTECT,
+        default=1
+    )
+    part_number = models.CharField(
+        max_length=7,
+    )
+    serial_number = models.CharField(
+        max_length=12,
         null=True,
         blank=True
+    )
+    created = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        to="users.User",
+        on_delete=models.PROTECT
     )
     comment = models.CharField(
         max_length=30,
@@ -171,7 +177,7 @@ class RequestTrack(models.Model):
     def __str__(self) -> str:
         output = (
             f"{self.request} {self.serial_number} "
-            f"{self.request_track_status} {self.created} "
+            f"{self.request_status} {self.created} "
             f"{self.user}"
         )
         return output
