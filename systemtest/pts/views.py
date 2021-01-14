@@ -14,6 +14,9 @@ from django.urls.base import reverse_lazy
 from django.views.generic import ListView, FormView, DetailView, CreateView
 from django.shortcuts import redirect, render
 
+# Django Mixins
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 # Django db
 from django.db.models.query import QuerySet
 
@@ -57,7 +60,7 @@ class ClosePartListView(ListView):
     template_name = "pts/close.html"
 
 
-class RequestView(FormView):
+class RequestView(LoginRequiredMixin, FormView):
     template_name = "pts/request/request.html"
     form_class = forms.RequestGroupForm
 
@@ -76,15 +79,15 @@ class RequestView(FormView):
         return RequestDetailView.as_view()(self.request, **kwargs)
 
 
-class RequestDetailView(FormView):
+class RequestDetailView(LoginRequiredMixin, FormView):
     template_name = "pts/request/request.html"
     success_url = reverse_lazy("pts:open")
     form_class = forms.RequestGroupForm
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        context = super().get_context_data(**kwargs)
-        context["detailed_form"] = self.get_detailed_form()
-        return context
+        if "detailed_form" not in kwargs:
+            kwargs["detailed_form"] = self.get_detailed_form()
+        return super().get_context_data(**kwargs)
 
     def get_detailed_form(self) -> Any:
         RequestPartFormset = formset_factory(
@@ -96,12 +99,47 @@ class RequestDetailView(FormView):
     def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         form = self.get_form()
         if form.is_valid() and request.POST.get("form-0-part_id"):
-            return self.form_valid(form)
+            detailed_form = self.get_detailed_form()(form.data)
+            if detailed_form.is_valid():
+                return self.form_valid(form, detailed_form)
+            else:
+                return self.form_invalid(detailed_form=detailed_form)
+        else:
+            return self.form_invalid(form=form)
 
-        return self.form_invalid(form)
+    def form_valid(self, form, *args) -> HttpResponse:
+        detailed_form = args[0]
 
-    def form_valid(self, form) -> HttpResponse:
-        detailed_form = self.get_detailed_form()(form.data)
-        print(form.cleaned_data)
-        print(detailed_form.cleaned_data)
+        request_group = form.save(commit=False)
+        user = self.request.user
+
+        data = detailed_form.cleaned_data
+        part_number_set = {part_id.get("pn") for part_id in data}
+        serial_number_set = {part_id.get("sn") for part_id in data}
+
+        if len(part_number_set) > 1:
+            error_message = "Se estan requiriendo distintos numeros de parte"
+            form.add_error(None, error_message)
+            self.form_invalid(form=form)
+
+        part_number = part_number_set.pop()
+        request_group.part_number = part_number
+        request_group.save()
+
+        for serial_number in serial_number_set:
+            request = models.Request(request_group=request_group)
+            request.save()
+
+            request_track = models.RequestTrack(
+                request=request,
+                part_number=part_number,
+                serial_number=serial_number,
+                user=user
+            )
+            request_track.save()
+
         return HttpResponseRedirect(self.get_success_url())
+
+    def form_invalid(self, **kwargs) -> HttpResponse:
+        """If the form is invalid, render the invalid form."""
+        return self.render_to_response(self.get_context_data(**kwargs))
