@@ -1,0 +1,52 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'users:login' %}"
+    ><img
+      src="{% static 'images/power-systems-w.png' %}"
+      alt="power systems"
+      height="48"
+      width="48"
+  /></a>
+
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'users:login' %}">System Test</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pts:request' %}">Request</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pts:open' %}">Open</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pts:transit' %}">Transit</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pts:recive' %}">Recive</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pts:return' %}">Return</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'pts:close' %}">Close</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="{% url 'users:login' %}" tabindex="-1" aria-disabled="true">Login</a>
+      </li>
+    </ul>
+  </div>
+</nav>

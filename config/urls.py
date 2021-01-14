@@ -8,17 +8,37 @@ from django.views.generic import TemplateView
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
-    path("", TemplateView.as_view(template_name="pages/home.html"), name="home"),
     path(
-        "about/", TemplateView.as_view(template_name="pages/about.html"), name="about"
+        route="",
+        view=TemplateView.as_view(template_name="pages/home.html"),
+        name="home"
+    ),
+    path(
+        route="about/",
+        view=TemplateView.as_view(template_name="pages/about.html"),
+        name="about"
     ),
     # Django Admin, use {% url 'admin:index' %}
-    path(settings.ADMIN_URL, admin.site.urls),
+    path(
+        route=settings.ADMIN_URL,
+        view=admin.site.urls
+    ),
     # User management
-    path("users/", include("systemtest.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
-    # Your stuff: custom urls includes go here
+    path(
+        route="users/",
+        view=include("systemtest.users.urls", namespace="users")
+    ),
+    path(
+        route="accounts/",
+        view=include("allauth.urls")
+    ),
+    # Custom urls includes go here
+    path(
+        route="pts/",
+        view=include("systemtest.pts.urls", namespace="pts")
+    )
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
     urlpatterns += staticfiles_urlpatterns()
@@ -26,9 +46,15 @@ if settings.DEBUG:
 # API URLS
 urlpatterns += [
     # API base url
-    path("api/", include("config.api_router")),
+    path(
+        route="api/",
+        view=include("config.api_router")
+    ),
     # DRF auth token
-    path("auth-token/", obtain_auth_token),
+    path(
+        route="auth-token/",
+        view=obtain_auth_token
+    ),
 ]
 
 if settings.DEBUG:
@@ -36,23 +62,32 @@ if settings.DEBUG:
     # these url in browser to see how these error pages look like.
     urlpatterns += [
         path(
-            "400/",
-            default_views.bad_request,
+            route="400/",
+            view=default_views.bad_request,
             kwargs={"exception": Exception("Bad Request!")},
         ),
         path(
-            "403/",
-            default_views.permission_denied,
+            route="403/",
+            view=default_views.permission_denied,
             kwargs={"exception": Exception("Permission Denied")},
         ),
         path(
-            "404/",
-            default_views.page_not_found,
+            route="404/",
+            view=default_views.page_not_found,
             kwargs={"exception": Exception("Page not Found")},
         ),
-        path("500/", default_views.server_error),
+        path(
+            route="500/",
+            view=default_views.server_error
+        ),
     ]
+
     if "debug_toolbar" in settings.INSTALLED_APPS:
         import debug_toolbar
 
-        urlpatterns = [path("__debug__/", include(debug_toolbar.urls))] + urlpatterns
+        urlpatterns = [
+            path(
+                route="__debug__/",
+                view=include(debug_toolbar.urls)
+            )
+        ] + urlpatterns

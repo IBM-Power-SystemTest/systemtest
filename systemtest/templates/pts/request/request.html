@@ -1,0 +1,14 @@
+{% extends 'pts/base.html' %}
+
+{% block head %}
+  <title>Request</title>
+{% endblock head %}
+
+{% block container %}
+  <form id="form_request_group" method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    {{ detailed_form.as_p }}
+    <input type="submit" />
+  </form>
+{% endblock %}

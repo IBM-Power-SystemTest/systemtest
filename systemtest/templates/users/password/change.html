@@ -1,0 +1,20 @@
+{% extends "users/base.html" %}
+
+{% block head %}
+  <title>Change password</title>
+{% endblock%} 
+
+{% block container %}
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    {% if form.errors %}
+      <p class="alert alert-danger">
+        Your username and password didn't match. Please try again.
+      </p>
+    {% endif %}
+
+    <button class="btn btn-primary btn-block mt-5" type="submit">Save Password</button>
+  </form>
+{% endblock container %}
