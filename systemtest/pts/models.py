@@ -1,7 +1,8 @@
 import uuid
-from django.core.validators import MaxValueValidator, RegexValidator
+
+from django.core.validators import MaxValueValidator
 from django.db import models
-from django.db.models.deletion import CASCADE, PROTECT
+
 from systemtest.utils import models as utils_models
 
 
@@ -16,29 +17,30 @@ class RequestGroupWorkspace(utils_models.AbstractOptionsModel):
 
 
 class RequestGroup(models.Model):
-    validate = {
-        "seven_chars": RegexValidator(r"^[a-zA-Z0-9]{7}$"),
-        "four_chars": RegexValidator(r"^[a-zA-z0-9]{4}$")
-    }
-
     # Part info
-    part_description = models.CharField(max_length=15)
-    part_number = models.CharField(
+    part_description = utils_models.CharFieldUpper(
+        max_length=15,
+        uppercase=True
+    )
+    part_number = utils_models.CharFieldUpper(
         max_length=7,
-        validators=[validate["seven_chars"]]
+        validators=[utils_models.Validators.seven_chars],
+        uppercase=True,
     )
     is_vpd = models.BooleanField(default=False)
     is_serialized = models.BooleanField(default=True)
     # System info
-    system_number = models.CharField(
+    system_number = utils_models.CharFieldUpper(
         max_length=7,
-        validators=[validate["seven_chars"]]
+        validators=[utils_models.Validators.seven_chars],
+        uppercase=True,
     )
-    system_cell = models.CharField(
+    system_cell = utils_models.CharFieldUpper(
         max_length=4,
         null=True,
         blank=False,
-        validators=[validate["four_chars"]]
+        validators=[utils_models.Validators.four_chars],
+        uppercase=True,
     )
     # Request info
     is_loaner = models.BooleanField(default=False)
@@ -53,11 +55,12 @@ class RequestGroup(models.Model):
         on_delete=models.PROTECT,
         default=1
     )
-    request_bay = models.CharField(
+    request_bay = utils_models.CharFieldUpper(
         max_length=4,
         null=True,
         blank=False,
-        validators=[validate["four_chars"]]
+        validators=[utils_models.Validators.four_chars],
+        uppercase=True,
     )
 
     def __str__(self) -> str:
@@ -83,11 +86,6 @@ class RequestNotNcmStatus(utils_models.AbstractOptionsModel):
 
 
 class Request(models.Model):
-    validate = {
-        "twelve_chars": RegexValidator(r"^[a-zA-Z0-9]{12}$"),
-        "seven_chars": RegexValidator(r"^[a-zA-Z0-9]{7}$")
-    }
-
     request_group = models.ForeignKey(
         to=RequestGroup,
         on_delete=models.PROTECT,
@@ -105,26 +103,28 @@ class Request(models.Model):
     )
     not_ncm_status = models.ForeignKey(
         to=RequestNotNcmStatus,
-        on_delete=CASCADE,
+        on_delete=models.CASCADE,
         null=True,
         blank=True
     )
-    part_number = models.CharField(
+    part_number = utils_models.CharFieldUpper(
         max_length=7,
-        validators=[validate["seven_chars"]]
+        validators=[utils_models.Validators.seven_chars],
+        uppercase=True,
     )
-    serial_number = models.CharField(
+    serial_number = utils_models.CharFieldUpper(
         max_length=12,
-        validators=[validate["twelve_chars"]],
+        validators=[utils_models.Validators.twelve_chars],
         null=True,
-        blank=True
+        blank=True,
+        uppercase=True,
     )
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         to="users.User",
         on_delete=models.PROTECT
     )
-    comment = models.CharField(
+    comment = utils_models.CharFieldUpper(
         max_length=30,
         blank=True,
         null=True,
@@ -154,20 +154,22 @@ class RequestHistory(models.Model):
         on_delete=models.PROTECT,
         default=1
     )
-    part_number = models.CharField(
+    part_number = utils_models.CharFieldUpper(
         max_length=7,
+        uppercase=True,
     )
-    serial_number = models.CharField(
+    serial_number = utils_models.CharFieldUpper(
         max_length=12,
         null=True,
-        blank=True
+        blank=True,
+        uppercase=True,
     )
     created = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(
         to="users.User",
         on_delete=models.PROTECT
     )
-    comment = models.CharField(
+    comment = utils_models.CharFieldUpper(
         max_length=30,
         blank=True,
         null=True,
