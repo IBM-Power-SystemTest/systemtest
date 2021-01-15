@@ -1,11 +1,12 @@
 from django.db import models
-from django.core.validators import RegexValidator
+from django.core.validators import RegexValidator, MaxValueValidator
 
 
 class Validators:
     twelve_chars = RegexValidator(r"^[a-zA-Z0-9]{12}$")
     seven_chars = RegexValidator(r"^[a-zA-Z0-9]{7}$")
     four_chars = RegexValidator(r"^[a-zA-Z0-9]{4}$")
+    nine_digits = MaxValueValidator(int("9" * 8))
 
 
 class CharFieldUpper(models.CharField):
@@ -30,4 +31,3 @@ class AbstractOptionsModel(models.Model):
 
     class Meta:
         abstract = True
-        ordering = ["-name"]
