@@ -104,13 +104,13 @@ class RequestHistoryAdmin(admin.ModelAdmin):
     list_display = (
         "request",
         "serial_number",
-        "request_track_status",
+        "request_status",
         "created",
         "user",
     )
     list_editable = (
         "serial_number",
-        "request_track_status",
+        "request_status",
     )
     list_display_links = (
         "request",
@@ -120,7 +120,7 @@ class RequestHistoryAdmin(admin.ModelAdmin):
     search_fields = (
         "request",
         "serial_number",
-        "request_track_status",
+        "request_status",
         "created",
         "user",
     )

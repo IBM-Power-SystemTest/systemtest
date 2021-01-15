@@ -74,17 +74,23 @@ class RequestPartForm(forms.Form):
         return data
 
 
-class RequestCommentForm(forms.ModelForm):
-    class Meta:
-        model = models.Request
-        fields = ("comment",)
-
-
 class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
+    comment = forms.CharField(
+        max_length=30,
+        strip=True,
+        required=False,
+        label=""
+    )
+    part_id = forms.CharField(
+        max_length=30,
+        min_length=7,
+        strip=True,
+        required=False,
+        label=""
+    )
     class Meta:
         model = models.Request
         fields = (
-            "delay_status",
             "comment",
             "part_id"
         )

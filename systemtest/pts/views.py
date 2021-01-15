@@ -32,8 +32,8 @@ class OpenPartListView(FormView):
     model = models.Request
     ordering = ("created",)
     query = (
-        Q(request_track_status__name="OPEN") |
-        Q(request_track_status__name="TRANSIT")
+        Q(request_status__name="OPEN") |
+        Q(request_status__name="TRANSIT")
     )
 
     form_class = formset_factory(forms.RequestUpdateListForm)
@@ -125,9 +125,9 @@ class RequestDetailView(LoginRequiredMixin, FormView):
         request_group = form.save(commit=False)
         user = self.request.user
 
-        data = detailed_form.cleaned_data
-        part_number_set = {part_id.get("pn") for part_id in data}
-        serial_number_set = {part_id.get("sn") for part_id in data}
+        part_id_set = detailed_form.cleaned_data
+        part_number_set = {part_id.get("pn") for part_id in part_id_set}
+        serial_number_set = {part_id.get("sn") for part_id in part_id_set}
 
         if len(part_number_set) > 1:
             error_message = "Se estan requiriendo distintos numeros de parte"
