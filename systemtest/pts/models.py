@@ -121,35 +121,13 @@ class RequestNotNcmStatus(utils_models.AbstractOptionsModel):
         verbose_name_plural = "reason for no ncm"
 
 
-class Request(models.Model):
-    request_group = models.ForeignKey(
-        to=RequestGroup,
-        on_delete=models.PROTECT,
-        verbose_name="Grupo",
-        help_text="Grupo en el que se solicito",
-    )
+class RequestModel(models.Model):
     request_status = models.ForeignKey(
         to=RequestStatus,
         on_delete=models.PROTECT,
         default=1,
         verbose_name="Estado",
         help_text="Estado del requerimiento",
-    )
-    ncm_tag = models.PositiveIntegerField(
-        "NCM",
-        help_text="Numero de Tag en caso de tener",
-        null=True,
-        blank=True,
-        unique=True,
-        validators=[utils_models.Validators.nine_digits],
-    )
-    not_ncm_status = models.ForeignKey(
-        to=RequestNotNcmStatus,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        verbose_name="Motivos de tag faltante",
-        help_text="En caso que el estado sea malo, pero no se haya generado Tag",
     )
     part_number = utils_models.CharFieldUpper(
         "Numero de parte [ PN ]",
@@ -165,17 +143,13 @@ class Request(models.Model):
         validators=[utils_models.Validators.twelve_chars],
         null=True,
         blank=True,
+        default=None,
         uppercase=True,
     )
     created = models.DateTimeField(
         verbose_name="Creacion",
         help_text="Fecha y hora de solicitud",
         auto_now_add=True,
-    )
-    modified = models.DateTimeField(
-        "Actualizacion",
-        help_text="Fecha y hora de ultimo cambio de estado",
-        auto_now=True,
     )
     user = models.ForeignKey(
         to="users.User",
@@ -191,6 +165,58 @@ class Request(models.Model):
         null=True,
     )
 
+    class Meta:
+        abstract = True
+
+
+class Request(RequestModel):
+    request_group = models.ForeignKey(
+        to=RequestGroup,
+        on_delete=models.PROTECT,
+        verbose_name="Grupo",
+        help_text="Grupo en el que se solicito",
+    )
+    ncm_tag = models.PositiveIntegerField(
+        "NCM",
+        help_text="Numero de Tag en caso de tener",
+        null=True,
+        blank=True,
+        unique=True,
+        validators=[utils_models.Validators.nine_digits],
+    )
+    not_ncm_status = models.ForeignKey(
+        to=RequestNotNcmStatus,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name="Motivos de tag faltante",
+        help_text="En caso que el estado sea malo, pero no se haya generado Tag",
+    )
+    modified = models.DateTimeField(
+        "Actualizacion",
+        help_text="Fecha y hora de ultimo cambio de estado",
+        auto_now=True,
+    )
+
+    def get_history_data(self):
+        fields = RequestHistory._meta.fields
+        data = {"request": self}
+
+        for field in fields:
+            name = field.name
+            if name == "id" or name == "created":
+                continue
+            if hasattr(self, name):
+                value = getattr(self, name)
+                data[name] = value
+
+        return data
+
+    def save(self, *args, **kwargs) -> None:
+        super().save(*args, **kwargs)
+        RequestHistory(**self.get_history_data()).save()
+
     def __str__(self) -> str:
         return f"{self.pk} {self.request_group}"
 
@@ -200,7 +226,7 @@ class Request(models.Model):
         verbose_name_plural = "requests"
 
 
-class RequestHistory(models.Model):
+class RequestHistory(RequestModel):
     id = models.UUIDField(
         "Identificador",
         help_text="Identificador unico [ UUID ]",
@@ -214,46 +240,6 @@ class RequestHistory(models.Model):
         on_delete=models.PROTECT,
         verbose_name="Requerimiento",
         help_text="Numero del requerimiento original, con el estado actual",
-    )
-    request_status = models.ForeignKey(
-        to=RequestStatus,
-        on_delete=models.PROTECT,
-        verbose_name="Estado",
-        help_text="Estado del requerimiento orginal",
-    )
-    part_number = utils_models.CharFieldUpper(
-        "Numero de parte [ PN ]",
-        help_text="PN del requerimiento original",
-        max_length=7,
-        validators=[utils_models.Validators.seven_chars],
-        uppercase=True,
-    )
-    serial_number = utils_models.CharFieldUpper(
-        "Numero de Seria [ SN ]",
-        help_text="SN del requerimiento original",
-        max_length=12,
-        validators=[utils_models.Validators.twelve_chars],
-        null=True,
-        blank=True,
-        uppercase=True,
-    )
-    created = models.DateTimeField(
-        "Creacion",
-        help_text="Fecha y hora del cambio de estado del requerimineto original",
-        auto_now_add=True,
-    )
-    user = models.ForeignKey(
-        to="users.User",
-        on_delete=models.PROTECT,
-        verbose_name="Usuario",
-        help_text="Usuario que realizo el cambio de estado en el requerimiento original",
-    )
-    comment = utils_models.CharFieldUpper(
-        "Comentario",
-        help_text="Comantario en estado del requerimineto",
-        max_length=30,
-        blank=True,
-        null=True,
     )
 
     def __str__(self) -> str:

@@ -27,7 +27,7 @@
         <tr>
           <td> {{ request.pk }} </td>
           <td> {{ request.request_status }} </td>
-          <td> {{ request.created }} </td>
+          <td> {{ request.created | timesince }} </td>
           <td> {{ request.part_number }} </td>
           <td> {{ request.request_group.part_description }} </td>
           <td> {{ request.request_group.is_loaner }} </td>
