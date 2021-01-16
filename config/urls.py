@@ -28,10 +28,6 @@ urlpatterns = [
         route="users/",
         view=include("systemtest.users.urls", namespace="users")
     ),
-    path(
-        route="accounts/",
-        view=include("allauth.urls")
-    ),
     # Custom urls includes go here
     path(
         route="pts/",

@@ -1,10 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth import admin as auth_admin
-from django.contrib.auth import get_user_model
 
-from systemtest.users import models, forms
-
-User = get_user_model()
+from systemtest.users import models
 
 
 @admin.register(models.Departament)
@@ -23,16 +20,9 @@ class JobAdmin(admin.ModelAdmin):
     search_fields = ("pk", "name")
 
 
-@admin.register(User)
+@admin.register(models.User)
 class UserAdmin(auth_admin.UserAdmin):
-    form = forms.UserChangeForm
-    add_form = forms.UserCreationForm
-    # fieldsets = (
-    #     (
-    #         "User", {"fields": ("name",)}
-    #     ),
-    # ) + (auth_admin.UserAdmin.fieldsets,)
-
+    # inlines = (UserInline, )
     list_display = (
         "pk",
         "username",
@@ -59,4 +49,12 @@ class UserAdmin(auth_admin.UserAdmin):
         "last_password_modified",
     )
     list_filter = ("groups__name", "is_active", "is_staff")
-    search_fields = ("name",)
+
+    search_fields = (
+        "user__username",
+        "user__group",
+        "user__first_name",
+        "user__last_name",
+        "user__email",
+        "department__name",
+    )

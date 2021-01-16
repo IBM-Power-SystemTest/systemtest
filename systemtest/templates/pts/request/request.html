@@ -1,9 +1,6 @@
 {% extends 'pts/base.html' %}
 
-{% block head %}
-  <title>Request</title>
-{% endblock head %}
-
+{% block subtitle %}Request{% endblock subtitle %}
 {% block container %}
   <form id="form_request_group" method="POST">
     {% csrf_token %}

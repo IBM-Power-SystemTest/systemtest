@@ -269,4 +269,4 @@ class RequestHistory(models.Model):
     class Meta:
         db_table = "pts_request_track"
         verbose_name = "history"
-        verbose_name_plural = "histories"
+        verbose_name_plural = "history"
