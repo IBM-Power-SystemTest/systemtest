@@ -79,18 +79,18 @@ class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
         max_length=30,
         strip=True,
         required=False,
-        label=""
     )
     part_id = forms.CharField(
         max_length=30,
         min_length=7,
         strip=True,
         required=False,
-        label=""
     )
+
     class Meta:
         model = models.Request
         fields = (
             "comment",
-            "part_id"
+            "part_id",
+            "request_status"
         )

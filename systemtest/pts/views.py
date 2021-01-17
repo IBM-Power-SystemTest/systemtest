@@ -4,6 +4,7 @@ from typing import Any, Dict, Tuple, Type, Union
 # Django Forms
 from django.forms.formsets import formset_factory
 from django.forms.forms import BaseForm
+from django.forms.models import modelformset_factory
 
 # Django HTTP
 from django.http.request import HttpRequest, QueryDict
@@ -24,6 +25,11 @@ from django.db.models import Q
 # APP PTS
 from systemtest.pts import forms, models
 
+RequestFormset = modelformset_factory(
+    models.Request,
+    forms.RequestUpdateListForm,
+    extra=0,
+)
 
 class OpenPartListView(FormView):
     template_name = "pts/views/open.html"
@@ -36,7 +42,7 @@ class OpenPartListView(FormView):
         Q(request_status__name="TRANSIT")
     )
 
-    form_class = formset_factory(forms.RequestUpdateListForm)
+    form_class = RequestFormset
 
     def get_queryset(self) -> QuerySet:
         queryset = self.model.objects.filter(self.query)
@@ -44,16 +50,19 @@ class OpenPartListView(FormView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         queryset = self.get_queryset()
-        self.form_class = formset_factory(
-            forms.RequestUpdateListForm,
-            extra=len(queryset)
-        )
+        self.form_class = RequestFormset(queryset=queryset)
+        rows = zip(queryset, self.form_class)
         kwargs = {
             "object_list": queryset,
-            "form": self.form_class
+            "form": self.form_class,
+            "rows": rows
         }
-
+        print(queryset)
         return super().get_context_data(**kwargs)
+
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        print("VALID")
+        return super().form_valid(form)
 
 
 class TransitPartListView(ListView):

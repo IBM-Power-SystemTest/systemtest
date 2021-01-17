@@ -6,6 +6,7 @@
 {% block container %}
   <form method="post">
     {% csrf_token %}
+    {{ rows.1.management_form }}
     <table>
       <thead>
         <tr>
@@ -18,30 +19,29 @@
           <th> Sistema </tr>
           <th> Celda </tr>
           <th> Usuario </tr>
-          <th> Comentario </tr>
           <th> Serial </tr>
+          <th> Comentario </tr>
         </tr>
       </thead>
       <tbody>
-      {% for request in object_list %}
+      {% for row in rows %}
         <tr>
-          <td> {{ request.pk }} </td>
-          <td> {{ request.request_status }} </td>
-          <td> {{ request.created | timesince }} </td>
-          <td> {{ request.part_number }} </td>
-          <td> {{ request.request_group.part_description }} </td>
-          <td> {{ request.request_group.is_loaner }} </td>
-          <td> {{ request.request_group.system_number }} </td>
-          <td> {{ request.request_group.system_cell }} </td>
-          <td> {{ request.user }} </td>
+          <td> {{ row.0.pk }} </td>
+          <td> {{ row.1.form.status }} </td>
+          <td> {{ row.0.created | timesince }} </td>
+          <td> {{ row.0.part_number }} </td>
+          <td> {{ row.0.request_group.part_description }} </td>
+          <td> {{ row.0.request_group.is_loaner }} </td>
+          <td> {{ row.0.request_group.system_number }} </td>
+          <td> {{ row.0.request_group.system_cell }} </td>
+          <td> {{ row.0.user }} </td>
+          <td> {{ row.1.part_id }}</td>
+          <td> {{ row.1.comment }}</td>
         </tr>
       {% empty %}
       {% endfor %}
       </tbody>
     </table>
-    {% for f in form %}
-      {{ f.as_p }}
-    {% endfor %}
     <input type="submit">
   </form>
 {% endblock container %}
