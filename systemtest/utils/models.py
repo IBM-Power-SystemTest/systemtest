@@ -16,15 +16,25 @@ class CharFieldUpper(models.CharField):
 
     def get_prep_value(self, value: str) -> str:
         value = super().get_prep_value(value)
-        if self.is_uppercase:
+        if self.is_uppercase and value:
             return value.upper()
 
         return value
 
 
 class AbstractOptionsModel(models.Model):
-    id = models.SmallAutoField(primary_key=True, unique=True, editable=False)
-    name = CharFieldUpper(max_length=20, unique=True, uppercase=True)
+    id = models.SmallAutoField(
+        primary_key=True,
+        unique=True,
+        editable=False
+    )
+    name = CharFieldUpper(
+        "Nombre",
+        help_text="Elemento de la lista",
+        max_length=50,
+        unique=True,
+        uppercase=True
+    )
 
     def __str__(self) -> str:
         return self.name

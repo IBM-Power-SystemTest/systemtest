@@ -10,14 +10,6 @@ class RequestGroupWorkspaceAdmin(admin.ModelAdmin):
     search_fields = ("pk", "name")
 
 
-@admin.register(models.RequestGroupStatus)
-class RequestGroupStatusAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-    list_display_links = ("pk",)
-    list_editable = ("name",)
-    search_fields = ("pk", "name")
-
-
 @admin.register(models.RequestStatus)
 class RequestStatusAdmin(admin.ModelAdmin):
     list_display = ("pk", "name")
@@ -43,12 +35,10 @@ class RequestGroupAdmin(admin.ModelAdmin):
         "part_number",
         "part_description",
         "request_group_workspace",
-        "request_bay",
         "is_loaner",
         "is_vpd",
         "is_serialized",
         "qty",
-        "request_group_status"
     )
     list_editable = (
         "system_number",
@@ -56,10 +46,8 @@ class RequestGroupAdmin(admin.ModelAdmin):
         "part_description",
         "part_number",
         "request_group_workspace",
-        "request_bay",
         "is_loaner",
     )
-    list_display_links = ("pk",)
     search_fields = (
         "pk",
         "system_number",
@@ -108,14 +96,9 @@ class RequestHistoryAdmin(admin.ModelAdmin):
         "created",
         "user",
     )
-    list_editable = (
-        "serial_number",
-        "request_status",
-    )
     list_display_links = (
         "request",
         "created",
-        "user"
     )
     search_fields = (
         "request",

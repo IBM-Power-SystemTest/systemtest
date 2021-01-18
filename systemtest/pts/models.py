@@ -8,13 +8,6 @@ from django.db import models
 from systemtest.utils import models as utils_models
 
 
-class RequestGroupStatus(utils_models.AbstractOptionsModel):
-    class Meta:
-        db_table = "pts_request_group_status"
-        verbose_name = "group status"
-        verbose_name_plural = "group status"
-
-
 class RequestGroupWorkspace(utils_models.AbstractOptionsModel):
     class Meta:
         db_table = "pts_request_group_workspace"
@@ -79,13 +72,6 @@ class RequestGroup(models.Model):
         default=1,
         verbose_name="Area",
         help_text="El area donde esta el sistema",
-    )
-    request_group_status = models.ForeignKey(
-        to=RequestGroupStatus,
-        on_delete=models.PROTECT,
-        default=1,
-        verbose_name="Estado del grupo",
-        help_text="Representa el estado de la piezas de este grupo",
     )
     request_bay = utils_models.CharFieldUpper(
         "Bahia TA",
@@ -253,6 +239,6 @@ class RequestHistory(RequestModel):
         return output
 
     class Meta:
-        db_table = "pts_request_track"
+        db_table = "pts_request_history"
         verbose_name = "history"
         verbose_name_plural = "history"
