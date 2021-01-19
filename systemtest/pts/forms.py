@@ -2,6 +2,7 @@ import re
 from typing import Any, Dict
 
 from django import forms
+from django.forms.models import modelformset_factory
 
 from systemtest.pts import models
 
@@ -96,3 +97,10 @@ class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
             "part_id",
             "request_status"
         )
+
+
+RequestFormset = modelformset_factory(
+    models.Request,
+    RequestUpdateListForm,
+    extra=0,
+)

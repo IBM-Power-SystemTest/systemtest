@@ -26,11 +26,6 @@ from django.db.models.query import QuerySet
 # APP PTS
 from systemtest.pts import forms as pts_forms, models as pts_models
 
-RequestFormset = modelformset_factory(
-    pts_models.Request,
-    pts_forms.RequestUpdateListForm,
-    extra=0,
-)
 
 class OpenPartListView(FormView):
     template_name = "pts/views/open.html"
@@ -46,7 +41,7 @@ class OpenPartListView(FormView):
     choice_model = pts_models.RequestStatus
     choice_query = Q(pk__gte=10) | Q(pk=1)
 
-    form_class = RequestFormset
+    form_class = pts_forms.RequestFormset
 
     def get_queryset(self) -> QuerySet:
         queryset = self.model.objects.filter(self.query)
@@ -61,17 +56,16 @@ class OpenPartListView(FormView):
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         queryset = self.get_queryset()
-        formset = RequestFormset(queryset=queryset)
+        formset = pts_forms.RequestFormset(queryset=queryset)
+
         if choices := self.get_custom_choices():
             for form in formset:
                 form.fields[self.choice_field] = forms.ModelChoiceField(choices)
 
         self.form_class = formset
-        rows = zip(queryset, self.form_class)
-        kwargs = {
-            "form": self.form_class,
-            "rows": rows
-        }
+        kwargs["form"] = self.form_class
+        kwargs["rows"] = zip(queryset, self.form_class)
+
         return super().get_context_data(**kwargs)
 
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
@@ -97,10 +91,25 @@ class OpenPartListView(FormView):
                 form.save()
                 continue
 
-            update = form.save(commit=False)
-            update.serial_number = data.get("pn")
-            update.serial_number = data.get("sn")
-            update.save()
+            request = form.save(commit=False)
+            sn = data.get("sn")
+
+            if sn and sn == request.serial_number:
+                form.add_error("part_id", "SN es el mismo al solicitado")
+                print(form.errors)
+                return self.form_invalid(form=form)
+
+            request.serial_number = data.get("pn")
+            request.serial_number = sn
+            request.comment = None
+
+            if request.request_group.is_vpd:
+                status = pts_models.RequestStatus.objects.get(name="GOOD")
+            else:
+                status = pts_models.RequestStatus.objects.get(name="TRANSIT")
+
+            request.request_status = status
+            request.save()
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -180,7 +189,7 @@ class RequestDetailView(LoginRequiredMixin, FormView):
 
         if len(part_number_set) > 1:
             error_message = "Se estan requiriendo distintos numeros de parte"
-            form.add_error(None, error_message)
+            form.add_error("part_id", error_message)
             self.form_invalid(form=form)
 
         part_number = part_number_set.pop()
