@@ -6,7 +6,7 @@
 {% block container %}
   <form method="post">
     {% csrf_token %}
-    {{ rows.1.management_form }}
+    {{ form.management_form }}
     <table>
       <thead>
         <tr>
@@ -20,23 +20,27 @@
           <th> Celda </tr>
           <th> Usuario </tr>
           <th> Serial </tr>
+          <th> Status </tr>
           <th> Comentario </tr>
         </tr>
       </thead>
       <tbody>
-      {% for row in rows %}
+      {% for data, form in rows %}
+        {{ form.id }}
+        {{ form.errors }}
         <tr>
-          <td> {{ row.0.pk }} </td>
-          <td> {{ row.1.form.status }} </td>
-          <td> {{ row.0.created | timesince }} </td>
-          <td> {{ row.0.part_number }} </td>
-          <td> {{ row.0.request_group.part_description }} </td>
-          <td> {{ row.0.request_group.is_loaner }} </td>
-          <td> {{ row.0.request_group.system_number }} </td>
-          <td> {{ row.0.request_group.system_cell }} </td>
-          <td> {{ row.0.user }} </td>
-          <td> {{ row.1.part_id }}</td>
-          <td> {{ row.1.comment }}</td>
+          <td> {{ data.pk }} </td>
+          <td> {{ data.request_status }} </td>
+          <td> {{ data.created | timesince }} </td>
+          <td> {{ data.part_number }} </td>
+          <td> {{ data.request_group.part_description }} </td>
+          <td> {{ data.request_group.is_loaner }} </td>
+          <td> {{ data.request_group.system_number }} </td>
+          <td> {{ data.request_group.system_cell }} </td>
+          <td> {{ data.user }} </td>
+          <td> {{ form.part_id }} </td>
+          <td> {{ form.request_status }} </td>
+          <td> {{ form.comment }} </td>
         </tr>
       {% empty %}
       {% endfor %}

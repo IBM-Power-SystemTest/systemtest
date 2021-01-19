@@ -2,45 +2,49 @@
 from typing import Any, Dict, Tuple, Type, Union
 
 # Django Forms
-from django.forms.formsets import formset_factory
+from django import forms
 from django.forms.forms import BaseForm
-from django.forms.models import modelformset_factory
+from django.forms.models import BaseModelForm, modelformset_factory
+from django.forms.formsets import formset_factory
 
 # Django HTTP
+from django.urls.base import reverse_lazy
 from django.http.request import HttpRequest, QueryDict
 from django.http.response import HttpResponse, HttpResponseRedirect
-from django.urls.base import reverse_lazy
 
 # Django Views
-from django.views.generic import ListView, FormView, DetailView, CreateView
 from django.shortcuts import redirect, render
+from django.views.generic import ListView, FormView, DetailView, CreateView
 
 # Django Mixins
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django db
-from django.db.models.query import QuerySet
 from django.db.models import Q
+from django.db.models.query import QuerySet
 
 # APP PTS
-from systemtest.pts import forms, models
+from systemtest.pts import forms as pts_forms, models as pts_models
 
 RequestFormset = modelformset_factory(
-    models.Request,
-    forms.RequestUpdateListForm,
+    pts_models.Request,
+    pts_forms.RequestUpdateListForm,
     extra=0,
 )
 
 class OpenPartListView(FormView):
     template_name = "pts/views/open.html"
-    success_url = reverse_lazy("pts:open")
+    success_url = reverse_lazy("pts:request")
 
-    model = models.Request
+    model = pts_models.Request
     ordering = ("created",)
     query = (
-        Q(request_status__name="OPEN") |
-        Q(request_status__name="TRANSIT")
+        Q(request_status__pk=1) |
+        Q(request_status__pk__gte=10)
     )
+    choice_field = "request_status"
+    choice_model = pts_models.RequestStatus
+    choice_query = Q(pk__gte=10) | Q(pk=1)
 
     form_class = RequestFormset
 
@@ -48,21 +52,57 @@ class OpenPartListView(FormView):
         queryset = self.model.objects.filter(self.query)
         return queryset.order_by(*self.ordering)
 
+    def get_custom_choices(self):
+        if not self.choice_model:
+            return None
+
+        choices = self.choice_model.objects.filter(self.choice_query)
+        return choices
+
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         queryset = self.get_queryset()
-        self.form_class = RequestFormset(queryset=queryset)
+        formset = RequestFormset(queryset=queryset)
+        if choices := self.get_custom_choices():
+            for form in formset:
+                form.fields[self.choice_field] = forms.ModelChoiceField(choices)
+
+        self.form_class = formset
         rows = zip(queryset, self.form_class)
         kwargs = {
-            "object_list": queryset,
             "form": self.form_class,
             "rows": rows
         }
-        print(queryset)
         return super().get_context_data(**kwargs)
 
-    def form_valid(self, form: BaseForm) -> HttpResponse:
-        print("VALID")
-        return super().form_valid(form)
+    def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        """
+        Handle POST requests: instantiate a form instance with the passed
+        POST variables and then check if it's valid.
+        """
+        form = self.get_form()
+        valid_forms = []
+        for f in form:
+            if f.is_valid() and f.has_changed():
+                valid_forms.append(f)
+
+        if valid_forms:
+            return self.form_valid(valid_forms)
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, forms: list[BaseModelForm]) -> HttpResponse:
+        for form in forms:
+            data = form.cleaned_data
+            if not data.get("part_id"):
+                form.save()
+                continue
+
+            update = form.save(commit=False)
+            update.serial_number = data.get("pn")
+            update.serial_number = data.get("sn")
+            update.save()
+
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class TransitPartListView(ListView):
@@ -83,7 +123,7 @@ class ClosePartListView(ListView):
 
 class RequestView(LoginRequiredMixin, FormView):
     template_name = "pts/request/request.html"
-    form_class = forms.RequestGroupForm
+    form_class = pts_forms.RequestGroupForm
 
     def form_valid(self, form: BaseForm) -> HttpResponse:
         data = form.cleaned_data
@@ -103,7 +143,7 @@ class RequestView(LoginRequiredMixin, FormView):
 class RequestDetailView(LoginRequiredMixin, FormView):
     template_name = "pts/request/request.html"
     success_url = reverse_lazy("pts:open")
-    form_class = forms.RequestGroupForm
+    form_class = pts_forms.RequestGroupForm
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
         if "detailed_form" not in kwargs:
@@ -112,7 +152,7 @@ class RequestDetailView(LoginRequiredMixin, FormView):
 
     def get_detailed_form(self) -> Any:
         RequestPartFormset = formset_factory(
-            forms.RequestPartForm,
+            pts_forms.RequestPartForm,
             extra=self.kwargs.get("parts_qty"),
         )
         return RequestPartFormset
@@ -123,10 +163,10 @@ class RequestDetailView(LoginRequiredMixin, FormView):
             detailed_form = self.get_detailed_form()(form.data)
             if detailed_form.is_valid():
                 return self.form_valid(form, detailed_form)
-            else:
-                return self.form_invalid(detailed_form=detailed_form)
-        else:
-            return self.form_invalid(form=form)
+
+            return self.form_invalid(detailed_form=detailed_form)
+
+        return self.form_invalid(form=form)
 
     def form_valid(self, form, *args) -> HttpResponse:
         detailed_form = args[0]
@@ -148,7 +188,7 @@ class RequestDetailView(LoginRequiredMixin, FormView):
         request_group.save()
 
         for serial_number in serial_number_set:
-            request = models.Request(
+            request = pts_models.Request(
                 request_group=request_group,
                 part_number=part_number,
                 serial_number=serial_number,

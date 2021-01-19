@@ -48,6 +48,8 @@ class RequestPartForm(forms.Form):
 
     def clean_part_id(self):
         data = self.cleaned_data["part_id"]
+        if not data:
+            return None
 
         prefix_pattern = r"^\s*(11[sS])?"
         pn_pattern = r"[pP]?(?P<pn>[0-9a-zA-Z]{7})"

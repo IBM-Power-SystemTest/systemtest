@@ -91,9 +91,11 @@ class ResquestAdmin(admin.ModelAdmin):
 class RequestHistoryAdmin(admin.ModelAdmin):
     list_display = (
         "request",
+        "part_number",
         "serial_number",
         "request_status",
         "created",
+        "comment",
         "user",
     )
     list_display_links = (
