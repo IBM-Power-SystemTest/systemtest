@@ -43,12 +43,12 @@ class LoginView(auth_view.LoginView):
 
 
 class PasswordChangeView(auth_view.PasswordChangeView):
-    template_name = 'users/password/change.html'
+    template_name = 'users/password_change.html'
     success_url = reverse_lazy('users:login')
 
 
 class PasswordResetView(auth_view.PasswordResetView):
-    template_name = 'users/password/reset.html'
+    template_name = 'users/password_reset.html'
     success_url = reverse_lazy('users:login')
 
 

@@ -16,12 +16,12 @@ urlpatterns = [
     path(
         route='password/change/',
         view=views.PasswordChangeView.as_view(),
-        name='password/change'
+        name='password_change'
     ),
     path(
         route='password/reset/',
         view=views.PasswordResetView.as_view(),
-        name='password/reset'
+        name='password_reset'
     ),
     path(
         route="~redirect/",

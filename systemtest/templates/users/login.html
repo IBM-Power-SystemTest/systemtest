@@ -1,14 +1,14 @@
-{% extends "users/base.html" %} 
+{% extends "users/base.html" %}
 
 {% block head %}
   <title>Sign In</title>
-{% endblock head %} 
+{% endblock head %}
 
-{% block container %} 
+{% block container %}
   <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     <button class="btn btn-primary btn-block mt-5" type="submit">Sign in</button>
-    <a class="mt-4" href="{% url 'users:password/reset' %}">Forgot your password?</a>
+    <a class="mt-4" href="{% url 'users:password_reset' %}">Forgot your password?</a>
   </form>
 {% endblock container %}
