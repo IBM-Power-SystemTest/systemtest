@@ -38,4 +38,9 @@ urlpatterns = [
         view=views.ClosePartListView.as_view(),
         name="close"
     ),
+    path(
+        route="request/<pk>",
+        view=views.UpdateRequestView.as_view(),
+        name="update"
+    )
 ]
