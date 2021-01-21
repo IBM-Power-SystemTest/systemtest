@@ -81,7 +81,10 @@ class RequestGroup(models.Model):
     )
 
     def __str__(self) -> str:
-        output = f"{self.system_number} " f"{self.system_cell} " f"{self.part_number}"
+        output = (
+            f"{self.system_number} "
+            f"{self.system_cell} "
+            f"{self.part_description}")
         return output
 
     class Meta:

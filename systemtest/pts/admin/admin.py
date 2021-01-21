@@ -68,11 +68,16 @@ class ResquestAdmin(admin.ModelAdmin):
         "pk",
         "request_group",
         "request_status",
+        "part_number",
+        "serial_number",
+        "modified",
         "ncm_tag",
         "not_ncm_status",
     )
     list_editable = (
         "request_status",
+        "part_number",
+        "serial_number",
         "ncm_tag",
         "not_ncm_status"
     )

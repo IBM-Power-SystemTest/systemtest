@@ -15,12 +15,12 @@ urlpatterns = [
     ),
     path(
         route="open/",
-        view=views.OpenPartListView.as_view(),
+        view=views.OpenRequestView.as_view(),
         name="open"
     ),
     path(
         route="transit/",
-        view=views.TransitPartListView.as_view(),
+        view=views.TransitRequestView.as_view(),
         name="transit"
     ),
     path(
@@ -39,7 +39,7 @@ urlpatterns = [
         name="close"
     ),
     path(
-        route="request/<pk>",
+        route="request/<pk>/edit/",
         view=views.UpdateRequestView.as_view(),
         name="update"
     )
