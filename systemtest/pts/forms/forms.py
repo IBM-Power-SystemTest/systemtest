@@ -2,7 +2,6 @@ import re
 from typing import Any, Dict
 
 from django import forms
-from django.forms.models import modelformset_factory
 
 from systemtest.pts import models
 
@@ -41,6 +40,8 @@ class RequestGroupForm(forms.ModelForm):
 
 class RequestPartForm(forms.Form):
     part_id = forms.CharField(
+        label="11S",
+        help_text="PN + SN",
         max_length=30,
         min_length=7,
         strip=True,
@@ -99,8 +100,17 @@ class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
         )
 
 
-RequestFormset = modelformset_factory(
+RequestFormset = forms.modelformset_factory(
     models.Request,
     RequestUpdateListForm,
     extra=0,
 )
+
+
+class ReturnRequestForm(forms.ModelForm, RequestPartForm):
+    class Meta:
+        model = models.Request
+        fields = (
+            "ncm_tag",
+            "not_ncm_status",
+        )

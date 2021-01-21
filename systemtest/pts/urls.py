@@ -1,3 +1,4 @@
+from systemtest.pts.views.request import RequestDetailView
 from django.urls import path
 from systemtest.pts import views
 
@@ -37,6 +38,11 @@ urlpatterns = [
         route="close/",
         view=views.ClosePartListView.as_view(),
         name="close"
+    ),
+    path(
+        route="request/<pk>/",
+        view=views.DetailRequestView.as_view(),
+        name="detail"
     ),
     path(
         route="request/<pk>/edit/",

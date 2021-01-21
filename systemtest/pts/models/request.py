@@ -3,10 +3,12 @@ import uuid
 
 # Django
 from django.db import models
+from django.urls import reverse
 
 # APPs
 from systemtest.utils import models as utils_models
 from .request_group import RequestGroup
+
 
 class RequestStatus(utils_models.AbstractOptionsModel):
     class Meta:
@@ -119,6 +121,9 @@ class Request(RequestAbstractModel):
         super().save(*args, **kwargs)
         RequestHistory(**self.get_history_data()).save()
 
+    def get_absolute_url(self):
+        return reverse("pts:detail", args=[str(self.pk)])
+
     def __str__(self) -> str:
         return f"{self.pk} {self.request_group}"
 
@@ -126,6 +131,7 @@ class Request(RequestAbstractModel):
         db_table = "pts_request"
         verbose_name = "request"
         verbose_name_plural = "requests"
+
 
 class RequestHistory(RequestAbstractModel):
     id = models.UUIDField(
