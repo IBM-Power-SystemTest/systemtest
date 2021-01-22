@@ -13,5 +13,5 @@ class RecivePartListView(ListView):
 
 class UpdateRequestView(UpdateView):
     model = pts_models.Request
-    template_name = "pts/recive_detail.html"
+    template_name = "pts/return_detail.html"
     form_class = pts_forms.ReturnRequestForm

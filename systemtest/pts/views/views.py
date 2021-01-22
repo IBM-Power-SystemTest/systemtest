@@ -79,7 +79,6 @@ class BaseRequestListView(FormView):
             if form.is_valid() and form.has_changed():
                 valid_forms.append(form)
 
-            print(form.errors)
         if valid_forms:
             return self.form_valid(valid_forms)
         else:

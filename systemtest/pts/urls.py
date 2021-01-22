@@ -45,8 +45,8 @@ urlpatterns = [
         name="detail"
     ),
     path(
-        route="request/<pk>/edit/",
+        route="request/<pk>/return/",
         view=views.UpdateRequestView.as_view(),
-        name="update"
+        name="return"
     )
 ]
