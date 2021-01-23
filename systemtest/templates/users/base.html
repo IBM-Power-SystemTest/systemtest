@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block head %}{% endblock head %}
+{% block title %}
+  User |
+  {% block subtitle %}{% endblock subtitle %}
+{% endblock title %}
 
 {% block content %}
   <div class="container h-100">

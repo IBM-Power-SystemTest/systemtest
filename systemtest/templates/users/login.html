@@ -1,14 +1,23 @@
 {% extends "users/base.html" %}
 
-{% block head %}
-  <title>Sign In</title>
-{% endblock head %}
+{% block subtitle %}Login{% endblock subtitle %}
 
 {% block container %}
+  {{ form.errors }}
   <form method="POST">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary btn-block mt-5" type="submit">Sign in</button>
-    <a class="mt-4" href="{% url 'users:password_reset' %}">Forgot your password?</a>
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+
+    <input type="submit" value="login">
+    <input type="hidden" name="next" value="{{ next }}">
   </form>
 {% endblock container %}

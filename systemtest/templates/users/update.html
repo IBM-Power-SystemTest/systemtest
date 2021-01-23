@@ -1,0 +1,14 @@
+{% extends "users/base.html" %}
+{% load static %}
+
+{% block subtitle %}Update{% endblock subtitle %}
+
+{% block container %}
+  <h2>{{ object.username }}</h2>
+  <form action="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Guardar">
+  </form>
+  <a href="{% url 'users:password_change' %}">Cambiar contraseña</a>
+{% endblock container %}
