@@ -25,6 +25,11 @@ class OpenRequestView(BaseRequestListView):
 
     next_status_query = Q(pk=2)
 
+    def get_template_names(self) -> list[str]:
+        if self.request.user.groups.filter("IPIC"):
+            self.template_name = "pts/open_ipic.html"
+        return super().get_template_names()
+
     def get_new_status(self, request: Type[pts_models.Request]):
         if request.request_group.is_vpd:
             return self.status_model.objects.get(name="GOOD")

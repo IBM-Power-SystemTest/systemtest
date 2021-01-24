@@ -1,5 +1,6 @@
 {% extends 'pts/base.html' %}
 {% load humanize %}
+{% load has_group %}
 
 {% block subtitle %} Request List {% endblock subtitle %}
 
@@ -19,9 +20,8 @@
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
-          <th> Serial </th>
-          <th> Status </th>
-          <th> Comentario </th>
+          {% block extra_colums %}
+          {% endblock extra_colums %}
         </tr>
       </thead>
       <tbody>
@@ -38,9 +38,8 @@
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>
           <td> {{ data.user }} </td>
-          <td> {{ form.part_id }} </td>
-          <td> {{ form.request_status }} </td>
-          <td> {{ form.comment }} </td>
+          {% block extra_rows %}
+          {% endblock extra_rows %}
         </tr>
       {% empty %}
       {% endfor %}
