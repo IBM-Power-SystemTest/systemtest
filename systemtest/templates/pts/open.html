@@ -1,6 +1,6 @@
 {% extends 'pts/base.html' %}
 {% load humanize %}
-{% load has_group %}
+{% load static %}
 
 {% block subtitle %} Request List {% endblock subtitle %}
 
@@ -20,8 +20,8 @@
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
-          {% block extra_colums %}
-          {% endblock extra_colums %}
+          {% block extra_columns %}
+          {% endblock extra_columns %}
         </tr>
       </thead>
       <tbody>
@@ -34,7 +34,13 @@
           <td> {{ data.created | timesince }} </td>
           <td> {{ data.part_number }} </td>
           <td> {{ data.request_group.part_description }} </td>
-          <td> {{ data.request_group.is_loaner }} </td>
+          {% if data.request_group.is_loaner %}
+            <td>
+              <img src="{% static 'images/icons/true.png' %}" alt="">
+            </td>
+          {% else %}
+            <td></td>
+          {% endif %}
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>
           <td> {{ data.user }} </td>

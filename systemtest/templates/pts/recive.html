@@ -1,6 +1,6 @@
 {% extends 'pts/base.html' %}
 {% load humanize %}
-
+{% load static %}
 
 {% block subtitle %}Recive{% endblock subtitle %}
 {% block container %}
@@ -8,7 +8,6 @@
       <thead>
         <tr>
           <th> Folio </th>
-          <th> Update </th>
           <th> Status </th>
           <th> Hora </th>
           <th> Parte </th>
@@ -17,13 +16,14 @@
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
+          {% block extra_columns %}
+          {% endblock extra_columns %}
         </tr>
       </thead>
       <tbody>
       {% for request in object_list %}
         <tr>
           <td> {{ request.pk }} </td>
-          <td> <a href="{{ request.get_absolute_url }}return">update</a> </td>
           <td> {{ request.request_status }} </td>
           <td> {{ request.modified | timesince }} </td>
           <td> {{ request.part_number }} </td>
@@ -32,6 +32,8 @@
           <td> {{ request.request_group.system_number }} </td>
           <td> {{ request.request_group.system_cell }} </td>
           <td> {{ request.user }} </td>
+          {% block extra_rows %}
+          {% endblock extra_rows %}
         </tr>
       {% empty %}
       {% endfor %}
