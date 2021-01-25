@@ -17,17 +17,21 @@ class OpenRequestView(BaseRequestListView):
     success_url = reverse_lazy("pts:open")
 
     query = (
-        Q(request_status__pk=1) |
+        Q(request_status__name="OPEN") |
         Q(request_status__pk__gte=10)
     )
 
-    choice_query = Q(pk__gte=10) | Q(pk=1)
+    choice_query = Q(pk__gte=10) | Q(name="OPEN")
 
-    next_status_query = Q(pk=2)
+    next_status_query = Q(name="TRANSIT")
 
     def get_template_names(self) -> list[str]:
-        if self.request.user.groups.filter("IPIC"):
+        user_groups = self.request.user.groups.all()
+        if user_groups.filter(name="IPIC"):
             self.template_name = "pts/open_ipic.html"
+        elif user_groups.filter(name="TA"):
+            self.template_name = "pts/open_ta.html"
+
         return super().get_template_names()
 
     def get_new_status(self, request: Type[pts_models.Request]):
@@ -36,6 +40,6 @@ class OpenRequestView(BaseRequestListView):
         return super().get_new_status(request)
 
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
-        if serial == request.serial_number:
-            return False
-        return True
+        if serial != request.serial_number:
+            return True
+        return False

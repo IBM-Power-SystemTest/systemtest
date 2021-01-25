@@ -1,0 +1,20 @@
+{% extends 'pts/open.html' %}
+{% load static %}
+
+{% block extra_columns %}
+  <th> Cambiar </th>
+  <th> Eliminar </th>
+{% endblock extra_columns %}
+
+{% block extra_rows %}
+  <td>
+    <a href="{{ data.get_absolute_url }}">
+      <img src="{% static 'images/icons/update.png' %}" alt="">
+    </a>
+  </td>
+  <td>
+    <a href="{{ data.get_absolute_url }}">
+      <img src="{% static 'images/icons/delete_1.png' %}" alt="">
+    </a>
+  </td>
+{% endblock extra_rows %}

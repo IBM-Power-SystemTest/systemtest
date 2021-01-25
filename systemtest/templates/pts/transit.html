@@ -19,7 +19,7 @@
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
-          <th> Serial </th>
+          {% block extra_columns %}{% endblock extra_columns %}
         </tr>
       </thead>
       <tbody>
@@ -36,7 +36,7 @@
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>
           <td> {{ data.user }} </td>
-          <td> {{ form.part_id }} </td>
+          {% block extra_rows %}{% endblock extra_rows %}
         </tr>
       {% empty %}
       {% endfor %}
