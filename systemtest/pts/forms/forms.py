@@ -107,6 +107,15 @@ RequestFormset = forms.modelformset_factory(
 )
 
 
+class RequestReturnListForm(RequestUpdateListForm):
+    class Meta:
+        model = models.Request
+        fields = (
+            "comment",
+            "part_id",
+            "request_status"
+        )
+
 class ReturnRequestForm(forms.ModelForm, RequestPartForm):
     class Meta:
         model = models.Request

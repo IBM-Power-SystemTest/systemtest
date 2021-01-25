@@ -25,9 +25,9 @@ urlpatterns = [
         name="transit"
     ),
     path(
-        route="recive/",
-        view=views.RecivePartListView.as_view(),
-        name="recive"
+        route="pending/",
+        view=views.PendingPartListView.as_view(),
+        name="pending"
     ),
     path(
         route="return/",
@@ -46,7 +46,7 @@ urlpatterns = [
     ),
     path(
         route="request/<pk>/return/",
-        view=views.UpdateRequestView.as_view(),
+        view=views.UpdatePendingRequestView.as_view(),
         name="return"
     )
 ]

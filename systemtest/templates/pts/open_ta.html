@@ -2,11 +2,13 @@
 {% load static %}
 
 {% block extra_columns %}
+  <th> Comentario </th>
   <th> Cambiar </th>
   <th> Eliminar </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
+  <td> {{ data.comment }} </td>
   <td>
     <a href="{{ data.get_absolute_url }}">
       <img src="{% static 'images/icons/update.png' %}" alt="">

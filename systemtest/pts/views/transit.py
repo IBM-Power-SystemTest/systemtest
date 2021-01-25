@@ -12,7 +12,7 @@ class TransitRequestView(BaseRequestListView):
     success_url = reverse_lazy("pts:transit")
 
     query = Q(request_status__name="TRANSIT")
-    next_status_query = Q(name="RECIVE")
+    next_status_query = Q(name="PENDING")
 
     def get_template_names(self) -> list[str]:
         user_groups = self.request.user.groups.all()

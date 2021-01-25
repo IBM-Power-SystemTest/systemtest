@@ -1,8 +1,7 @@
 from typing import Any, Type
 from django.core.exceptions import ObjectDoesNotExist
 
-from django.db import IntegrityError
-
+from django.db import transaction, IntegrityError
 from django.db.models import Model
 
 
@@ -25,13 +24,14 @@ options = {
     RequestStatus: (
         {"name": "OPEN"},
         {"name": "TRANSIT"},
-        {"name": "RECIVE"},
-        {"name": "RETURN"},
         {"name": "PENDING"},
+        {"name": "RETURN"},
         {"name": "CLOSE"},
         {"name": "CANCEL"},
         {"name": "GOOD"},
         {"name": "BAD"},
+        {"name": "INSTALADO EN OTRA WU"},
+        {"name": "REVISION CON EL ME"},
         {"name": "VALIDANDO INVENTARIO"},
         {"name": "SOLICITADO A OTRA AREA"},
         {"name": "CORTO REAL"},
@@ -70,6 +70,7 @@ options = {
 }
 
 
+@transaction.atomic
 def create_user(user_data: dict[str, Any]) -> None:
     global Departament, Job, Group, ObjectDoesNotExist
 
@@ -91,12 +92,12 @@ def create_user(user_data: dict[str, Any]) -> None:
         pass
 
 
+@transaction.atomic
 def create_option(model: Type[Model], data: dict[str, Any]) -> None:
     try:
         model(**data).save()
     except IntegrityError:
         pass
-
 
 def insert_data(model_list: dict[Type[Model], list[dict[str, Any]]]) -> None:
     global get_user_model, create_user, create_option, User, IntegrityError
@@ -108,8 +109,7 @@ def insert_data(model_list: dict[Type[Model], list[dict[str, Any]]]) -> None:
 
         else:
             for data in data_list:
-                try:
-                    create_option(model, data)
+                create_option(model, data)
 
 
 insert_data(options)

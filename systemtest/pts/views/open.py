@@ -17,11 +17,11 @@ class OpenRequestView(BaseRequestListView):
     success_url = reverse_lazy("pts:open")
 
     query = (
-        Q(request_status__name="OPEN") |
-        Q(request_status__pk__gte=10)
+        Q(request_status__pk=1) |
+        Q(request_status__pk__gte=11)
     )
 
-    choice_query = Q(pk__gte=10) | Q(name="OPEN")
+    choice_query = Q(pk=1)  | Q(pk__gte=11)
 
     next_status_query = Q(name="TRANSIT")
 

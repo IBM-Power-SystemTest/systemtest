@@ -1,0 +1,49 @@
+{% extends 'pts/base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block subtitle %}Pending{% endblock subtitle %}
+{% block container %}
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.management_form }}
+    <table>
+      <thead>
+        <tr>
+          <th> Folio </th>
+          <th> Status </th>
+          <th> Hora </th>
+          <th> Parte </th>
+          <th> Serial </th>
+          <th> Descripcion </th>
+          <th> Sistema </th>
+          <th> Celda </th>
+          <th> Usuario </th>
+          {% block extra_columns %}
+          {% endblock extra_columns %}
+        </tr>
+      </thead>
+      <tbody>
+      {% for data, form in rows %}
+        {{ form.id }}
+        {{ form.errors }}
+        <tr>
+          <td> {{ data.pk }} </td>
+          <td> {{ data.request_status }} </td>
+          <td> {{ data.modified | timesince }} </td>
+          <td> {{ data.part_number }} </td>
+          <td> {{ data.serial_number }} </td>
+          <td> {{ data.request_group.part_description }} </td>
+          <td> {{ data.request_group.system_number }} </td>
+          <td> {{ data.request_group.system_cell }} </td>
+          <td> {{ data.user }} </td>
+          {% block extra_rows %}
+          {% endblock extra_rows %}
+        </tr>
+      {% empty %}
+      {% endfor %}
+      </tbody>
+    </table>
+    <input type="button" value="Guardar">
+  </form>
+{% endblock %}

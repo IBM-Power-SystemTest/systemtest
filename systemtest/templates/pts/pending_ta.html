@@ -1,0 +1,22 @@
+{% extends 'pts/pending.html' %}
+{% load static %}
+
+{% block extra_columns %}
+  <th> Return Status </th>
+  <th> Serial </th>
+  {% comment %} <th> No NCM </th> {% endcomment %}
+  <th> Comentario </th>
+  <th> Return Detail </th>
+{% endblock extra_columns %}
+
+{% block extra_rows %}
+  <td> {{ form.request_status }} </td>
+  <td> {{ form.part_id }} </td>
+  {% comment %} <td> {{ form.not_ncm_status }} </td> {% endcomment %}
+  <td> {{ form.comment }} </td>
+  <td>
+    <a href="{{ request.get_absolute_url }}return">
+      <img src="{% static 'images/icons/return.png' %}" alt="">
+    </a>
+  </td>
+{% endblock extra_rows %}
