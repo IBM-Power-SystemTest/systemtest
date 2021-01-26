@@ -67,6 +67,7 @@ class RequestAbstractModel(models.Model):
         max_length=30,
         blank=True,
         null=True,
+        default=""
     )
 
     class Meta:

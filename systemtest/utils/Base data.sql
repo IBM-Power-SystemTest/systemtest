@@ -32,3 +32,8 @@ INSERT INTO users_job (name) VALUES ('TT');
 INSERT INTO users_job (name) VALUES ('IPIC');
 INSERT INTO users_job (name) VALUES ('IPIC NCM');
 INSERT INTO users_job (name) VALUES ('IPIC LEAD');
+
+INSERT INTO auth_group (name) VALUES ('TA');
+INSERT INTO auth_group (name) VALUES ('TT');
+INSERT INTO auth_group (name) VALUES ('IPIC');
+INSERT INTO auth_group (name) VALUES ('IPIC NCM');

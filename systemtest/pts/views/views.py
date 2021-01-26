@@ -1,5 +1,5 @@
 # Python
-from typing import Any, Dict, Type, Union
+from typing import Any, Type, Union
 
 # Django Forms
 from django import forms
@@ -58,7 +58,7 @@ class BaseRequestListView(FormView):
             for form in formset:
                 form.fields[self.choice_field] = forms.ModelChoiceField(choices)
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         queryset = self.get_queryset()
         self.form_class = self.form_class(queryset=queryset)
         self.set_custom_choices(self.form_class)
@@ -104,8 +104,6 @@ class BaseRequestListView(FormView):
             if sn:
                 if not self.is_valid_serial(request, sn):
                     return self.form_invalid(form)
-                    form.add_error("part_id", "SN no es el mismo que el anterior")
-
                 request.serial_number = sn
 
             request.part_number = data.get("pn")

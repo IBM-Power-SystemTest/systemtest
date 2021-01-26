@@ -1,5 +1,5 @@
 # Python
-from typing import Any, Dict
+from typing import Any
 
 # Django Forms
 from django.forms.forms import BaseForm
@@ -24,6 +24,12 @@ class RequestView(LoginRequiredMixin, FormView):
     template_name = "pts/request.html"
     form_class = pts_forms.RequestGroupForm
 
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        if not self.request.user.groups.filter(name="TA"):
+            return HttpResponseRedirect(reverse_lazy("pts:open"))
+
+        return super().get(request, *args, **kwargs)
+
     def form_valid(self, form: BaseForm) -> HttpResponse:
         data = form.cleaned_data
         parts_qty = data.get("qty")
@@ -44,7 +50,7 @@ class RequestDetailView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("pts:open")
     form_class = pts_forms.RequestGroupForm
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         if "detailed_form" not in kwargs:
             kwargs["detailed_form"] = self.get_detailed_form()
         return super().get_context_data(**kwargs)

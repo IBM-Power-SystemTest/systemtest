@@ -18,12 +18,21 @@ class OpenRequestView(BaseRequestListView):
 
     query = (
         Q(request_status__pk=1) |
-        Q(request_status__pk__gte=10)
+        Q(request_status__pk__gte=11)
     )
 
-    choice_query = Q(pk__gte=10) | Q(pk=1)
+    choice_query = Q(pk=1)  | Q(pk__gte=11)
 
-    next_status_query = Q(pk=2)
+    next_status_query = Q(name="TRANSIT")
+
+    def get_template_names(self) -> list[str]:
+        user_groups = self.request.user.groups.all()
+        if user_groups.filter(name="IPIC"):
+            self.template_name = "pts/open_ipic.html"
+        elif user_groups.filter(name="TA"):
+            self.template_name = "pts/open_ta.html"
+
+        return super().get_template_names()
 
     def get_new_status(self, request: Type[pts_models.Request]):
         if request.request_group.is_vpd:
@@ -31,6 +40,6 @@ class OpenRequestView(BaseRequestListView):
         return super().get_new_status(request)
 
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
-        if serial == request.serial_number:
-            return False
-        return True
+        if serial != request.serial_number:
+            return True
+        return False

@@ -1,42 +1,33 @@
 from django.urls import path
-from systemtest.users import views
-from django.contrib.auth import views as auth_view
-from django.urls import path
+from django.contrib.auth import views as auth_views
 
-from systemtest.users import views
+from systemtest.users import views as users_views
 
 app_name = "users"
 
 urlpatterns = [
     path(
         route='login/',
-        view=views.LoginView.as_view(),
+        view=auth_views.LoginView.as_view(
+            template_name="users/login.html"
+        ),
         name='login'
     ),
     path(
-        route='password/change/',
-        view=views.PasswordChangeView.as_view(),
-        name='password_change'
+        route='logout/',
+        view=auth_views.LogoutView.as_view(),
+        name='logout'
     ),
     path(
-        route='password/reset/',
-        view=views.PasswordResetView.as_view(),
-        name='password_reset'
-    ),
-    path(
-        route="~redirect/",
-        view=views.UserRedirectView.as_view(),
-        name="redirect"
-    ),
-    path(
-        route="~update/",
-        view=views.UserUpdateView.as_view(),
+        route="update/",
+        view=users_views.UserUpdateView.as_view(),
         name="update"
     ),
     path(
-        route="<str:username>/",
-        view=views.user_detail_view,
-        name="detail"
+        route='password/change/',
+        view=auth_views.PasswordChangeView.as_view(
+            template_name="users/password_change.html"
+        ),
+        name='password_change'
     ),
-
 ]
