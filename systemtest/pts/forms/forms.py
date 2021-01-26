@@ -113,8 +113,15 @@ class RequestReturnListForm(RequestUpdateListForm):
         fields = (
             "comment",
             "part_id",
-            "request_status"
+            "request_status",
+            "ncm_tag",
         )
+
+ReturnFormset = forms.modelformset_factory(
+    models.Request,
+    RequestReturnListForm,
+    extra=0
+)
 
 class ReturnRequestForm(forms.ModelForm, RequestPartForm):
     class Meta:

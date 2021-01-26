@@ -122,6 +122,9 @@ class Request(RequestAbstractModel):
         super().save(*args, **kwargs)
         RequestHistory(**self.get_history_data()).save()
 
+    def get_first_request(self):
+        return self.request_history.earliest("created")
+
     def get_absolute_url(self):
         return reverse("pts:detail", args=[str(self.pk)])
 
@@ -148,6 +151,7 @@ class RequestHistory(RequestAbstractModel):
         on_delete=models.PROTECT,
         verbose_name="Requerimiento",
         help_text="Numero del requerimiento original, con el estado actual",
+        related_name="request_history"
     )
 
     def __str__(self) -> str:

@@ -1,13 +1,14 @@
 {% load static %}
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'users:login' %}"
-    ><img
+  <a class="navbar-brand" href="{% url 'home' %}">
+    <img
       src="{% static 'images/power-systems-w.png' %}"
       alt="power systems"
       height="48"
       width="48"
-  /></a>
+    />
+  </a>
 
   <button
     class="navbar-toggler"
@@ -24,7 +25,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'users:login' %}">System Test</a>
+        <a class="nav-link" href="{% url 'home' %}">System Test</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'pts:request' %}">Request</a>
