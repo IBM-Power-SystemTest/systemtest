@@ -6,7 +6,8 @@ class Validators:
     twelve_chars = RegexValidator(r"^[a-zA-Z0-9]{12}$")
     seven_chars = RegexValidator(r"^[a-zA-Z0-9]{7}$")
     four_chars = RegexValidator(r"^[a-zA-Z0-9]{4}$")
-    nine_digits = MaxValueValidator(int("9" * 8))
+    eight_digits_max = MaxValueValidator(int("9" * 8))
+    eight_digits_min = MaxValueValidator(int("1"+"0"*7))
 
 
 class CharFieldUpper(models.CharField):

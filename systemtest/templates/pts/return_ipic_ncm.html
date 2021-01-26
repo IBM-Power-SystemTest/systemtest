@@ -1,0 +1,13 @@
+{% extends 'pts/return.html' %}
+
+{% block extra_columns %}
+  <th> Serial </th>
+  <th> NCM Tag Entregada </th>
+  <th> NCM Tag Recogida </th>
+{% endblock extra_columns %}
+
+{% block extra_rows %}
+  <td> {{ form.part_id }} </td>
+  <td> {{ data.ncm_tag }} </td>
+  <td> {{ form.ncm_tag }} </td>
+{% endblock extra_rows %}

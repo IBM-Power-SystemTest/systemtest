@@ -27,8 +27,8 @@ class PendingPartListView(BaseRequestListView):
     next_status_query = Q(name="GOOD")
 
     choice_query = (
-        Q(pk__gte=9) &
-        Q(pk__lte=10)
+        Q(name="INSTALADO EN OTRA WU") |
+        Q(name="REVISION CON EL ME")
     )
 
     form_class = pts_forms.ReturnFormset
@@ -68,9 +68,3 @@ class PendingPartListView(BaseRequestListView):
             request.save()
 
         return HttpResponseRedirect(self.get_success_url())
-
-
-class UpdatePendingRequestView(UpdateView):
-    model = pts_models.Request
-    template_name = "pts/return_detail.html"
-    form_class = pts_forms.ReturnRequestForm

@@ -18,10 +18,10 @@ class OpenRequestView(BaseRequestListView):
 
     query = (
         Q(request_status__pk=1) |
-        Q(request_status__pk__gte=11)
+        Q(request_status__pk__gte=12)
     )
 
-    choice_query = Q(pk=1)  | Q(pk__gte=11)
+    choice_query = Q(pk=1)  | Q(pk__gte=12)
 
     next_status_query = Q(name="TRANSIT")
 
@@ -36,7 +36,7 @@ class OpenRequestView(BaseRequestListView):
 
     def get_new_status(self, request: Type[pts_models.Request]):
         if request.request_group.is_vpd:
-            return self.status_model.objects.get(name="GOOD")
+            return self.status_model.objects.get(name="CLOSE GOOD")
         return super().get_new_status(request)
 
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:

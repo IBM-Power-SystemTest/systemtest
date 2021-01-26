@@ -44,9 +44,4 @@ urlpatterns = [
         view=views.DetailRequestView.as_view(),
         name="detail"
     ),
-    path(
-        route="request/<pk>/return/",
-        view=views.UpdatePendingRequestView.as_view(),
-        name="return"
-    )
 ]

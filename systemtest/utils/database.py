@@ -23,15 +23,16 @@ options = {
 
     RequestStatus: (
         {"name": "OPEN"},
+        {"name": "CANCEL"},
         {"name": "TRANSIT"},
         {"name": "PENDING"},
         {"name": "RETURN"},
-        {"name": "CLOSE"},
-        {"name": "CANCEL"},
         {"name": "GOOD"},
         {"name": "BAD"},
         {"name": "INSTALADO EN OTRA WU"},
         {"name": "REVISION CON EL ME"},
+        {"name": "CLOSE GOOD"},
+        {"name": "CLOSE BAD"},
         {"name": "VALIDANDO INVENTARIO"},
         {"name": "SOLICITADO A OTRA AREA"},
         {"name": "CORTO REAL"},

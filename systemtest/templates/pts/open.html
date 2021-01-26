@@ -31,7 +31,7 @@
         <tr>
           <td> {{ data.pk }} </td>
           <td> {{ data.request_status }} </td>
-          <td> {{ data.created | timesince }} </td>
+          <td> {{ data.modified | timesince }} </td>
           <td> {{ data.part_number }} </td>
           <td> {{ data.request_group.part_description }} </td>
           {% if data.request_group.is_loaner %}

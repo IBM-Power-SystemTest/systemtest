@@ -18,11 +18,6 @@ from django.db.models.query import QuerySet
 # APP PTS
 from systemtest.pts import forms as pts_forms, models as pts_models
 
-
-class ReturnPartListView(FormView):
-    pass
-
-
 class ClosePartListView(FormView):
     pass
 

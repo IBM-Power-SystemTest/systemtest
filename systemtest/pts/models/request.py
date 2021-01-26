@@ -87,7 +87,10 @@ class Request(RequestAbstractModel):
         null=True,
         blank=True,
         unique=True,
-        validators=[utils_models.Validators.nine_digits],
+        validators=[
+            utils_models.Validators.eight_digits_min,
+            utils_models.Validators.eight_digits_max
+        ],
     )
     not_ncm_status = models.ForeignKey(
         to=RequestNotNcmStatus,
