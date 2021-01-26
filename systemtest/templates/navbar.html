@@ -1,0 +1,35 @@
+{% load static %}
+
+<nav class="navbar">
+  <a href={% url 'home' %} class="logo-link">
+    <img
+      src="{% static 'images/power-systems-b.png' %}"
+      alt="Logo power"
+      class="logo-img">
+  </a>
+  <ul>
+    <li class="nav-item">
+      <a href="{% url 'pts:index' %}" class="nav-item-link">
+        PTS
+      </a>
+    </li>
+    {% if user.is_authenticated  %}
+      <li class="nav-item">
+        <a href="{% url 'users:update' %}" class="nav-item-link">
+          {{ user.username }}
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{% url 'users:logout' %}" class="nav-item-link">
+          Cerrar Sesion
+        </a>
+      </li>
+    {% else %}
+      <li>
+        <a href="{% url 'users:login' %}" class="nav-item-link ">
+          Iniciar Sesion
+        </a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>

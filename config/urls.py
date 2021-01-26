@@ -23,12 +23,10 @@ urlpatterns = [
         route=settings.ADMIN_URL,
         view=admin.site.urls
     ),
-    # User management
     path(
         route="users/",
         view=include("systemtest.users.urls", namespace="users")
     ),
-    # Custom urls includes go here
     path(
         route="pts/",
         view=include("systemtest.pts.urls", namespace="pts")

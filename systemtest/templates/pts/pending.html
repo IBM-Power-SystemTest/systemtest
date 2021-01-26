@@ -2,10 +2,9 @@
 {% load humanize %}
 {% load static %}
 
-{% block subtitle %} Request List {% endblock subtitle %}
-
+{% block subtitle %}Pending{% endblock subtitle %}
 {% block container %}
-  <form method="post">
+  <form method="POST">
     {% csrf_token %}
     {{ form.management_form }}
     <table>
@@ -15,8 +14,8 @@
           <th> Status </th>
           <th> Hora </th>
           <th> Parte </th>
+          <th> Serial </th>
           <th> Descripcion </th>
-          <th> Loaner </th>
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
@@ -31,16 +30,10 @@
         <tr>
           <td> {{ data.pk }} </td>
           <td> {{ data.request_status }} </td>
-          <td> {{ data.created | timesince }} </td>
+          <td> {{ data.modified | timesince }} </td>
           <td> {{ data.part_number }} </td>
+          <td> {{ data.serial_number }} </td>
           <td> {{ data.request_group.part_description }} </td>
-          {% if data.request_group.is_loaner %}
-            <td>
-              <img src="{% static 'images/icons/true.png' %}" alt="">
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>
           <td> {{ data.user }} </td>
@@ -51,6 +44,6 @@
       {% endfor %}
       </tbody>
     </table>
-    <input type="submit" value="Guardar">
+    <input type="button" value="Guardar">
   </form>
-{% endblock container %}
+{% endblock %}
