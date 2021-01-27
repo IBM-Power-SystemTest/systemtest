@@ -92,15 +92,6 @@ class Request(RequestAbstractModel):
             utils_models.Validators.eight_digits_max
         ],
     )
-    not_ncm_status = models.ForeignKey(
-        to=RequestNotNcmStatus,
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-        default=None,
-        verbose_name="Motivos de tag faltante",
-        help_text="En caso que el estado sea malo, pero no se haya generado Tag",
-    )
     modified = models.DateTimeField(
         "Actualizacion",
         help_text="Fecha y hora de ultimo cambio de estado",
