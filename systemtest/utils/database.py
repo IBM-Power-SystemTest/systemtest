@@ -9,7 +9,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 
 from systemtest.users.models import Job, Departament
-from systemtest.pts.models import RequestGroupWorkspace, RequestNotNcmStatus, RequestStatus
+from systemtest.pts.models import RequestGroupWorkspace, RequestStatus
 
 User = get_user_model()
 
@@ -38,11 +38,6 @@ options = {
         {"name": "CORTO REAL"},
         {"name": "SOLICITADO A DE GEODIS"},
         {"name": "NUMERO DE PARTE NO EXISTE"},
-    ),
-
-    RequestNotNcmStatus: (
-        {"name": "INSTALADO EN OTRA WU"},
-        {"name": "REVISION CON EL ME"},
     ),
 
     Departament: (

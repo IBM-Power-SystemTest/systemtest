@@ -17,13 +17,6 @@ class RequestStatus(utils_models.AbstractOptionsModel):
         verbose_name_plural = "status"
 
 
-class RequestNotNcmStatus(utils_models.AbstractOptionsModel):
-    class Meta:
-        db_table = "pts_request_not_ncm"
-        verbose_name = "reason for no ncm"
-        verbose_name_plural = "reason for no ncm"
-
-
 class RequestAbstractModel(models.Model):
     request_status = models.ForeignKey(
         to=RequestStatus,

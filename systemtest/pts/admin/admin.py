@@ -18,14 +18,6 @@ class RequestStatusAdmin(admin.ModelAdmin):
     search_fields = ("pk", "name")
 
 
-@admin.register(models.RequestNotNcmStatus)
-class RequestNotNcmStatusAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-    list_display_links = ("pk",)
-    list_editable = ("name",)
-    search_fields = ("pk", "name")
-
-
 @admin.register(models.RequestGroup)
 class RequestGroupAdmin(admin.ModelAdmin):
     list_display = (
@@ -72,14 +64,12 @@ class ResquestAdmin(admin.ModelAdmin):
         "serial_number",
         "modified",
         "ncm_tag",
-        "not_ncm_status",
     )
     list_editable = (
         "request_status",
         "part_number",
         "serial_number",
         "ncm_tag",
-        "not_ncm_status"
     )
     list_display_links = ("pk", "request_group")
     search_fields = (

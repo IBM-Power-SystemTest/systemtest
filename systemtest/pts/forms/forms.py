@@ -122,11 +122,3 @@ ReturnFormset = forms.modelformset_factory(
     RequestReturnListForm,
     extra=0
 )
-
-class ReturnRequestForm(forms.ModelForm, RequestPartForm):
-    class Meta:
-        model = models.Request
-        fields = (
-            "ncm_tag",
-            "not_ncm_status",
-        )
