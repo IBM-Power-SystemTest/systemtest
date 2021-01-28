@@ -1,5 +1,5 @@
 # Django HTTP
-from typing import Any
+from typing import Any, Type
 from django.urls.base import reverse_lazy
 
 # Django db
@@ -16,8 +16,8 @@ class ReturnPartListView(BaseRequestListView):
     success_url = reverse_lazy("pts:return")
 
     query = (
-        Q(request_status__pk__gte=6) &
-        Q(request_status__lte=9)
+        Q(request_status__name="GOOD") |
+        Q(request_status__name="BAD")
     )
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
@@ -33,7 +33,7 @@ class ReturnPartListView(BaseRequestListView):
 
         return super().get_context_data(**kwargs)
 
-    def get_new_status(self, request: type[pts_models.Request]) -> Any:
+    def get_new_status(self, request: Type[pts_models.Request]) -> Any:
         status = str(request.request_status)
         if status == "BAD":
             self.next_status_query = Q(name="CLOSE BAD")
@@ -41,6 +41,7 @@ class ReturnPartListView(BaseRequestListView):
             self.next_status_query = Q(name="CLOSE GOOD")
 
         return super().get_new_status(request)
+
 
 class ReturnPartNoNCM(PendingPartListView):
     query = (

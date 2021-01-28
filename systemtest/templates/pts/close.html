@@ -1,0 +1,60 @@
+{% extends 'pts/base.html' %}
+{% load humanize %}
+
+{% block subtitle %} Close {% endblock subtitle %}
+
+{% block container %}
+  <table>
+    <thead>
+      <tr>
+        <th> Folio </th>
+        <th> Status </th>
+        <th> Hora </th>
+        <th> Parte </th>
+        <th> Serial </th>
+        <th> Descripcion </th>
+        <th> NCM Tag </th>
+        <th> Sistema </th>
+        <th> Celda </th>
+        <th> Usuario </th>
+        {% block extra_columns %}{% endblock extra_columns %}
+      </tr>
+    </thead>
+    <tbody>
+    {% for request in page_obj %}
+      <tr>
+        <td> {{ request.pk }} </td>
+        <td> {{ request.request_status }} </td>
+        <td> {{ request.modified | timesince }} </td>
+        <td> {{ request.part_number }} </td>
+        <td> {{ request.serial_number }} </td>
+        <td> {{ request.request_group.part_description }} </td>
+        <td> {{ request.ncm_tag }}</td>
+        <td> {{ request.request_group.system_number }} </td>
+        <td> {{ request.request_group.system_cell }} </td>
+        <td> {{ request.user }} </td>
+        {% block extra_rows %}{% endblock extra_rows %}
+      </tr>
+    {% empty %}
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock container %}

@@ -18,9 +18,6 @@ from django.db.models.query import QuerySet
 # APP PTS
 from systemtest.pts import forms as pts_forms, models as pts_models
 
-class ClosePartListView(FormView):
-    pass
-
 
 class BaseRequestListView(FormView):
     model = pts_models.Request

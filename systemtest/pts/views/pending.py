@@ -23,7 +23,11 @@ class PendingPartListView(BaseRequestListView):
     template_name = "pts/pending.html"
     success_url = reverse_lazy("pts:pending")
 
-    query = Q(request_status__name="PENDING")
+    query = (
+        Q(request_status__name="PENDING") |
+        Q(request_status__name="INSTALADO EN OTRA WU") |
+        Q(request_status__name="REVISION CON EL ME")
+    )
     next_status_query = Q(name="GOOD")
 
     choice_query = (
@@ -52,19 +56,19 @@ class PendingPartListView(BaseRequestListView):
                 continue
 
             request = form.save(commit=False)
+
             if sn := data.get("sn"):
                 request.serial_number = sn
             request.part_number = data.get("pn")
+
+            if request_status := data.get("request_status"):
+                request.request_status = request_status
 
             if ncm_tag := data.get("ncm_tag"):
                 request.ncm_tag = ncm_tag
                 self.next_status_query = Q(name="BAD")
 
-            if request_status := data.get("request_status"):
-                request.request_status = request_status
-            else:
-                request.request_status = self.get_new_status(request)
-
+            request.request_status = self.get_new_status(request)
             request.save()
 
         return HttpResponseRedirect(self.get_success_url())
