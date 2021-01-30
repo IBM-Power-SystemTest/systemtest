@@ -1,5 +1,6 @@
-# Django HTTP
 from typing import Any, Type
+
+# Django HTTP
 from django.urls.base import reverse_lazy
 
 # Django db
