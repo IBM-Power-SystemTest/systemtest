@@ -2,10 +2,10 @@
 
 {% block subtitle %}Request{% endblock subtitle %}
 {% block container %}
-  <form id="form_request_group" method="POST">
+  <form id="form_request" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
     {{ detailed_form.as_p }}
-    <input type="submit" />
+    <input type="button" value="Solicitar" onclick="this.form.submit()"/>
   </form>
 {% endblock %}

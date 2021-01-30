@@ -12,3 +12,7 @@
   <td> {{ form.ncm_tag }} </td>
   <td> {{ form.request_status }} </td>
 {% endblock extra_rows %}
+
+{% block submit %}
+  <input type="button" value="Guardar" onclick="this.form.submit()"/>
+{% endblock submit %}
