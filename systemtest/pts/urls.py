@@ -43,4 +43,19 @@ urlpatterns = [
         view=views.DetailRequestView.as_view(),
         name="detail"
     ),
+    path(
+        route="request/<pk>/delete/",
+        view=views.RequestDelete.as_view(),
+        name="delete"
+    ),
+    path(
+        route="request_group/<pk>",
+        view=views.RequestGroupDetail.as_view(),
+        name="group_detail"
+    ),
+    path(
+        route="request_group/<pk>/update",
+        view=views.DetailRequestView.as_view(),
+        name="update"
+    ),
 ]
