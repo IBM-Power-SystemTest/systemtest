@@ -1,4 +1,3 @@
-from systemtest.pts.views.request import RequestDetailView
 from django.urls import path
 from systemtest.pts import views
 

@@ -1,4 +1,5 @@
 # Django
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
 # APPs
@@ -61,7 +62,10 @@ class RequestGroup(models.Model):
         default=False,
     )
     qty = models.SmallIntegerField(
-        "Cantidad", help_text="Cantidad de piezas del mismo PN", default=1
+        "Cantidad",
+        help_text="Cantidad de piezas del mismo PN",
+        default=1,
+        validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
     request_group_workspace = models.ForeignKey(
         to=RequestGroupWorkspace,

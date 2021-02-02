@@ -23,9 +23,21 @@ class RequestGroupForm(forms.ModelForm):
 
         widgets = {
             "qty": forms.NumberInput(
-                attrs={"onchange": "this.form.submit()"}
+                attrs={
+                    "min": 1,
+                    "max": 10,
+                    "onchange": "this.form.submit()"
+                }
             )
         }
+
+    def clean_qty(self):
+        qty = self.cleaned_data['qty']
+        if qty < 1:
+            raise forms.ValidationError("El minimo de requerimientos es '1'")
+        elif qty > 10:
+            raise forms.ValidationError("El maximo de requerimientos es '10'")
+        return qty
 
     def clean(self) -> Dict[str, Any]:
         data = super().clean()
@@ -116,6 +128,7 @@ class RequestReturnListForm(RequestUpdateListForm):
             "request_status",
             "ncm_tag",
         )
+
 
 ReturnFormset = forms.modelformset_factory(
     models.Request,
