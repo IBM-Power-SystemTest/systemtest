@@ -22,6 +22,7 @@ from systemtest.pts import forms as pts_forms, models as pts_models
 
 class RequestView(LoginRequiredMixin, FormView):
     template_name = "pts/request.html"
+    success_url = reverse_lazy("pts:open")
     form_class = pts_forms.RequestGroupForm
 
     def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
@@ -30,35 +31,24 @@ class RequestView(LoginRequiredMixin, FormView):
 
         return super().get(request, *args, **kwargs)
 
-    def form_valid(self, form: BaseForm) -> HttpResponse:
-        data = form.cleaned_data
-        parts_qty = data.get("qty")
-        are_more_fields_required = (
-            parts_qty > 1 and
-            data.get("is_serialized") and not
-            data.get("is_vpd")
-        )
-        parts_qty = parts_qty if are_more_fields_required else 1
-        kwargs = {
-            "parts_qty": parts_qty,
-        }
-        return RequestDetailView.as_view()(self.request, **kwargs)
-
-
-class RequestDetailView(LoginRequiredMixin, FormView):
-    template_name = "pts/request.html"
-    success_url = reverse_lazy("pts:open")
-    form_class = pts_forms.RequestGroupForm
-
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         if "detailed_form" not in kwargs:
             kwargs["detailed_form"] = self.get_detailed_form()
         return super().get_context_data(**kwargs)
 
     def get_detailed_form(self) -> Any:
+        data = self.request.POST
+        parts_qty = int(data.get("qty", 1))
+        are_more_fields_required = (
+            parts_qty > 1 and
+            data.get("is_serialized") and
+            not data.get("is_vpd")
+        )
+        parts_qty = parts_qty if are_more_fields_required else 1
+
         RequestPartFormset = formset_factory(
             pts_forms.RequestPartForm,
-            extra=self.kwargs.get("parts_qty"),
+            extra=parts_qty,
         )
         return RequestPartFormset
 
@@ -74,14 +64,16 @@ class RequestDetailView(LoginRequiredMixin, FormView):
         return self.form_invalid(form=form)
 
     def form_valid(self, form, *args) -> HttpResponse:
+        data = form.cleaned_data
+
         detailed_form = args[0]
 
         request_group = form.save(commit=False)
         user = self.request.user
 
         part_id_set = detailed_form.cleaned_data
-        part_number_set = {part_id.get("pn") for part_id in part_id_set}
-        serial_number_set = {part_id.get("sn") for part_id in part_id_set}
+        part_number_set = {part_id.get("pn") for part_id in part_id_set} - {None}
+        serial_number_set = {part_id.get("sn") for part_id in part_id_set} - {None}
 
         if len(part_number_set) > 1:
             error_message = "Se estan requiriendo distintos numeros de parte"
@@ -92,6 +84,7 @@ class RequestDetailView(LoginRequiredMixin, FormView):
         request_group.part_number = part_number
         request_group.save()
 
+        real_qty = 0
         for serial_number in serial_number_set:
             request = pts_models.Request(
                 request_group=request_group,
@@ -101,7 +94,10 @@ class RequestDetailView(LoginRequiredMixin, FormView):
             )
 
             request.save()
+            real_qty += 1
 
+        request_group.qty = real_qty
+        request_group.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, **kwargs) -> HttpResponse:
