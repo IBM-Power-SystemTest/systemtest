@@ -1,6 +1,7 @@
 {% extends 'pts/base.html' %}
 {% load humanize %}
 {% load static %}
+{% load shift %}
 
 {% block subtitle %}Pending{% endblock subtitle %}
 
@@ -14,6 +15,7 @@
           <th> Folio </th>
           <th> Status </th>
           <th> Hora </th>
+          <th> Turno </th>
           <th> Descripcion </th>
           <th> Sistema </th>
           <th> Celda </th>
@@ -32,6 +34,7 @@
           <td> {{ data.pk }} </td>
           <td> {{ data.request_status }} </td>
           <td> {{ data.modified | timesince }} </td>
+          <td> {{ data.modified | get_shift }}</td>
           <td> {{ data.request_group.part_description }} </td>
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>

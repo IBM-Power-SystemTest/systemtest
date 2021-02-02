@@ -1,5 +1,6 @@
 {% extends 'pts/base.html' %}
 {% load humanize %}
+{% load shift %}
 
 {% block subtitle %} Close {% endblock subtitle %}
 
@@ -10,6 +11,7 @@
         <th> Folio </th>
         <th> Status </th>
         <th> Hora </th>
+        <th> Turno </th>
         <th> Parte </th>
         <th> Serial </th>
         <th> Descripcion </th>
@@ -26,6 +28,7 @@
         <td> {{ request.pk }} </td>
         <td> {{ request.request_status }} </td>
         <td> {{ request.modified | timesince }} </td>
+        <td> {{ data.modified | get_shift }}</td>
         <td> {{ request.part_number }} </td>
         <td> {{ request.serial_number }} </td>
         <td> {{ request.request_group.part_description }} </td>
