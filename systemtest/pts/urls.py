@@ -51,7 +51,7 @@ urlpatterns = [
     path(
         route="request_group/<pk>",
         view=views.RequestGroupDetail.as_view(),
-        name="group_detail"
+        name="detail_group"
     ),
     path(
         route="request_group/<pk>/update",

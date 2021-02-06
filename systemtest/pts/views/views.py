@@ -31,6 +31,7 @@ class BaseRequestListView(FormView):
     choice_query = None
 
     next_status_query = None
+    next_status = None
 
     form_class = pts_forms.RequestFormset
 
@@ -82,7 +83,10 @@ class BaseRequestListView(FormView):
         return False
 
     def get_new_status(self, request: type[pts_models.Request]) -> Any:
-        return self.status_model.objects.get(self.next_status_query)
+        if not self.next_status:
+            self.next_status = self.status_model.objects.get(self.next_status_query)
+
+        return self.next_status
 
     def form_valid(self, forms: list[BaseModelForm]) -> HttpResponse:
         for form in forms:

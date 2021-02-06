@@ -1,5 +1,6 @@
 # Django
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.urls import reverse
 from django.db import models
 
 # APPs
@@ -83,6 +84,9 @@ class RequestGroup(models.Model):
         validators=[utils_models.Validators.four_chars],
         uppercase=True,
     )
+
+    def get_absolute_url(self):
+        return reverse("pts:detail_group", args=[str(self.pk)])
 
     def __str__(self) -> str:
         output = (

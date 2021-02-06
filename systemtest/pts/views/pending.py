@@ -57,12 +57,15 @@ class PendingPartListView(BaseRequestListView):
 
             request = form.save(commit=False)
 
+            request.part_number = data.get("pn")
             if sn := data.get("sn"):
                 request.serial_number = sn
-            request.part_number = data.get("pn")
 
             if request_status := data.get("request_status"):
-                request.request_status = request_status
+                self.next_status = request_status
+            elif str(request_status) != "PENDING":
+                current_status = form.initial.get("request_status")
+                self.next_status_query = Q(pk=current_status)
 
             if ncm_tag := data.get("ncm_tag"):
                 request.ncm_tag = ncm_tag
