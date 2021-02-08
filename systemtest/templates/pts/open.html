@@ -1,6 +1,7 @@
 {% extends 'pts/base.html' %}
 {% load humanize %}
 {% load static %}
+{% load tz %}
 {% load shift %}
 
 {% block subtitle %} Request List {% endblock subtitle %}
@@ -14,7 +15,7 @@
         <tr>
           <th> Folio </th>
           <th> Status </th>
-          <th> Hora </th>
+          <th> Tiempo </th>
           <th> Turno </th>
           <th> Parte </th>
           <th> Descripcion </th>
@@ -34,7 +35,7 @@
           <td> {{ data.pk }} </td>
           <td> {{ data.request_status }} </td>
           <td> {{ data.modified | timesince }} </td>
-          <td> {{ data.modified | get_shift }}</td>
+          <td> {{ data.modified | localtime | get_shift }}</td>
           <td> {{ data.part_number }} </td>
           <td> {{ data.request_group.part_description }} </td>
           {% if data.request_group.is_loaner %}
