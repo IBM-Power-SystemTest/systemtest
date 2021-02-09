@@ -26,7 +26,6 @@ class RequestDelete(DeleteView):
     model = pts_models.Request
     success_url = reverse_lazy("pts:open")
     template_name = "pts/request_delete.html"
-    change_status = pts_models.RequestStatus.objects.get(name="CANCEL")
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -39,7 +38,7 @@ class RequestDelete(DeleteView):
         Change the status of object on the fetched object and then redirect to the
         success URL.
         """
-        self.object.request_status = self.change_status
+        self.object.request_status = pts_models.RequestStatus.objects.get(name="CANCEL")
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
