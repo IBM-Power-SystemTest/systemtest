@@ -83,20 +83,28 @@ class RequestView(LoginRequiredMixin, FormView):
         part_number = part_number_set.pop()
         request_group.part_number = part_number
         request_group.save()
+        if data.get("is_serialized"):
+            real_qty = 0
+            for serial_number in serial_number_set:
+                request = pts_models.Request(
+                    request_group=request_group,
+                    part_number=part_number,
+                    serial_number=serial_number,
+                    user=user
+                )
+                request.save()
+                real_qty += 1
 
-        real_qty = 0
-        for serial_number in serial_number_set:
-            request = pts_models.Request(
-                request_group=request_group,
-                part_number=part_number,
-                serial_number=serial_number,
-                user=user
-            )
+            request_group.qty = real_qty
+        else:
+            for _ in range(data.get("qty")):
+                request = pts_models.Request(
+                    request_group=request_group,
+                    part_number=part_number,
+                    user=user
+                )
+                request.save()
 
-            request.save()
-            real_qty += 1
-
-        request_group.qty = real_qty
         request_group.save()
         return HttpResponseRedirect(self.get_success_url())
 

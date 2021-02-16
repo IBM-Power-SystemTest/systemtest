@@ -40,11 +40,11 @@ class RequestAbstractModel(models.Model):
         validators=[utils_models.Validators.twelve_chars],
         null=True,
         blank=True,
-        default=None,
+        default="",
         uppercase=True,
     )
     created = models.DateTimeField(
-        verbose_name="Creacion",
+        "Creacion",
         help_text="Fecha y hora de solicitud",
         auto_now_add=True,
     )

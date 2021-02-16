@@ -34,11 +34,6 @@ class OpenRequestView(BaseRequestListView):
 
         return super().get_template_names()
 
-    def get_new_status(self, request: Type[pts_models.Request]):
-        if request.request_group.is_vpd:
-            return self.status_model.objects.get(name="CLOSE GOOD")
-        return super().get_new_status(request)
-
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
         if serial != request.serial_number:
             return True

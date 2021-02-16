@@ -61,14 +61,21 @@ class PendingPartListView(BaseRequestListView):
             if sn := data.get("sn"):
                 request.serial_number = sn
 
-            if request_status := data.get("request_status"):
-                self.next_status = request_status
-            elif str(request_status) != "PENDING":
-                current_status = form.initial.get("request_status")
-                self.next_status_query = Q(pk=current_status)
+            if new_status := data.get("request_status"):
+                self.next_status = new_status
+            else:
+                pending_status_pk = 4
+                current_status_pk = form.initial.get("request_status")
+                print(current_status_pk)
+                print(self.get_new_status(request))
+                if current_status_pk != pending_status_pk:
+                    self.next_status = self.status_model.objects.get(pk=current_status_pk)
 
+
+            print(self.get_new_status(request))
             if ncm_tag := data.get("ncm_tag"):
                 request.ncm_tag = ncm_tag
+                self.next_status = None
                 self.next_status_query = Q(name="BAD")
 
             request.request_status = self.get_new_status(request)
