@@ -28,8 +28,8 @@
       <tr>
         <td> {{ request.pk }} </td>
         <td> {{ request.request_status }} </td>
-        <td> {{ request.modified | timesince }} </td>
-        <td> {{ data.modified | localtime | get_shift }}</td>
+        <td> {{ request.modified }} </td>
+        <td> {{ request.modified | localtime | get_shift }}</td>
         <td> {{ request.part_number }} </td>
         <td> {{ request.serial_number }} </td>
         <td> {{ request.request_group.part_description }} </td>
