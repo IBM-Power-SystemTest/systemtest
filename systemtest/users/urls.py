@@ -8,7 +8,7 @@ app_name = "users"
 urlpatterns = [
     path(
         route='login/',
-        view=auth_views.LoginView.as_view(
+        view=users_views.LoginView.as_view(
             template_name="users/login.html"
         ),
         name='login'
