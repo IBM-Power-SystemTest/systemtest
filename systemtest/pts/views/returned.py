@@ -7,7 +7,7 @@ from django.urls.base import reverse_lazy
 from django.db.models import Q
 
 # APP PTS
-from systemtest.pts import models as pts_models
+from systemtest.pts import models as pts_models, forms as pts_forms
 from .views import BaseRequestListView
 from .pending import PendingPartListView
 
@@ -15,6 +15,8 @@ from .pending import PendingPartListView
 class ReturnPartListView(BaseRequestListView):
     template_name = "pts/return.html"
     success_url = reverse_lazy("pts:return")
+
+    form_class = pts_forms.ReturnFormset
 
     query = (
         Q(request_status__name="GOOD") |

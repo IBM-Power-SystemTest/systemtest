@@ -1,13 +1,15 @@
 {% load static %}
 
-<nav class="navbar">
+<link rel="stylesheet" href="{% static 'css/main/nav_bar.css' %}">
+
+<nav class="navbarmain">
   <a href={% url 'home' %} class="logo-link">
     <img
-      src="{% static 'images/power-systems-b.png' %}"
+      src="{% static 'images/power-systems-w.png' %}"
       alt="Logo power"
       class="logo-img">
   </a>
-  <ul>
+  <ul class="nav-list">
     <li class="nav-item">
       <a href="{% url 'pts:index' %}" class="nav-item-link">
         PTS

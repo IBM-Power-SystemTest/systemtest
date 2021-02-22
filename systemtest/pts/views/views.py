@@ -105,6 +105,7 @@ class BaseRequestListView(FormView):
             request.part_number = data.get("pn")
             request.comment = None
 
+            request.user = self.request.user
             request.request_status = self.get_new_status(request)
             request.save()
 
