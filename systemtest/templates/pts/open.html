@@ -11,8 +11,9 @@
   <form method="post">
     {% csrf_token %}
     {{ form.management_form }}
+    <div class="table_overflow">
     <table class="table_default">
-      <caption>Tabla de solicitudes abiertas</caption>
+      <caption>Solicitudes abiertas</caption>
       <thead>
         <tr class="tr_open_thead">
           <th> Folio </th>
@@ -57,6 +58,7 @@
       {% endfor %}
       </tbody>
     </table>
+  </div>
     {% block submit %}{% endblock submit %}
   </form>
 {% endblock container %}
