@@ -36,9 +36,6 @@ class LoginView(auth_views.LoginView):
         last_password_date = user.last_password_modified
 
         password_days_delta = (date.today() - last_password_date).days
-        print(password_days_delta)
-        print(settings.PASSWORD_EXPIRE_DAYS)
-        print(settings.CHANGE_PASSWORD_MESSAGE_DAYS)
         if password_days_delta >= settings.PASSWORD_EXPIRE_DAYS:
             user.is_active = False
             user.save()

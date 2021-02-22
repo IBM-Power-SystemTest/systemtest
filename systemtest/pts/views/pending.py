@@ -66,13 +66,9 @@ class PendingPartListView(BaseRequestListView):
             else:
                 pending_status_pk = 4
                 current_status_pk = form.initial.get("request_status")
-                print(current_status_pk)
-                print(self.get_new_status(request))
                 if current_status_pk != pending_status_pk:
                     self.next_status = self.status_model.objects.get(pk=current_status_pk)
 
-
-            print(self.get_new_status(request))
             if ncm_tag := data.get("ncm_tag"):
                 request.ncm_tag = ncm_tag
                 self.next_status = None
