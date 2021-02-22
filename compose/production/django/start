@@ -6,7 +6,7 @@ set -o nounset
 
 python /app/manage.py makemigrations
 python /app/manage.py migrate
-python /app/manage.py shell < /app/systemtest/utils/database.py
+# python /app/manage.py shell < /app/systemtest/utils/database.py
 
 python /app/manage.py collectstatic --noinput
 

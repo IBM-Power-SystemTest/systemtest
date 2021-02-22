@@ -3,7 +3,8 @@ version: '3'
 volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
-  production_traefik: {}
+  # production_traefik: {}
+  production_staticfile_data: {}
 
 services:
   django: &django
@@ -11,6 +12,10 @@ services:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
     image: systemtest_production_django
+    expose:
+      - "5000"
+    # volumes:
+    #   - production_staticfile_data:/app/staticfiles
     depends_on:
       - postgres
       - redis
@@ -30,19 +35,34 @@ services:
     env_file:
       - ./.envs/.production/.postgres
 
-  traefik:
-    build:
-      context: .
-      dockerfile: ./compose/production/traefik/Dockerfile
-    image: systemtest_production_traefik
+  # traefik:
+  #   build:
+  #     context: .
+  #     dockerfile: ./compose/production/traefik/Dockerfile
+  #   image: systemtest_production_traefik
+  #   depends_on:
+  #     - django
+  #   volumes:
+  #     - production_traefik:/etc/traefik/acme:z
+  #   ports:
+  #     - "0.0.0.0:80:80"
+  #     - "0.0.0.0:443:443"
+  #     - "0.0.0.0:5555:5555"
+  
+  nginx:
+    build: 
+      context: ./compose/production/nginx/
+    image: systemtest_production_nginx
+    # volumes:
+    #   - production_staticfile_data:/app/staticfiles
     depends_on:
       - django
-    volumes:
-      - production_traefik:/etc/traefik/acme:z
     ports:
-      - "0.0.0.0:80:80"
-      - "0.0.0.0:443:443"
-      - "0.0.0.0:5555:5555"
+      - "80:80"
+      - "443:443"
+      # - "5555:5555"
+      - "80"
+      - "443"
 
   redis:
     image: redis:6.0.9
@@ -60,6 +80,6 @@ services:
   flower:
     <<: *django
     image: systemtest_production_flower
+    expose:
+      - "5555"
     command: /start-flower
-
-  
