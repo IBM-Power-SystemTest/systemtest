@@ -5,6 +5,13 @@
     font-size: 30px;
     height: 210px;
 }
+.navbarmain img{
+    width: 140px;
+    height: 120px;
+    border: 0px transparent;
+    margin-left: 30px;
+    margin-top: 20px;
+}
 .nav-list{
     position: relative;
     float: right;
