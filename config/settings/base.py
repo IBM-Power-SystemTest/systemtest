@@ -302,3 +302,5 @@ REST_FRAMEWORK = {
 CORS_URLS_REGEX = r"^/api/.*$"
 # Your stuff...
 # ------------------------------------------------------------------------------
+PASSWORD_EXPIRE_DAYS = 90
+CHANGE_PASSWORD_MESSAGE_DAYS = PASSWORD_EXPIRE_DAYS - 10

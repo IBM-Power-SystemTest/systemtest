@@ -5,14 +5,16 @@
 {% load shift %}
 
 {% block subtitle %}Return{% endblock subtitle %}
-
 {% block container %}
-  <form method="post">
+<link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
+  <form method="post" class="form_transit">
     {% csrf_token %}
     {{ form.management_form }}
-    <table>
+    <div class="table_overflow">
+    <table class="table_default">
+      <caption>Solicitudes devolución</caption>
       <thead>
-        <tr>
+        <tr class="tr_open_thead">
           <th> Folio </th>
           <th> Status </th>
           <th> Tiempo </th>
@@ -26,7 +28,7 @@
           {% endblock extra_columns %}
         </tr>
       </thead>
-      <tbody>
+      <tbody class="tr_open_body">
       {% for data, form in rows %}
         {{ form.id }}
         {{ form.errors }}
@@ -50,6 +52,7 @@
       {% endfor %}
       </tbody>
     </table>
+  </div>
     {% block submit %}{% endblock submit %}
   </form>
 {% endblock container %}

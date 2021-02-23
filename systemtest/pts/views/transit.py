@@ -1,3 +1,6 @@
+# Python
+from typing import Type
+
 # Django HTTP
 from django.urls.base import reverse_lazy
 
@@ -6,6 +9,7 @@ from django.db.models import Q
 
 # APP PTS
 from .views import BaseRequestListView
+from systemtest.pts import models as pts_models
 
 class TransitRequestView(BaseRequestListView):
     template_name = "pts/transit.html"
@@ -20,3 +24,8 @@ class TransitRequestView(BaseRequestListView):
             self.template_name = "pts/transit_ta.html"
 
         return super().get_template_names()
+
+    def get_new_status(self, request: Type[pts_models.Request]):
+        if request.request_group.is_vpd:
+            return self.status_model.objects.get(name="CLOSE GOOD")
+        return super().get_new_status(request)
