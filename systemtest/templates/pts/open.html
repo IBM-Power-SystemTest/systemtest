@@ -7,7 +7,6 @@
 {% block subtitle %} Request List {% endblock subtitle %}
 
 {% block container %}
-<link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
   <form method="post">
     {% csrf_token %}
     {{ form.management_form }}
