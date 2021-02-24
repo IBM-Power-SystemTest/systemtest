@@ -19,7 +19,17 @@
       <link rel="stylesheet" href="{% static 'css/v2/navbar/navbar.css' %}">
       <link rel="stylesheet" href="{% static 'css/v2/forms/form_request.css' %}">
     {% else %}
+      <link rel="stylesheet" href="{% static 'css/main/body.css' %}">
+      <link rel="stylesheet" href="{% static 'css/main/nav_bar.css' %}">
+      <link rel="stylesheet" href="{% static 'css/main/forms_request.css' %}">
       <link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
+    {% endif %}
+
+    {% if request.META.HTTP_USER_AGENT|is_legacy %}
+      <link rel="stylesheet" href="{% static 'css/v2/index.css' %}">
+      <link rel="stylesheet" href="{% static 'css/v2/navbar/navbar.css' %}">
+      <link rel="stylesheet" href="{% static 'css/v2/forms/form_request.css' %}">
+    {% else %}
       <link rel="stylesheet" href="{% static 'css/main/nav_bar.css' %}">
       <link rel="stylesheet" href="{% static 'css/main/body.css' %}">
       <link rel="stylesheet" href="{% static 'css/main/forms_request.css' %}">
