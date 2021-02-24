@@ -7,7 +7,6 @@
 {% block subtitle %} Transit {% endblock subtitle %}
 
 {% block container %}
-  <link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
   <form method="post" class="form_transit">
     {% csrf_token %}
     {{ form.management_form }}
