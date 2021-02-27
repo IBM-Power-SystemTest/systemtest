@@ -1,4 +1,4 @@
-{% extends 'pts/base.html' %}
+{% extends 'pts/base_table.html' %}
 {% load humanize %}
 {% load tz %}
 {% load shift %}
@@ -7,7 +7,6 @@
 {% block subtitle %} Close {% endblock subtitle %}
 
 {% block container %}
-<link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
 <div class="table_overflow">
   <table class="table_default">
     <caption>Solicitudes cerradas</caption>

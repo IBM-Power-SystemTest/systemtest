@@ -1,4 +1,4 @@
-{% extends 'pts/base.html' %}
+{% extends 'pts/base_table.html' %}
 {% load humanize %}
 {% load static %}
 {% load tz %}
@@ -6,7 +6,6 @@
 
 {% block subtitle %}Return{% endblock subtitle %}
 {% block container %}
-<link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
   <form method="post" class="form_transit">
     {% csrf_token %}
     {{ form.management_form }}

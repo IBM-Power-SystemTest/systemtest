@@ -1,4 +1,4 @@
-{% extends 'pts/base.html' %}
+{% extends 'pts/base_table.html' %}
 {% load humanize %}
 {%load static %}
 {% load tz %}
@@ -6,8 +6,15 @@
 
 {% block subtitle %} Transit {% endblock subtitle %}
 
+{% block scripts %}
+  <script>
+    window.setTimeout(function () {
+      window.location.reload();
+    }, 1000*60*5);
+  </script>
+{% endblock scripts %}
+
 {% block container %}
-  <link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
   <form method="post" class="form_transit">
     {% csrf_token %}
     {{ form.management_form }}
