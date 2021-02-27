@@ -21,3 +21,5 @@ podman run -d --pod systemtest --name celeryworker --env-file ./.envs/.productio
 podman run -d --pod systemtest --name celerybeat --env-file ./.envs/.production/.postgres --env-file ./.envs/.production/.django systemtest_django:beta /start-celerybeat
 
 podman run -d --pod systemtest --name flower --env-file ./.envs/.production/.postgres --env-file ./.envs/.production/.django systemtest_django:beta /start-flower
+
+podman run -d --pod systemtest --name nginx -v compose/production/nginx/nginx.conf:/ect/nginx/conf.d/default.conf nginx:1.19
