@@ -4,8 +4,10 @@
 {% block styles %}
   <link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
 {% endblock styles %}
-
-{% block subtitle %}{% endblock subtitle %}
-
-{% block container %}
-{% endblock container %}
+{% block head %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      var dataTable = new DataTable(".table_default");
+    });
+  </script>
+{% endblock head %}
