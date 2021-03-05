@@ -26,9 +26,9 @@
 }
 /* start for the second nav */
 .nav-list-center{
-    width: 60%;
+    width: 70%;
     margin: auto;
-    height: 50px;
+    height: 120px;
     background: black;
     margin-bottom: 10px;
 }
@@ -39,7 +39,7 @@
     display: inline-flex;
     width: 140px;
     height: 35px;
-    margin: 0px 5px;
+    margin: 10px 5px;
     text-align: center;
 }
 .nav-item-link{
@@ -56,4 +56,29 @@
 }
 .nav-item-link:hover{
     background: #33b1ff;
+
+}@media screen and (max-width: 800px){
+    .nav-list-center{
+        width: 90%;
+        height: 150px;
+    }
+    .nav-item {
+        margin-bottom: 15px;
+    }
+
+}
+@media screen and (max-width: 700px){
+    .nav-item{
+        width: 70px;
+        height: 50px;
+        margin: 10px 10px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .nav-list-center{
+        height: 300px;
+        width: 90%;
+    }
+    
 }

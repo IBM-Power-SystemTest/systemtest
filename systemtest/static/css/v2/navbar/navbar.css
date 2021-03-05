@@ -3,7 +3,7 @@
     background: black;
     width: 100%;
     font-size: 30px;
-    height: 210px;
+    height: 110px;
 }
 .navbarmain img{
     width: 140px;
@@ -49,7 +49,8 @@
     margin: auto;
     height: 50px;
     font-size: 30px;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 80px;
 }
 .nav-item-link:hover{
     background: #1192e8;

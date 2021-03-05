@@ -5,11 +5,20 @@
     margin-left: auto;
     margin-right: auto;
     padding: 0px 100px;
-    opacity: 0.5;
 }
 
 .form_request p {
     margin-top: 10px;
+    font-size: 25px;
+    display: flex;
+    align-items: flex-start;
+}
+.helptext {
+    color: grey;
+    font-size: 15px;
+}
+p > label, p > input, p > select {
+    margin-right: 15px;
 }
 
 .request_bottom{
@@ -22,9 +31,6 @@
     border: 0px transparent;
 }
 /* shadows */
-.form_request:hover{
-    opacity: 1;
-}
 .request_bottom:hover{
     
     color: white;
@@ -34,4 +40,37 @@
     color: red;
     font-size: 15px;
     font-style: oblique;
+}
+
+@media screen and (max-width: 1500px) and (min-width: 700px){
+    .form_request{
+        width: 90%;
+    }
+    .form_request p {
+        font-size: 15px;
+        text-align: left;
+    }
+    .helptext{
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .form_request{
+        width: 95%;
+        padding: 0px 10px;
+    }
+    .form_request p{
+        font-size: 12px;
+        text-align: left;
+    }
+    .helptext{
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .helptext{
+        display: none;
+    }
 }
