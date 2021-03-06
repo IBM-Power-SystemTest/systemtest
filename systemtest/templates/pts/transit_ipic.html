@@ -1,0 +1,21 @@
+{% extends 'pts/transit.html' %}
+
+{% load static %}
+
+{% block extra_columns %}
+  <th> Serial </th>
+  <th> Re-open </th>
+{% endblock extra_columns %}
+
+{% block extra_rows %}
+  <td> {{ form.part_id }} </td>
+  <td>
+    <a href="{{ data.get_absolute_url }}reopen">
+      <img src="{% static 'images/icons/delete_1.png' %}" alt="">
+    </a>
+  </td>
+{% endblock extra_rows %}
+
+{% block submit %}
+  <input type="button" value="Guardar" onclick="this.form.submit()"/>
+{% endblock submit %}

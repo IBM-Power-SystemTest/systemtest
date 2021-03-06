@@ -33,6 +33,8 @@ class BaseRequestListView(FormView):
     next_status_query = None
     next_status = None
 
+    validate_serial = True
+
     form_class = pts_forms.RequestFormset
 
     def get_queryset(self) -> QuerySet:

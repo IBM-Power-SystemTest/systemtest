@@ -22,29 +22,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from systemtest.pts import forms as pts_forms, models as pts_models
 
 
-class RequestDelete(DeleteView):
-    model = pts_models.Request
-    success_url = reverse_lazy("pts:open")
-    template_name = "pts/request_delete.html"
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.object.user != self.request.user:
-            return HttpResponseRedirect(self.get_success_url())
-        return self.delete()
-
-    def delete(self) -> HttpResponse:
-        """
-        Change the status of object on the fetched object and then redirect to the
-        success URL.
-        """
-        self.object.request_status = pts_models.RequestStatus.objects.get(name="CANCEL")
-        self.object.save()
-        return HttpResponseRedirect(self.get_success_url())
-
-
 class RequestGroupDetail(DetailView):
     model = pts_models.RequestGroup
+
 
 class RequestUpdate(UpdateView):
     pass

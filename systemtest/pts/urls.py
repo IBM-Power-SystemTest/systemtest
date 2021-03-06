@@ -44,9 +44,14 @@ urlpatterns = [
         name="detail"
     ),
     path(
-        route="request/<pk>/delete/",
-        view=views.RequestDelete.as_view(),
-        name="delete"
+        route="request/<pk>/cancel/",
+        view=views.RequestCancel.as_view(),
+        name="cancel"
+    ),
+    path(
+        route="request/<pk>/reopen/",
+        view=views.RequestReopen.as_view(),
+        name="reopen"
     ),
     path(
         route="request_group/<pk>",
