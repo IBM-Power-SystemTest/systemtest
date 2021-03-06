@@ -5,7 +5,11 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ form.part_id }} </td>
+    {% if data.request_status.name == "GOOD" %}
+      <td> {{ form.part_id }} </td>
+    {% else %}
+      <td></td>
+    {% endif %}
 {% endblock extra_rows %}
 
 {% block submit %}

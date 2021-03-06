@@ -3,11 +3,11 @@
 
 {% block styles %}
   <link rel="stylesheet" href="{% static 'css/tables/table_open.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tables.css' %}">
 {% endblock styles %}
+
 {% block head %}
-  <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
-      var dataTable = new DataTable(".table_default");
-    });
-  </script>
 {% endblock head %}
+
+{% block content %}
+{% endblock content %}

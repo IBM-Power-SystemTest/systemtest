@@ -26,8 +26,11 @@ class RequestView(LoginRequiredMixin, FormView):
     form_class = pts_forms.RequestGroupForm
 
     def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
-        if not self.request.user.groups.filter(name="TA"):
+        user_groups = self.request.user.groups.all()
+        if user_groups.filter(name="IPIC"):
             return HttpResponseRedirect(reverse_lazy("pts:open"))
+        elif user_groups.filter(name="IPIC NCM"):
+            return HttpResponseRedirect(reverse_lazy("pts:return"))
 
         return super().get(request, *args, **kwargs)
 

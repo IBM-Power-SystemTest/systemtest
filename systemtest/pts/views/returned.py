@@ -16,7 +16,7 @@ class ReturnPartListView(BaseRequestListView):
     template_name = "pts/return.html"
     success_url = reverse_lazy("pts:return")
 
-    form_class = pts_forms.ReturnFormset
+    form_class = pts_forms.RequestFormset
 
     query = (
         Q(request_status__name="GOOD") |
@@ -27,11 +27,9 @@ class ReturnPartListView(BaseRequestListView):
         user_groups = self.request.user.groups.all()
 
         if user_groups.filter(name="IPIC"):
-            self.query = Q(request_status__name="GOOD")
             self.template_name = "pts/return_ipic.html"
 
         elif user_groups.filter(name="IPIC NCM"):
-            self.query = Q(request_status__name="BAD")
             self.template_name = "pts/return_ipic_ncm.html"
 
         return super().get_context_data(**kwargs)
