@@ -4,7 +4,7 @@
 {% load tz %}
 {% load shift %}
 
-{% block subtitle %} Request List {% endblock subtitle %}
+{% block subtitle %} Open {% endblock subtitle %}
 
 {% block scripts %}
   <script>
@@ -19,60 +19,56 @@
     {% csrf_token %}
     {{ form.management_form }}
     <div class="table_overflow">
-    <table class="table_default">
-      <caption>Solicitudes abiertas</caption>
-      <thead>
-        <tr class="tr_open_thead border_line">
-          <th> Folio </th>
-          <th> Status </th>
-          <th> Tiempo </th>
-          <th> Turno </th>
-          <th> Parte </th>
-          <th> Descripcion </th>
-          <th> Loaner </th>
-          <th> Sistema </th>
-          <th> Celda </th>
-          <th> Usuario </th>
-          <th> Serial </th>
-          {% block extra_columns %}
-          {% endblock extra_columns %}
-        </tr>
-      </thead>
-      <tbody class="tr_open_body">
-      {% for data, form in rows %}
-        {{ form.id }}
-        {{ form.errors }}
-        <tr>
-          <td> {{ data.pk }} </td>
-          <td> {{ data.request_status }} </td>
-          <td> {{ data.modified | timesince }} </td>
-          <td> {{ data.modified | localtime | get_shift }}</td>
-          <td>
-            {{ data.part_number }}
-            {{ data.serial_number }}
-          </td>
-          <td> {{ data.request_group.part_description }} </td>
-          {% if data.request_group.is_loaner %}
-            <td>
-              <img src="{% static 'images/icons/true.png' %}" alt="">
-            </td>
-          {% else %}
-            <td></td>
-          {% endif %}
-          <td> {{ data.request_group.system_number }} </td>
-          <td> {{ data.request_group.system_cell }} </td>
-          <td> {{ data.user }} </td>
-          <td> {{ form.part_id }} </td>
-          {% block extra_rows %}
-          {% endblock extra_rows %}
-        </tr>
-      {% empty %}
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-    {% block submit %}
-      <input type="button" value="Guardar" onclick="this.form.submit()"/>
-    {% endblock submit %}
+      <table class="table_default">
+        <caption>Solicitudes abiertas</caption>
+        <thead>
+          <tr class="tr_open_thead border_line">
+            <th> Folio </th>
+            <th> Status </th>
+            <th> Tiempo </th>
+            <th> Turno </th>
+            <th> Parte </th>
+            <th> Descripcion </th>
+            <th> Loaner </th>
+            <th> Sistema </th>
+            <th> Celda </th>
+            <th> Usuario </th>
+            <th> Serial </th>
+            {% block extra_columns %}{% endblock extra_columns %}
+          </tr>
+        </thead>
+        <tbody class="tr_open_body">
+          {% for data, form in rows %}
+            <tr>
+              {{ form.errors }}
+              {{ form.id }}
+              <td> {{ data.pk }} </td>
+              <td> {{ data.request_status }} </td>
+              <td> {{ data.modified | timesince }} </td>
+              <td> {{ data.modified | localtime | get_shift }}</td>
+              <td>
+                {{ data.part_number }}
+                {{ data.serial_number }}
+              </td>
+              <td> {{ data.request_group.part_description }} </td>
+              {% if data.request_group.is_loaner %}
+                <td>
+                  <img src="{% static 'images/icons/true.png' %}" alt="">
+                </td>
+              {% else %}
+                <td></td>
+              {% endif %}
+              <td> {{ data.request_group.system_number }} </td>
+              <td> {{ data.request_group.system_cell }} </td>
+              <td> {{ data.user }} </td>
+              <td> {{ form.part_id }} </td>
+              {% block extra_rows %} {% endblock extra_rows %}
+            </tr>
+          {% empty %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <input type="button" value="Guardar" onclick="this.form.submit()"/>
   </form>
 {% endblock container %}

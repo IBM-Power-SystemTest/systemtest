@@ -28,7 +28,6 @@
 .nav-list-center{
     width: 70%;
     margin: auto;
-    height: 120px;
     background: black;
     margin-bottom: 10px;
 }
@@ -80,5 +79,5 @@
         height: 300px;
         width: 90%;
     }
-    
+
 }

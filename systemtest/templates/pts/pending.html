@@ -30,9 +30,9 @@
       </thead>
       <tbody class="tr_open_body">
       {% for data, form in rows %}
-        {{ form.id }}
-        {{ form.errors }}
         <tr>
+          {{ form.id }}
+          {{ form.errors }}
           <td> {{ data.pk }} </td>
           <td> {{ data.request_status }} </td>
           <td> {{ data.modified | timesince }} </td>

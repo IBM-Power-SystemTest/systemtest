@@ -5,12 +5,14 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path(
         route="",
-        view=TemplateView.as_view(template_name="pages/home.html"),
+        # view=TemplateView.as_view(template_name="pages/home.html"),
+        view=RedirectView.as_view(url="pts/"),
         name="home"
     ),
     path(

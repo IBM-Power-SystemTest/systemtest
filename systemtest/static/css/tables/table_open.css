@@ -1,54 +1,60 @@
-.table_default{
-    width: 95%;
-    min-width: 50%;
-    margin: 0px auto;
-    font-size: 13px;
-    text-align: left;
-    border-collapse: collapse;
-    box-shadow: -5px 5px 5px 2px rgb(0, 0, 0, 0.4);
+.table_default {
+  width: 95%;
+  min-width: 50%;
+  margin: 0px auto;
+  font-size: 13px;
+  text-align: left;
+  border-collapse: collapse;
+  box-shadow: -5px 5px 5px 2px rgb(0, 0, 0, 0.4);
 }
-.table_default caption{
-    font-size: 30px;
-    margin: 10px 0px;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+
+.table_default caption {
+  font-size: 30px;
+  margin: 10px 0px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
-.tr_open_thead th{
-    font-size: 13px;
-    font-weight: normal;
-    padding: 8px;
-    background: #fff ;
-    color: black;
-    font-weight: bold;
-    border-top: 4px solid #044317;
-    border-radius: 1px solid #fff;
+
+.tr_open_thead th {
+  font-size: 13px;
+  font-weight: normal;
+  padding: 8px;
+  background: #fff;
+  color: black;
+  font-weight: bold;
+  border-top: 4px solid #044317;
+  border-radius: 1px solid #fff;
 }
-.tr_open_body td{
-    padding: 8px;
-    background: #78a9ff;
-    border-bottom: 1px solid #fff;
-    color: black;
-    border-top: 1px solid transparent;
+
+.tr_open_body td {
+  padding: 8px;
+  background: #edf5ff;
+  border-bottom: 1px solid #fff;
+  color: black;
+  border-top: 1px solid transparent;
 }
+
 /* overflow for the table */
-.table_overflow{
-    overflow-y: scroll;
-    height: 65vh;
+.table_overflow {
+  overflow-y: scroll;
+  height: 50vh;
 }
-.form_transit input{
-    width: 250px;
-    height: 40px;
-    background: #003a6d;
-    color: white;
-    font-size: 15px;
-    margin: 10px 0px 10px 20px;
-    border: 0px transparent;
-    border-radius: 0px 20px 0px 20px;
+
+.form_transit input[type="button"] {
+  width: 250px;
+  height: 40px;
+  background: #d0e2ff;
+  font-size: 15px;
+  margin: 10px 0px 10px 20px;
+  border: 0px transparent;
+  border-radius: 0px 20px 0px 20px;
 }
-.form_transit input:hover {
-    background: #82cfff;
-    color: black;
+
+.form_transit input[type="button"]:hover {
+  background: #82cfff;
+  color: black;
 }
-/* 
+
+/*
 to test on table, we can put this into the table
       <tr>
         <td> 123445</td>
@@ -68,11 +74,8 @@ to test on table, we can put this into the table
 */
 
 /* shadows */
-.tr_open_body tr:hover td{
-    background: #0f62fe;
-    color: white;
+.tr_open_body tr:hover td {
+  background: #82cfff;
 }
 
-@media screen and (max-width: 700px){
-    
-}
+@media screen and (max-width: 700px) {}

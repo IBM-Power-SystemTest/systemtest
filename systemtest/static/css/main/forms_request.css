@@ -26,15 +26,15 @@ p > label, p > input, p > select {
     width: 250px;
     height: 40px;
     color: White ;
-    background: #1192e8;
+    background: #d0e2ff;
     border-radius: 20px 0px 20px;
     border: 0px transparent;
 }
 /* shadows */
 .request_bottom:hover{
-    
+
     color: white;
-    background: #00539a;
+    background: #82cfff;
 }
 .errorlist{
     color: red;

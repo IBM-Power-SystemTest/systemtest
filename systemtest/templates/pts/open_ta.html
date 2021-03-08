@@ -8,7 +8,11 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ data.comment }} </td>
+  <td>
+    {% if data.comment %}
+      {{ data.comment }}
+    {% endif %}
+  </td>
   {% comment %} <td>
     <a href="{{ data.get_absolute_url }}">
       <img src="{% static 'images/icons/update.png' %}" alt="">

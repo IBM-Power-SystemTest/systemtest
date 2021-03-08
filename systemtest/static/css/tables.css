@@ -65,13 +65,13 @@
 }
 
 .dataTable-pagination a:hover {
-  background-color: #d9d9d9;
+  background-color: #82cfff;
 }
 
 .dataTable-pagination .active a,
 .dataTable-pagination .active a:focus,
 .dataTable-pagination .active a:hover {
-  background-color: #d9d9d9;
+  background-color: #82cfff;
   cursor: default;
 }
 
@@ -113,13 +113,13 @@
 .dataTable-table>thead>tr>th {
   vertical-align: bottom;
   text-align: left;
-  border-bottom: 1px solid #d9d9d9;
+  border-bottom: 1px solid #82cfff;
 }
 
 .dataTable-table>tfoot>tr>th {
   vertical-align: bottom;
   text-align: left;
-  border-top: 1px solid #d9d9d9;
+  border-top: 1px solid #82cfff;
 }
 
 .dataTable-table th {

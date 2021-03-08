@@ -7,6 +7,14 @@
 {% endblock styles %}
 
 {% block head %}
+  <link rel="stylesheet" type="text/css" href="{% static 'js/DataTables/datatables.css' %}">
+  <script type="text/javascript" charset="utf8" src="{% static 'js/DataTables/datatables.js' %}"></script>
+
+  <script>
+    $(document).ready( function () {
+        $('.table_default').DataTable();
+    } );
+  </script>
 {% endblock head %}
 
 {% block content %}
