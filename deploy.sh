@@ -40,7 +40,7 @@ create_pod(){
     # Create the pod if it doesn't exist
     # Looking for the name with spaces before and after to make it unique
     # $1 = pod_name
-    not_exist "pod" " $1 " && podman pod create --name $1 -p 5000:5000 -p 5555:5555
+    not_exist "pod" " $1 " && podman pod create --name $1 -p 80:5000 -p 5555:5555
 }
 
 create_vol(){
