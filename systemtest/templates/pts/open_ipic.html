@@ -1,17 +1,11 @@
 {% extends 'pts/open.html' %}
 
 {% block extra_columns %}
-  <th> Serial </th>
   <th> Status </th>
   <th> Comentario </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ form.part_id }} </td>
   <td> {{ form.request_status }} </td>
   <td> {{ form.comment }} </td>
 {% endblock extra_rows %}
-
-{% block submit %}
-  <input type="button" value="Guardar" onclick="this.form.submit()"/>
-{% endblock submit %}

@@ -33,6 +33,7 @@
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
+          <th> Serial </th>
           {% block extra_columns %}
           {% endblock extra_columns %}
         </tr>
@@ -46,7 +47,10 @@
           <td> {{ data.request_status }} </td>
           <td> {{ data.modified | timesince }} </td>
           <td> {{ data.modified | localtime | get_shift }}</td>
-          <td> {{ data.part_number }} </td>
+          <td>
+            {{ data.part_number }}
+            {{ data.serial_number }}
+          </td>
           <td> {{ data.request_group.part_description }} </td>
           {% if data.request_group.is_loaner %}
             <td>
@@ -58,6 +62,7 @@
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>
           <td> {{ data.user }} </td>
+          <td> {{ form.part_id }} </td>
           {% block extra_rows %}
           {% endblock extra_rows %}
         </tr>
@@ -66,6 +71,8 @@
       </tbody>
     </table>
   </div>
-    {% block submit %}{% endblock submit %}
+    {% block submit %}
+      <input type="button" value="Guardar" onclick="this.form.submit()"/>
+    {% endblock submit %}
   </form>
 {% endblock container %}
