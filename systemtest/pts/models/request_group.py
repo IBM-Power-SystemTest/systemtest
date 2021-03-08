@@ -49,7 +49,7 @@ class RequestGroup(models.Model):
     )
     system_cell = utils_models.CharFieldUpper(
         "Celda del sistema",
-        help_text="4 caracteres o mas",
+        help_text="4 caracteres",
         max_length=7,
         null=True,
         blank=False,

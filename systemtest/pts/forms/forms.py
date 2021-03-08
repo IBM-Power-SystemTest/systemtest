@@ -7,6 +7,11 @@ from systemtest.pts import models
 
 
 class RequestGroupForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs["placeholder"] = field.help_text
+
     class Meta:
         model = models.RequestGroup
         fields = (
@@ -51,6 +56,11 @@ class RequestGroupForm(forms.ModelForm):
 
 
 class RequestPartForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs["placeholder"] = field.help_text
+
     part_id = forms.CharField(
         label="11S",
         help_text="PN + SN",
