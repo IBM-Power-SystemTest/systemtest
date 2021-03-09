@@ -15,7 +15,7 @@
 {% endblock scripts %}
 
 {% block container %}
-  <form method="post">
+  <form method="post" class="form_transit">
     {% csrf_token %}
     {{ form.management_form }}
     <div class="table_overflow">
