@@ -24,7 +24,6 @@
 .form-login{
     width: 100%;
     margin: 20px auto;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 16px;
 }
 .table-login{
@@ -38,7 +37,6 @@
 }
 .table-login label{
     font-size: 20px;
-    font-family: sans-serif;
 }
 #id_username {
     width: 100%;
@@ -95,7 +93,7 @@
     .img-login{
         margin-left: 90px;
     }
-    
+
 }
 
  @media screen and (max-width: 800px){
@@ -106,7 +104,7 @@
          width: 50%;
          margin-left: 50px;
      }
-     
+
      .img-login{
          margin-left: 70px;
      }

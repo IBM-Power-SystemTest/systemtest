@@ -59,7 +59,7 @@ class RequestGroup(models.Model):
     # Request info
     is_loaner = models.BooleanField(
         "Loaner",
-        help_text="El sistema require que las piezas sean 'Loaner'",
+        help_text="El sistema necesita piezas 'Loaner'",
         default=False,
     )
     qty = models.SmallIntegerField(
