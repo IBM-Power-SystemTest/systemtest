@@ -4,13 +4,22 @@ from typing import Any, Dict
 from django import forms
 
 from systemtest.pts import models
+from systemtest.utils.forms import set_placeholder
 
 
 class RequestGroupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs["placeholder"] = field.help_text
+        system_number = self.fields["system_number"]
+        system_cell = self.fields["system_cell"]
+        request_group_workspace = self.fields["request_group_workspace"]
+        request_bay = self.fields["request_bay"]
+        part_description = self.fields["part_description"]
+
+        system_number = set_placeholder(system_number, "eg. 1AU80N8")
+        system_cell = set_placeholder(system_cell, "eg. C153")
+        request_bay = set_placeholder(request_bay, "eg. Z100")
+        part_description = set_placeholder(part_description, "eg. DIMM")
 
     class Meta:
         model = models.RequestGroup
@@ -59,7 +68,7 @@ class RequestPartForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
-            field.widget.attrs["placeholder"] = field.help_text
+            field.widget.attrs["placeholder"] = "78P4198 YH10MS0C3090"
 
     part_id = forms.CharField(
         label="11S",
