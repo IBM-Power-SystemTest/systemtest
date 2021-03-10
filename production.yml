@@ -3,7 +3,6 @@ version: '3'
 volumes:
   production_postgres_data: {}
   production_postgres_data_backups: {}
-  production_staticfile_data: {}
 
 services:
   django: &django
@@ -11,10 +10,8 @@ services:
       context: .
       dockerfile: ./compose/production/django/Dockerfile
     image: systemtest_production_django
-    expose:
-      - "5000"
     ports:
-      - "5000:5000"
+      - "80:5000"
     depends_on:
       - postgres
       - redis
@@ -34,17 +31,6 @@ services:
     env_file:
       - ./.envs/.production/.postgres
 
-  nginx:
-    image: nginx:1.19
-    volumes:
-      - ./compose/production/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - django
-    ports:
-      - "80:80"
-      - "443:443"
-      - "4444:5555"
-
   redis:
     image: redis:6.0.9
 
@@ -52,21 +38,19 @@ services:
     <<: *django
     ports:
       - "1"
-    image: systemtest_production_celeryworker
+    image: systemtest_production_django
     command: /start-celeryworker
 
   celerybeat:
     <<: *django
     ports:
       - "2"
-    image: systemtest_production_celerybeat
+    image: systemtest_production_django
     command: /start-celerybeat
 
   flower:
     <<: *django
-    image: systemtest_production_flower
-    expose:
-      - "5555"
+    image: systemtest_production_django
     ports:
       - "5555:5555"
     command: /start-flower
