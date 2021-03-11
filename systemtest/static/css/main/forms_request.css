@@ -1,7 +1,7 @@
 .form_request{
-    width: 50%;
-    border: 4px solid #a2a9b0;
-    background: #dde1e6;
+    width: 40%;
+    border: 4px solid #dde1e6;
+    background: #f2f4f8;
     margin-left: auto;
     margin-right: auto;
     padding: 0px 100px;
@@ -9,13 +9,13 @@
 
 .form_request p {
     margin-top: 10px;
-    font-size: 25px;
+    font-size: 20px;
     display: flex;
     align-items: flex-start;
 }
 .helptext {
-    color: grey;
-    font-size: 15px;
+    color: #878d96;
+    font-size: 12px;
 }
 p > label, p > input, p > select {
     margin-right: 15px;
@@ -25,15 +25,12 @@ p > label, p > input, p > select {
     margin: 10px;
     width: 250px;
     height: 40px;
-    color: White ;
     background: #d0e2ff;
     border-radius: 20px 0px 20px;
     border: 0px transparent;
 }
 /* shadows */
 .request_bottom:hover{
-
-    color: white;
     background: #82cfff;
 }
 .errorlist{

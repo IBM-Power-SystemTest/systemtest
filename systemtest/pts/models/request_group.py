@@ -49,7 +49,7 @@ class RequestGroup(models.Model):
     )
     system_cell = utils_models.CharFieldUpper(
         "Celda del sistema",
-        help_text="4 caracteres o mas",
+        help_text="4 caracteres",
         max_length=7,
         null=True,
         blank=False,
@@ -59,7 +59,7 @@ class RequestGroup(models.Model):
     # Request info
     is_loaner = models.BooleanField(
         "Loaner",
-        help_text="El sistema require que las piezas sean 'Loaner'",
+        help_text="El sistema necesita piezas 'Loaner'",
         default=False,
     )
     qty = models.SmallIntegerField(

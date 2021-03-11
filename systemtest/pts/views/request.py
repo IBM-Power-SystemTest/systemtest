@@ -27,12 +27,11 @@ class RequestView(LoginRequiredMixin, FormView):
 
     def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         user_groups = self.request.user.groups.all()
-        if user_groups.filter(name="IPIC"):
-            return HttpResponseRedirect(reverse_lazy("pts:open"))
+        if user_groups.filter(name="TA"):
+            return super().get(request, *args, **kwargs)
         elif user_groups.filter(name="IPIC NCM"):
             return HttpResponseRedirect(reverse_lazy("pts:return"))
-
-        return super().get(request, *args, **kwargs)
+        return HttpResponseRedirect(reverse_lazy("pts:open"))
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         if "detailed_form" not in kwargs:
