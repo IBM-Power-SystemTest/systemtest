@@ -16,7 +16,7 @@ class ReturnPartListView(BaseRequestListView):
     template_name = "pts/return.html"
     success_url = reverse_lazy("pts:return")
 
-    form_class = pts_forms.RequestFormset
+    form_class = pts_forms.ReturnFormset
 
     query = (
         Q(request_status__name="GOOD") |
@@ -32,17 +32,27 @@ class ReturnPartListView(BaseRequestListView):
         elif user_groups.filter(name="IPIC NCM"):
             self.template_name = "pts/return_ipic_ncm.html"
 
+        elif user_groups.filter(name="TA"):
+            self.template_name = "pts/return_ta.html"
+
         return super().get_context_data(**kwargs)
+
+    def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
+        self.user_groups = self.request.user.groups.all()
+        if self.user_groups.filter(name="TA"):
+            return True
+        return super().is_valid_serial(request, serial)
 
     def get_new_status(self, request: Type[pts_models.Request]) -> Any:
         status = str(request.request_status)
+        if self.user_groups.filter(name="TA"):
+            self.next_status = request.request_status
         if status == "BAD":
             self.next_status_query = Q(name="CLOSE BAD")
         elif status == "GOOD":
             self.next_status_query = Q(name="CLOSE GOOD")
 
         return super().get_new_status(request)
-
 
 class ReturnPartNoNCM(PendingPartListView):
     query = (

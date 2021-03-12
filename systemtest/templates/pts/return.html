@@ -23,7 +23,6 @@
           <th> Sistema </th>
           <th> Celda </th>
           <th> Usuario </th>
-          <th> NCM Tag </th>
           {% block extra_columns %}
           {% endblock extra_columns %}
         </tr>
@@ -45,11 +44,6 @@
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>
           <td> {{ data.user }} </td>
-          {% if data.ncm_tag %}
-            <td> {{ data.ncm_tag }} </td>
-          {% else %}
-            <td></td>
-          {% endif %}
 
           {% block extra_rows %}
           {% endblock extra_rows %}

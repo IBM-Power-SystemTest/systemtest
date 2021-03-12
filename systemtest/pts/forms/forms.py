@@ -67,8 +67,8 @@ class RequestGroupForm(forms.ModelForm):
 class RequestPartForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field in self.fields.values():
-            field.widget.attrs["placeholder"] = "78P4198 YH10MS0C3090"
+        part_id = self.fields["part_id"]
+        set_placeholder(part_id, "78P4198 YH10MS0C3090")
 
     part_id = forms.CharField(
         label="11S",
@@ -110,6 +110,11 @@ class RequestPartForm(forms.Form):
 
 
 class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        part_id = self.fields["part_id"]
+        set_placeholder(part_id, "")
+
     comment = forms.CharField(
         max_length=30,
         strip=True,
@@ -147,7 +152,9 @@ class RequestReturnListForm(RequestUpdateListForm):
             "request_status",
             "ncm_tag",
         )
-
+        widgets = {
+            "ncm_tag": forms.TextInput()
+        }
 
 ReturnFormset = forms.modelformset_factory(
     models.Request,

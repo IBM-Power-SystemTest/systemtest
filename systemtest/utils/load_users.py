@@ -3,7 +3,7 @@ import subprocess
 import csv
 
 from django.contrib.auth.models import Group
-from systemtest.users.models import Job, Departament
+from systemtest.users.models import Job, department
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -78,13 +78,13 @@ def set_index(data, key, list):
 
 
 def create_users(filepath):
-    departaments = Departament.objects.all()
+    departments = department.objects.all()
     jobs = Job.objects.all()
     groups = Group.objects.all()
 
     for i, row in enumerate(get_rows(filepath)):
         set_index(row, "job", jobs)
-        set_index(row, "department", departaments)
+        set_index(row, "department", departments)
         set_index(row, "group", groups)
         row["is_staff"] = int(row["is_staff"])
 

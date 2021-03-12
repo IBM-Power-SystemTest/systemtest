@@ -8,9 +8,9 @@ from django.urls import reverse
 from systemtest.utils import models as utils_models
 
 
-class Departament(utils_models.AbstractOptionsModel):
+class department(utils_models.AbstractOptionsModel):
     class Meta:
-        db_table = "users_departament"
+        db_table = "users_department"
 
 
 class Job(utils_models.AbstractOptionsModel):
@@ -20,7 +20,7 @@ class Job(utils_models.AbstractOptionsModel):
 
 class User(AbstractUser):
     department = models.ForeignKey(
-        to=Departament, on_delete=models.PROTECT, null=True, blank=True
+        to=department, on_delete=models.PROTECT, null=True, blank=True
     )
     job = models.ForeignKey(to=Job, on_delete=models.PROTECT, null=True, blank=True)
 

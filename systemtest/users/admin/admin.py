@@ -4,7 +4,7 @@ from django.contrib.auth import admin as auth_admin
 from systemtest.users import models
 
 
-@admin.register(models.Departament)
+@admin.register(models.department)
 class DepartmentAdmin(admin.ModelAdmin):
     list_display = ("pk", "name")
     list_display_links = ("pk",)

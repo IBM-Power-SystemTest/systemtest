@@ -1,10 +1,16 @@
 {% extends 'pts/return.html' %}
 
 {% block extra_columns %}
+  <th> NCM Tag </th>
   <th> Serial </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
+    {% if data.ncm_tag %}
+      <td> {{ data.ncm_tag }} </td>
+    {% else %}
+      <td></td>
+    {% endif %}
     {% if data.request_status.name == "BAD" %}
       <td> {{ form.part_id }} </td>
     {% else %}

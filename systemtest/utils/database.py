@@ -8,7 +8,7 @@ from django.db.models import Model
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 
-from systemtest.users.models import Job, Departament
+from systemtest.users.models import Job, department
 from systemtest.pts.models import RequestGroupWorkspace, RequestStatus
 
 User = get_user_model()
@@ -38,9 +38,11 @@ options = {
         {"name": "CORTO REAL"},
         {"name": "SOLICITADO A DE GEODIS"},
         {"name": "NUMERO DE PARTE NO EXISTE"},
+        {"name": "VPD BURN"},
+        {"name": "NUMERO DE PARTE NO VALIDO"},
     ),
 
-    Departament: (
+    department: (
         {"name": "PRUEBAS"},
         {"name": "CONTROL DE MATERIALES"},
         {"name": "CSC"},
@@ -68,13 +70,13 @@ options = {
 
 @transaction.atomic
 def create_user(user_data: dict[str, Any]) -> None:
-    global Departament, Job, Group, ObjectDoesNotExist
+    global department, Job, Group, ObjectDoesNotExist
 
     user_data["password"] = user_data.get("password", "passw0rd")
     user_data["last_name"] = user_data.get("first_name", "Test")
     user_data["last_name"] = user_data.get("last_name", "Test")
     user_data["email"] = user_data.get("email", "admin@test.com")
-    user_data["department"] = user_data.get("department", Departament.objects.get(pk=1))
+    user_data["department"] = user_data.get("department", department.objects.get(pk=1))
     user_data["job"] = user_data.get("job", Job.objects.get(pk=1))
 
     try:
@@ -122,19 +124,19 @@ users = {
         {
             "username": "TA",
             "first_name": "TA",
-            "department": Departament.objects.get(name="PRUEBAS"),
+            "department": department.objects.get(name="PRUEBAS"),
             "job": Job.objects.get(name="TA")
         },
         {
             "username": "IPIC",
             "first_name": "IPIC",
-            "department": Departament.objects.get(name="CONTROL DE MATERIALES"),
+            "department": department.objects.get(name="CONTROL DE MATERIALES"),
             "job": Job.objects.get(name="IPIC")
         },
         {
             "username": "IPIC NCM",
             "first_name": "IPIC NCM",
-            "department": Departament.objects.get(name="CONTROL DE MATERIALES"),
+            "department": department.objects.get(name="CONTROL DE MATERIALES"),
             "job": Job.objects.get(name="IPIC NCM")
         }
     )

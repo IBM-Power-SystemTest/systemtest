@@ -33,19 +33,18 @@ class TransitRequestView(BaseRequestListView):
             self.next_status = Q(name="TRANSIT")
         return super().get_template_names()
 
-    def get_new_status(self, request: Type[pts_models.Request]):
-        if request.request_group.is_vpd:
-            return self.status_model.objects.get(name="CLOSE GOOD")
-        if self.user_groups.filter(name="IPIC"):
-            return self.status_model.objects.get(name="TRANSIT")
-        return super().get_new_status(request)
-
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
         self.user_groups = self.request.user.groups.all()
         if self.user_groups.filter(name="IPIC"):
             return True
         return super().is_valid_serial(request, serial)
 
+    def get_new_status(self, request: Type[pts_models.Request]):
+        if request.request_group.is_vpd:
+            return self.status_model.objects.get(name="CLOSE GOOD")
+        if self.user_groups.filter(name="IPIC"):
+            return self.status_model.objects.get(name="TRANSIT")
+        return super().get_new_status(request)
 
 class RequestReopen(DeleteView):
     model = pts_models.Request
