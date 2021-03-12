@@ -39,7 +39,15 @@
         </thead>
         <tbody class="tr_open_body">
           {% for data, form in rows %}
-            <tr>
+            <tr
+              {% if data.modified|timesince >= "30 min" %}
+                class="alert3"
+              {% elif data.modified|timesince >= "20 min" %}
+                class="alert2"
+              {% elif data.modified|timesince >= "5 min" %}
+                class="alert1"
+              {% endif %}
+            >
               {{ form.errors }}
               {{ form.id }}
               <td> {{ data.pk }} </td>

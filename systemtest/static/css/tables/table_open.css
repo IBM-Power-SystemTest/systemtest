@@ -77,4 +77,32 @@ to test on table, we can put this into the table
   background: #82cfff;
 }
 
+tr.alert1 td {
+  background-color: #a6c8ff;
+}
+
+tr.alert1:hover td {
+  background-color: #78a9ff;
+}
+
+tr.alert2 td {
+  background-color: #33b1ff;
+}
+
+tr.alert2:hover td {
+  background-color: #0072c3;
+  color: #e5f6ff;
+}
+
+tr.alert3 td {
+  background-color: #a2191f;
+  color: #f2f4f8;
+}
+
+tr.alert3:hover td {
+  background-color: #da1e28;
+  color: #e5f6ff;
+}
+
+
 @media screen and (max-width: 700px) {}
