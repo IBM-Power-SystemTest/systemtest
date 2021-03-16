@@ -26,6 +26,10 @@ while [[ $# -gt 0 ]]; do
             shift # past argument
             shift # past value
         ;;
+        -b|--build)
+            BUILD="1"
+            shift # past argument
+        ;;
     esac
 done
 
@@ -57,7 +61,8 @@ create_img(){
     # $1 = image_name
     # $2 = path_to_dockerfile
     local NAME="${POD_NAME}_${1}"
-    not_exist "image" "${NAME}\s+$VERSION" && podman build -t $NAME:$VERSION -f $2 .
+    if [ not_exist "image" "${NAME}\s+$VERSION" || -n $BUILD ]
+        podman build -t $NAME:$VERSION -f $2 .
 }
 
 not_running(){
