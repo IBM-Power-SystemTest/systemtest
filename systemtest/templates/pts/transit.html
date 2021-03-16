@@ -2,7 +2,7 @@
 {% load humanize %}
 {%load static %}
 {% load tz %}
-{% load shift %}
+{% load measures %}
 
 {% block subtitle %} Transit {% endblock subtitle %}
 
@@ -43,7 +43,7 @@
               <td> {{ data.pk }} </td>
               <td> {{ data.request_status }} </td>
               <td> {{ data.modified | timesince }} </td>
-              <td> {{ data.modified | localtime | get_shift }}</td>
+              <td> {{ data.modified | get_shift }}</td>
               <td>
                 {{ data.part_number }}
                 {{ data.serial_number }}

@@ -2,7 +2,7 @@
 {% load humanize %}
 {% load static %}
 {% load tz %}
-{% load shift %}
+{% load measures %}
 
 {% block subtitle %}Pending{% endblock subtitle %}
 {% block container %}
@@ -36,7 +36,7 @@
           <td> {{ data.pk }} </td>
           <td> {{ data.request_status }} </td>
           <td> {{ data.modified | timesince }} </td>
-          <td> {{ data.modified | localtime | get_shift }}</td>
+          <td> {{ data.modified | get_shift }}</td>
           <td> {{ data.request_group.part_description }} </td>
           <td> {{ data.request_group.system_number }} </td>
           <td> {{ data.request_group.system_cell }} </td>

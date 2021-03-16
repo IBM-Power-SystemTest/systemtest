@@ -74,7 +74,15 @@ to test on table, we can put this into the table
 
 /* shadows */
 .tr_open_body tr:hover td {
-  background: #82cfff;
+  background: #d0e2ff;
+}
+
+tr.alert td {
+  background-color: #9ef0f0;
+}
+
+tr.alert:hover td {
+  background-color: #3ddbd9;
 }
 
 tr.alert1 td {

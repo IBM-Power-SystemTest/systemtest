@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.template import Library
 
 register = Library()
@@ -15,3 +15,10 @@ def get_shift(date: datetime) -> str:
         return "3"
     else:
         return "?"
+
+
+@register.filter
+def elapsed_time_min(time: datetime) -> int:
+    now = datetime.now()
+    delta = timedelta(minutes=1)
+    return (now - time) // delta
