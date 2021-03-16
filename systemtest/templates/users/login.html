@@ -3,9 +3,11 @@
 {% block subtitle %}Login{% endblock subtitle %}
 
 {% block container %}
-  {{ form.errors }}
   <form class="form-login" method="POST">
     {% csrf_token %}
+
+    {% include 'form_errors.html' with form=form %}
+
     <table class="table-login">
       <tr>
         <td>{{ form.username.label_tag }}</td>
