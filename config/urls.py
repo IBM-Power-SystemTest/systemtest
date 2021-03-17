@@ -32,7 +32,11 @@ urlpatterns = [
     path(
         route="pts/",
         view=include("systemtest.pts.urls", namespace="pts")
-    )
+    ),
+    path(
+        route="quality/",
+        view=include("systemtest.quality.urls", namespace="quality")
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
