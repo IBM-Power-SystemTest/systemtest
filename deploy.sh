@@ -145,6 +145,7 @@ create_service $IMG_DB \
     -v ${POD_NAME}_${VOL_DB}:/var/lib/postgresql/data:Z \
     -v ${POD_NAME}_${VOL_DB_BAK}:/backups:z \
     --env-file ./.envs/.production/.postgres \
+    -e POSTGRES_HOST="${POD_NAME}_${IMG_DB}" \
     ${POD_NAME}_${IMG_DB}:${VERSION}
 
 # Creating Redis container
@@ -158,6 +159,7 @@ up_django_service(){
     create_service $1 \
         --env-file ./.envs/.production/.postgres \
         --env-file ./.envs/.production/.django \
+        -e POSTGRES_HOST="${POD_NAME}_${IMG_DB}" \
         ${POD_NAME}_${IMG_DJANGO}:${VERSION} \
         $2
 }
@@ -169,4 +171,3 @@ up_django_service flower /start-flower
 
 s=$(printf "%-23s")
 echo -e "\n\n${s// /=}\n\n" >> "$LOG_FILE"
-
