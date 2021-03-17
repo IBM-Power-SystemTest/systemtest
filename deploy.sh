@@ -110,7 +110,7 @@ create_service(){
     # Warning if container already exists in other status it will fail
     # $1 = container_name
     # $@ = other_params_to_run_container
-    local NAME="${1}"
+    local NAME="${POD_NAME}_${1}"
     if not_running " ${NAME}\$"; then
         logit "RUN" "CONTAINER: $NAME"
         logit "INFO" "EXTRA PARAMS: ${@:2}\n"
