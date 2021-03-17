@@ -129,7 +129,7 @@ create_vol $VOL_DB
 create_vol $VOL_DB_BAK
 
 # If images don't exist it create them
-create_img $IMG_DB ./composqe/production/postgres/Dockerfile
+create_img $IMG_DB ./compose/production/postgres/Dockerfile
 create_img $IMG_DJANGO ./compose/production/django/Dockerfile
 
 # Removing containers not running to be able to create new ones
