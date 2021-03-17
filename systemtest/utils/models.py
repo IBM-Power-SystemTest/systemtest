@@ -4,10 +4,15 @@ from django.core.validators import RegexValidator, MaxValueValidator, MinValueVa
 
 class Validators:
     twelve_chars = RegexValidator(r"^[a-zA-Z0-9]{12}$")
+    eight_chars = RegexValidator(r"^[a-zA-Z0-9]{8}$")
     seven_chars = RegexValidator(r"^[a-zA-Z0-9]{7}$")
     four_chars = RegexValidator(r"^[a-zA-Z0-9]{4}$")
+    three_chars = RegexValidator(r"^[a-zA-Z0-9]{3}$")
+
     eight_digits_max = MaxValueValidator(int("9" * 8))
     eight_digits_min = MinValueValidator(int("1"+"0"*7))
+    four_digits_max = MaxValueValidator(int("9" * 4))
+    four_digits_min = MinValueValidator(int("1"+"0"*3))
 
 
 class CharFieldUpper(models.CharField):
