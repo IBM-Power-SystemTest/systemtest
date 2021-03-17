@@ -3,7 +3,7 @@ import subprocess
 import csv
 
 from django.contrib.auth.models import Group
-from systemtest.users.models import Job, department
+from systemtest.users.models import Job, Department
 
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -78,7 +78,7 @@ def set_index(data, key, list):
 
 
 def create_users(filepath):
-    departments = department.objects.all()
+    departments = Department.objects.all()
     jobs = Job.objects.all()
     groups = Group.objects.all()
 
@@ -110,6 +110,6 @@ if __name__ == "__main__":
     outputpath = "./systemtest/utils/users_new.csv"
 
     add_fields(inputpath, outputpath)
-    create_users(outputpath)
+    # create_users(outputpath)
 
     # exec(open('systemtest/utils/load_users.py').read())
