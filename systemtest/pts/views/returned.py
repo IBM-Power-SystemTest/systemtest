@@ -24,21 +24,18 @@ class ReturnPartListView(BaseRequestListView):
     )
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        user_groups = self.request.user.groups.all()
-
-        if user_groups.filter(name="IPIC"):
+        if self.user_groups.filter(name="IPIC"):
             self.template_name = "pts/return_ipic.html"
 
-        elif user_groups.filter(name="IPIC NCM"):
+        elif self.user_groups.filter(name="IPIC NCM"):
             self.template_name = "pts/return_ipic_ncm.html"
 
-        elif user_groups.filter(name="TA"):
+        elif self.user_groups.filter(name="TA"):
             self.template_name = "pts/return_ta.html"
 
         return super().get_context_data(**kwargs)
 
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
-        self.user_groups = self.request.user.groups.all()
         if self.user_groups.filter(name="TA"):
             return True
         return super().is_valid_serial(request, serial)

@@ -39,7 +39,6 @@ class OpenRequestView(BaseRequestListView):
         return super().get_template_names()
 
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
-        self.user_groups = self.request.user.groups.all()
         if serial != request.serial_number or self.user_groups.filter(name="TA"):
             return True
         return False

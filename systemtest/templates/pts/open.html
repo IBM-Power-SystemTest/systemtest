@@ -41,7 +41,7 @@
           {% localtime on %}
           {% for data, form in rows %}
             <tr
-              {% if data.request_status.name != "OPEN" %}
+              {% if data.request_status.name != "OPEN" or data.comment %}
                 class="alert"
               {% elif data.modified|elapsed_time_min >= 40 %}
                 class="alert3"

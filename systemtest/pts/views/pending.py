@@ -38,8 +38,7 @@ class PendingPartListView(BaseRequestListView):
     form_class = pts_forms.ReturnFormset
 
     def get_template_names(self) -> list[str]:
-        user_groups = self.request.user.groups.all()
-        if user_groups.filter(name="TA"):
+        if self.user_groups.filter(name="TA"):
             self.template_name = "pts/pending_ta.html"
 
         return super().get_template_names()

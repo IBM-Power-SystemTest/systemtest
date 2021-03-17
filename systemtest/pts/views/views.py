@@ -63,6 +63,10 @@ class BaseRequestListView(FormView):
 
         return super().get_context_data(**kwargs)
 
+    def dispatch(self, *args, **kwargs):
+        self.user_groups = self.request.user.groups.all()
+        return super().dispatch(*args, **kwargs)
+
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         """
         Handle POST requests: instantiate a form instance with the passed
@@ -71,7 +75,9 @@ class BaseRequestListView(FormView):
         formset = self.get_form()
         valid_forms = []
         for form in formset:
-            if form.is_valid() and form.has_changed():
+            if form.has_changed() and form.is_valid():
+                print(form.changed_data)
+                print(form.cleaned_data)
                 valid_forms.append(form)
 
         if valid_forms:
@@ -98,8 +104,8 @@ class BaseRequestListView(FormView):
                 continue
 
             request = form.save(commit=False)
-            sn = data.get("sn")
-            if sn:
+
+            if sn := data.get("sn"):
                 if not self.is_valid_serial(request, sn):
                     return self.form_invalid(form)
                 request.serial_number = sn

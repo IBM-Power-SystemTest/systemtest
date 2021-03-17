@@ -13,14 +13,10 @@
       {{ data.comment }}
     {% endif %}
   </td>
-  {% comment %} <td>
-    <a href="{{ data.get_absolute_url }}">
-      <img src="{% static 'images/icons/update.png' %}" alt="">
-    </a>
-  </td> {% endcomment %}
   <td>
     <a href="{{ data.get_absolute_url }}cancel">
       <img src="{% static 'images/icons/delete_1.png' %}" alt="">
     </a>
   </td>
+  {{ form.request_status.as_hidden }}
 {% endblock extra_rows %}

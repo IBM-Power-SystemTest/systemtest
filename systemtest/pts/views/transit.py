@@ -23,7 +23,6 @@ class TransitRequestView(BaseRequestListView):
     next_status_query = Q(name="PENDING")
 
     def get_template_names(self) -> list[str]:
-        self.user_groups = self.request.user.groups.all()
         if self.user_groups.filter(name="TA"):
             self.template_name = "pts/transit_ta.html"
 
@@ -34,7 +33,6 @@ class TransitRequestView(BaseRequestListView):
         return super().get_template_names()
 
     def is_valid_serial(self, request: Type[pts_models.Request], serial: str) -> bool:
-        self.user_groups = self.request.user.groups.all()
         if self.user_groups.filter(name="IPIC"):
             return True
         return super().is_valid_serial(request, serial)
