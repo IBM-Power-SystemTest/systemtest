@@ -30,14 +30,14 @@ class RequestAbstractModel(models.Model):
         "Numero de parte [ PN ]",
         help_text="7 caracteres, rellenar con 0's",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
     serial_number = utils_models.CharFieldUpper(
         "Numero de Seria [ SN ]",
         help_text="12 caracteres",
         max_length=12,
-        validators=[utils_models.Validators.twelve_chars],
+        validators=[utils_models.Validators.chars(12)],
         null=True,
         blank=True,
         default="",
@@ -80,10 +80,7 @@ class Request(RequestAbstractModel):
         null=True,
         blank=True,
         unique=True,
-        validators=[
-            utils_models.Validators.eight_digits_min,
-            utils_models.Validators.eight_digits_max
-        ],
+        validators=utils_models.Validators.digits(8)
     )
     modified = models.DateTimeField(
         "Actualizacion",

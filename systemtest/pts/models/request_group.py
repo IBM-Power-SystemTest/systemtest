@@ -26,7 +26,7 @@ class RequestGroup(models.Model):
         "Part Number [ PN ]",
         help_text="Numero de parte(s) del requerimiento original",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
     is_vpd = models.BooleanField(
@@ -44,7 +44,7 @@ class RequestGroup(models.Model):
         "Numero de sistema",
         help_text="7 caracteres",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
     system_cell = utils_models.CharFieldUpper(
@@ -53,7 +53,7 @@ class RequestGroup(models.Model):
         max_length=7,
         null=True,
         blank=False,
-        validators=[utils_models.Validators.four_chars],
+        validators=[utils_models.Validators.chars(4)],
         uppercase=True,
     )
     # Request info
@@ -66,7 +66,7 @@ class RequestGroup(models.Model):
         "Cantidad",
         help_text="Cantidad de piezas del mismo PN",
         default=1,
-        validators=[MinValueValidator(1), MaxValueValidator(10)]
+        validators=utils_models.Validators.digits(1, 10, False)
     )
     request_group_workspace = models.ForeignKey(
         to=RequestGroupWorkspace,
@@ -81,7 +81,7 @@ class RequestGroup(models.Model):
         max_length=4,
         null=True,
         blank=False,
-        validators=[utils_models.Validators.four_chars],
+        validators=[utils_models.Validators.chars(4)],
         uppercase=True,
     )
 

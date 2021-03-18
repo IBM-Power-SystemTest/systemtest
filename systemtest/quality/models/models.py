@@ -20,7 +20,8 @@ class QualityAbstractSystem(models.Model):
         "Numero de sistema",
         help_text="7 caracteres",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        unique=True,
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
 
@@ -28,12 +29,20 @@ class QualityAbstractSystem(models.Model):
         "WorkUnit",
         help_text="8 caracteres",
         max_length=8,
-        validators=[utils_models.Validators.eight_chars],
+        unique=True,
+        validators=[utils_models.Validators.chars(8)],
         uppercase=True
+    )
+
+    workunit_qty = models.PositiveIntegerField(
+        "WorkUnit Quantity",
+        help_text="Cantidad de sistemas de la familia",
+        validators=utils_models.Validators.digits(1, 50, False)
     )
 
     product_line = utils_models.CharFieldUpper(
         "Product Line",
+        max_length=20,
         help_text="Tipo de sistema",
         uppercase=True
     )
@@ -41,17 +50,14 @@ class QualityAbstractSystem(models.Model):
     machine_type = models.PositiveIntegerField(
         "Machine Type",
         help_text="Numero 4 digitos",
-        validators=[
-            utils_models.Validators.four_digits_min,
-            utils_models.Validators.four_digits_max
-        ]
+        validators=utils_models.Validators.digits(4)
     )
 
     system_model = utils_models.CharFieldUpper(
         "Model",
         help_text="3 caracteres",
         max_length=3,
-        validators=[utils_models.Validators.three_chars],
+        validators=[utils_models.Validators.chars(3)],
         uppercase=True
     )
 
@@ -62,6 +68,12 @@ class QualityAbstractSystem(models.Model):
         blank=True,
         verbose_name="Estado",
         help_text="Estado del sistema"
+    )
+
+    created = models.DateTimeField(
+        "Creacion",
+        help_text="Fecha y hora de creacion",
+        auto_now_add=True,
     )
 
     class Meta:

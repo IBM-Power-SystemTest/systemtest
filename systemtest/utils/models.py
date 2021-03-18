@@ -1,18 +1,26 @@
+from typing import Tuple, Union
 from django.db import models
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 
 
 class Validators:
-    twelve_chars = RegexValidator(r"^[a-zA-Z0-9]{12}$")
-    eight_chars = RegexValidator(r"^[a-zA-Z0-9]{8}$")
-    seven_chars = RegexValidator(r"^[a-zA-Z0-9]{7}$")
-    four_chars = RegexValidator(r"^[a-zA-Z0-9]{4}$")
-    three_chars = RegexValidator(r"^[a-zA-Z0-9]{3}$")
+    @classmethod
+    def chars(cls, qty: int) -> RegexValidator:
+        return RegexValidator(f"^[a-zA-Z0-9]{qty}$")
 
-    eight_digits_max = MaxValueValidator(int("9" * 8))
-    eight_digits_min = MinValueValidator(int("1"+"0"*7))
-    four_digits_max = MaxValueValidator(int("9" * 4))
-    four_digits_min = MinValueValidator(int("1"+"0"*3))
+    @classmethod
+    def digits(
+        cls, max_value: int, min_value: Union[int, None] = None, digits: bool = True
+    ) -> Tuple[MaxValueValidator, MinValueValidator]:
+        if digits:
+            min_value = min_value if min_value else int("1"+"0"*(max_value - 1))
+            max_value = int("9" * max_value)
+
+        min_value = min_value if min_value else 0
+
+        max_validator = MaxValueValidator(max_value)
+        min_validator = MinValueValidator(min_value)
+        return max_validator, min_validator
 
 
 class CharFieldUpper(models.CharField):
