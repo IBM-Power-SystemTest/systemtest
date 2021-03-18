@@ -53,25 +53,6 @@
   color: #21272a;
 }
 
-/*
-to test on table, we can put this into the table
-      <tr>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-        <td> 123445</td>
-  </tr>
-*/
-
 /* shadows */
 .tr_open_body tr:hover td {
   background: #d0e2ff;
