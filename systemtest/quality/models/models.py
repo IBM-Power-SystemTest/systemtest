@@ -70,6 +70,20 @@ class QualityAbstractSystem(models.Model):
         uppercase=True
     )
 
+    operation_number = utils_models.CharFieldUpper(
+        "Operation Number",
+        help_text="Number of operation comming from",
+        max_length=5,
+        uppercase=True
+    )
+
+    operation_status = utils_models.CharFieldUpper(
+        "Operation Status",
+        help_text="Operation status to know if system goes to consolidation",
+        max_length=1,
+        uppercase=True
+    )
+
     quality_status = models.ForeignKey(
         to=QualityStatus,
         on_delete=models.PROTECT,

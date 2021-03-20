@@ -1,10 +1,10 @@
-from django import forms
+from django.forms.models import modelformset_factory
+
 from systemtest.quality import models
 
-class QualitySystemForm(forms.ModelForm):
-    class Meta:
-        model = models.QualitySystem
-        fields = (
-            "quality_status",
-            "comment"
-        )
+
+QualitySystemFormset = modelformset_factory(
+    models.QualitySystem,
+    fields=["quality_status", "comment"],
+    extra=0
+)

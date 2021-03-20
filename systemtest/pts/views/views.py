@@ -76,8 +76,6 @@ class BaseRequestListView(FormView):
         valid_forms = []
         for form in formset:
             if form.has_changed() and form.is_valid():
-                print(form.changed_data)
-                print(form.cleaned_data)
                 valid_forms.append(form)
 
         if valid_forms:
