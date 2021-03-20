@@ -34,9 +34,9 @@ urlpatterns = [
         name="return"
     ),
     path(
-        route="close/",
+        route="history/",
         view=views.ClosePartListView.as_view(),
-        name="close"
+        name="history"
     ),
     path(
         route="request/<pk>/",

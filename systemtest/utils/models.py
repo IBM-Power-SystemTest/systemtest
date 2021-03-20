@@ -1,5 +1,6 @@
 from typing import Tuple, Union
 from django.db import models
+from django.contrib import admin
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 
 
@@ -55,3 +56,10 @@ class AbstractOptionsModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class AbstractOptionsModelAdmin(admin.ModelAdmin):
+    list_display = ("pk", "name")
+    list_display_links = ("pk",)
+    list_editable = ("name",)
+    search_fields = ("pk", "name")

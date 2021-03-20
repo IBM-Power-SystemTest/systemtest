@@ -7,7 +7,7 @@ from systemtest.pts import models as pts_models
 
 
 class ClosePartListView(ListView):
-    template_name = "pts/close.html"
+    template_name = "pts/history.html"
     model = pts_models.Request
     paginate_by = 30
     query = (

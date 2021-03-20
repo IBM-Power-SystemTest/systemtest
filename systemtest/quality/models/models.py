@@ -16,6 +16,15 @@ class QualityStatus(utils_models.AbstractOptionsModel):
 
 
 class QualityAbstractSystem(models.Model):
+    id = models.UUIDField(
+        "Identificador",
+        help_text="Identificador unico [ UUID ]",
+        primary_key=True,
+        unique=True,
+        editable=False,
+        default=uuid.uuid4,
+    )
+
     system_number = utils_models.CharFieldUpper(
         "Numero de sistema",
         help_text="7 caracteres",
@@ -76,6 +85,21 @@ class QualityAbstractSystem(models.Model):
         auto_now_add=True,
     )
 
+    user = models.ForeignKey(
+        to="users.User",
+        on_delete=models.PROTECT,
+        verbose_name="Usuario",
+        help_text="Usuario que realizo el cambio de estado",
+    )
+
+    comment = utils_models.CharFieldUpper(
+        "Comentario",
+        help_text="Comentario adicional en estado actual",
+        max_length=30,
+        blank=True,
+        null=True,
+        default=""
+    )
     class Meta:
         abstract = True
 
@@ -107,20 +131,11 @@ class QualitySystem(QualityAbstractSystem):
 
     class Meta:
         db_table = "quality_system"
-        verbose_name = "quality"
-        verbose_name_plural = "qualities"
+        verbose_name = "system"
+        verbose_name_plural = "systems"
 
 
 class QualityHistory(QualityAbstractSystem):
-    id = models.UUIDField(
-        "Identificador",
-        help_text="Identificador unico [ UUID ]",
-        primary_key=True,
-        unique=True,
-        editable=False,
-        default=uuid.uuid4,
-    )
-
     system = models.ForeignKey(
         to=QualitySystem,
         on_delete=models.PROTECT,
