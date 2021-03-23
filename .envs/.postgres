@@ -3,5 +3,5 @@
 POSTGRES_HOST=postgres
 POSTGRES_PORT=5432
 POSTGRES_DB=systemtest
-POSTGRES_USER=sysemtest_user
-POSTGRES_PASSWORD=Passw0rd0357
+POSTGRES_USER=systemtest_user
+POSTGRES_PASSWORD=systemtest_password
