@@ -9,7 +9,5 @@ body {
   font-family: "IBM Plex Sans", sans-serif;
   color: #121619;
   width:  100%;
-  height: 100vh;
   background: white;
-  position: fixed;
 }
