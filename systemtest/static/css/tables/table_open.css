@@ -60,6 +60,7 @@
 
 tr.alert td {
   background-color: #0f62fe;
+  color: #f2f4f8;
 }
 
 tr.alert:hover td {
@@ -72,7 +73,6 @@ tr.alert1 td {
 
 tr.alert1:hover td {
   background-color: #d3a400;
-  color: #f2f4f8;
 }
 
 tr.alert2 td {
