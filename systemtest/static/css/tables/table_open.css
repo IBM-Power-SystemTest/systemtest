@@ -59,37 +59,37 @@
 }
 
 tr.alert td {
-  background-color: #9ef0f0;
+  background-color: #0f62fe;
 }
 
 tr.alert:hover td {
-  background-color: #3ddbd9;
+  background-color: #115ae2;
 }
 
 tr.alert1 td {
-  background-color: #a6c8ff;
+  background-color: #f1c21b;
 }
 
 tr.alert1:hover td {
-  background-color: #78a9ff;
+  background-color: #d3a400;
+  color: #f2f4f8;
 }
 
 tr.alert2 td {
-  background-color: #33b1ff;
+  background-color: #ff832b;
 }
 
 tr.alert2:hover td {
-  background-color: #0072c3;
-  color: #e5f6ff;
+  background-color: #e07237;
 }
 
 tr.alert3 td {
-  background-color: #a2191f;
+  background-color: #da1e28;
   color: #f2f4f8;
 }
 
 tr.alert3:hover td {
-  background-color: #da1e28;
+  background-color: #a2191f;
   color: #e5f6ff;
 }
 

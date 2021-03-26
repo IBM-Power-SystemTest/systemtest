@@ -6,14 +6,6 @@
 
 {% block subtitle %} Open {% endblock subtitle %}
 
-{% block scripts %}
-  <script>
-    window.setTimeout(function () {
-      window.location.reload();
-    }, 1000*60*5);
-  </script>
-{% endblock scripts %}
-
 {% block container %}
   <form method="post" class="form_transit">
     {% csrf_token %}
