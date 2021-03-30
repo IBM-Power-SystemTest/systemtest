@@ -45,6 +45,8 @@ options = {
     Department: (
         {"name": "PRUEBAS"},
         {"name": "CONTROL DE MATERIALES"},
+        {"name": "EARLY BUILD"},
+        {"name": "MES"},
         {"name": "CSC"},
     ),
 
@@ -57,6 +59,7 @@ options = {
         {"name": "IPIC"},
         {"name": "IPIC NCM"},
         {"name": "IPIC LEAD"},
+        {"name": "ESPECIALIST"},
     ),
 
     Group: (
@@ -64,6 +67,7 @@ options = {
         {"name": "TT"},
         {"name": "IPIC"},
         {"name": "IPIC NCM"},
+        {"name": "ESPECIALIST"},
     ),
 }
 
