@@ -6,6 +6,7 @@ VERSION=latest
 
 VOL_DB=db_data
 VOL_DB_BAK=db_backup
+VOL_REDIS=redis_data
 
 IMG_DB=postgres
 IMG_REDIS=redis
@@ -115,7 +116,7 @@ create_service(){
         logit "RUN" "CONTAINER: $NAME"
         logit "INFO" "EXTRA PARAMS: ${@:2}\n"
         # echo "podman run -d --pod $POD_NAME --name $NAME ${@:2}"
-        podman run -d --pod $POD_NAME --name $NAME ${@:2}
+        podman run -d --pod $POD_NAME --name $NAME --restart always ${@:2}
     else
         logit "EXIST" " CONTAINER: $NAME\n"
     fi
@@ -127,6 +128,7 @@ create_pod $POD_NAME
 # If volumes don't exist it create them
 create_vol $VOL_DB
 create_vol $VOL_DB_BAK
+create_vol $VOL_REDIS
 
 # If images don't exist it create them
 create_img $IMG_DB ./compose/production/postgres/Dockerfile
@@ -150,6 +152,7 @@ create_service $IMG_DB \
 
 # Creating Redis container
 create_service $IMG_REDIS \
+    -v ${POD_NAME}_${VOL_REDIS}:/data \
     redis:6.0.9
 
 up_django_service(){
