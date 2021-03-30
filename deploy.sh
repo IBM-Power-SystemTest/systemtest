@@ -163,6 +163,8 @@ up_django_service(){
         --env-file ./.envs/.production/.postgres \
         --env-file ./.envs/.production/.django \
         -e POSTGRES_HOST="${POD_NAME}_${IMG_DB}" \
+        -e REDIS_URL=redis://"${POD_NAME}_${IMG_REDIS}":6379/0 \
+        -e CELERY_BROKER_URL=redis://"${POD_NAME}_${IMG_REDIS}":6379/0
         ${POD_NAME}_${IMG_DJANGO}:${VERSION} \
         $2
 }
