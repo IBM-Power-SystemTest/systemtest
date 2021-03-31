@@ -23,7 +23,13 @@ class User(AbstractUser):
         to=Department, on_delete=models.PROTECT, null=True, blank=True
     )
     job = models.ForeignKey(to=Job, on_delete=models.PROTECT, null=True, blank=True)
-
+    shift = models.PositiveSmallIntegerField(null=True, blank=True)
+    mfs = utils_models.CharFieldUpper(
+        max_length=30,
+        null=True,
+        blank=True,
+        uppercase=True,
+    )
     modified = models.DateTimeField(auto_now=True)
     last_password_modified = models.DateField(default=date.today)
 

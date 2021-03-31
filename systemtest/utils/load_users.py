@@ -87,6 +87,8 @@ def create_users(filepath):
         set_index(row, "department", departments)
         set_index(row, "group", groups)
         row["is_staff"] = int(row["is_staff"])
+        if not row["shift"]:
+            row["shift"] = None
 
         print(row)
         create_user(row)
@@ -109,7 +111,7 @@ if __name__ == "__main__":
     inputpath = "./systemtest/utils/users.csv"
     outputpath = "./systemtest/utils/users_new.csv"
 
-    add_fields(inputpath, outputpath)
-    # create_users(outputpath)
+    # add_fields(inputpath, outputpath)
+    create_users(outputpath)
 
     # exec(open('systemtest/utils/load_users.py').read())
