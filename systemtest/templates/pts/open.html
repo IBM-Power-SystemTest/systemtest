@@ -32,21 +32,25 @@
         <tbody class="tr_open_body">
           {% localtime on %}
           {% for data, form in rows %}
-            <tr
-              {% if data.request_status.name != "OPEN" or data.comment %}
-                class="alert"
-              {% elif data.modified|elapsed_time_min >= 40 %}
-                class="alert3"
-              {% elif data.modified|elapsed_time_min >= 25 %}
-                class="alert2"
-              {% elif data.modified|elapsed_time_min >= 15 %}
-                class="alert1"
-              {% endif %}
-            >
+            <tr>
               {{ form.errors }}
               {{ form.id }}
               <td> {{ data.pk }} </td>
-              <td> {{ data.request_status }} </td>
+              <td>
+                <div
+                  {% if data.request_status.name != "OPEN" or data.comment %}
+                    class="table__status alert"
+                  {% elif data.modified|elapsed_time_min >= 40 %}
+                    class="table__status alert3"
+                  {% elif data.modified|elapsed_time_min >= 25 %}
+                    class="table__status alert2"
+                  {% elif data.modified|elapsed_time_min >= 15 %}
+                    class="table__status alert1"
+                  {% endif %}
+                >
+                  {{ data.request_status }}
+                </div>
+              </td>
               <td> {{ data.modified | timesince }} </td>
               <td> {{ data.modified | get_shift }}</td>
               <td>
