@@ -78,6 +78,11 @@ def set_index(data, key, list):
 
 
 def create_users(filepath):
+    global Department, Job, Group
+    global ObjectDoesNotExist, get_rows
+    global csv, set_index, create_user
+    global IntegrityError, User
+
     departments = Department.objects.all()
     jobs = Job.objects.all()
     groups = Group.objects.all()
@@ -106,12 +111,8 @@ def create_user(user_data: dict[str, Any]) -> None:
     except ObjectDoesNotExist:
         pass
 
+inputpath = "./systemtest/utils/users.csv"
+outputpath = "./systemtest/utils/users_new.csv"
 
-if __name__ == "__main__":
-    inputpath = "./systemtest/utils/users.csv"
-    outputpath = "./systemtest/utils/users_new.csv"
-
-    # add_fields(inputpath, outputpath)
-    create_users(outputpath)
-
-    # exec(open('systemtest/utils/load_users.py').read())
+# add_fields(inputpath, outputpath)
+create_users(outputpath)
