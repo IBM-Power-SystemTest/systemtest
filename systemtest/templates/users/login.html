@@ -1,25 +1,38 @@
 {% extends "users/base.html" %}
 
+{% load static %}
+{% load legacy %}
+
 {% block subtitle %}Login{% endblock subtitle %}
 
-{% block container %}
-  <form class="form-login" method="POST">
-    {% csrf_token %}
+{% block styles %}
+  {% comment %} {% if request.META.HTTP_USER_AGENT|is_legacy %} {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/legacy/users/login.css' %}">
+  {% comment %} {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/users/login.css' %}">
+  {% endif %} {% endcomment %}
+{% endblock styles %}
 
-    {% include 'form_errors.html' with form=form %}
+{% block content %}
+  <main class="content">
+    <div class="card-user">
+      <img
+        src="{% static 'images/power-systems-b.png' %}"
+        class="card-user__img"
+      />
 
-    <table class="table-login">
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
+      <form class="login-form" method="POST">
+        {% csrf_token %}
+        {% include 'form_errors.html' with form=form %}
 
-    <input class="btn-login" type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-  </form>
-{% endblock container %}
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {{ form.password.label_tag }}
+        {{ form.password }}
+
+        <input class="button" type="submit" value="login">
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+    </div>
+  </main>
+{% endblock content %}

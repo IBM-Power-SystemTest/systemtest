@@ -12,21 +12,15 @@
       name="description"
       content="WEBs projects for Power IBM System Test"
     />
+
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
+    <link rel="stylesheet" href="{% static 'fonts/css/ibm-plex.css' %}">
 
     {% if request.META.HTTP_USER_AGENT|is_legacy %}
-      <link rel="stylesheet" href="{% static 'css/v2/index.css' %}">
-      <link rel="stylesheet" href="{% static 'css/v2/navbar/navbar.css' %}">
-      <link rel="stylesheet" href="{% static 'css/v2/forms/form_request.css' %}">
-      <link rel="stylesheet" href="{% static 'css/v2/tables/tablesv2.css' %}">
+      <link rel="stylesheet" href="{% static 'css/legacy/pts/navbar.css' %}">
     {% else %}
-      <link rel="stylesheet" href="{% static 'css/main/nav_bar.css' %}">
-      <link rel="stylesheet" href="{% static 'css/main/forms_request.css' %}">
-      <link rel="stylesheet" href="{% static 'css/main/login.css' %}">
+      <link rel="stylesheet" href="{% static 'css/legacy/pts/navbar.css' %}">
     {% endif %}
-
-    <link rel="stylesheet" href="{% static 'fonts/css/ibm-plex.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main/body.css' %}">
 
     <script src="{% static 'js/project.js' %}"></script>
 
