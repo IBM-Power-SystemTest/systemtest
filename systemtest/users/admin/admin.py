@@ -29,24 +29,21 @@ class UserAdmin(auth_admin.UserAdmin):
         "first_name",
         "last_name",
         "department",
-        "job",
         "email",
         "is_active",
         "is_staff",
-        "date_joined",
-        "last_password_modified"
+        "shift"
     )
     list_editable = (
         "first_name",
         "last_name",
         "email",
+        "shift",
     )
     list_display_links = (
         "pk",
         "username",
         "department",
-        "date_joined",
-        "last_password_modified",
     )
     list_filter = ("groups__name", "is_active", "is_staff")
 

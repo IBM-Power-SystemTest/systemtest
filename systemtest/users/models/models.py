@@ -1,9 +1,10 @@
 from datetime import date
 
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
-from django.contrib.auth.models import AbstractUser
 from django.urls import reverse
+from django.contrib.auth.models import AbstractUser
 
 from systemtest.utils import models as utils_models
 
@@ -23,7 +24,10 @@ class User(AbstractUser):
         to=Department, on_delete=models.PROTECT, null=True, blank=True
     )
     job = models.ForeignKey(to=Job, on_delete=models.PROTECT, null=True, blank=True)
-    shift = models.PositiveSmallIntegerField(null=True, blank=True)
+    shift = models.PositiveSmallIntegerField(
+        validators=[MinValueValidator(0), MaxValueValidator(5)],
+        null=True, blank=True
+        )
     mfs = utils_models.CharFieldUpper(
         max_length=30,
         null=True,

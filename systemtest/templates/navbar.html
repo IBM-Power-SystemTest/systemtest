@@ -19,6 +19,13 @@
           {{ user.username }}
         </a>
       </li>
+      {% if user.is_staff %}
+        <li class="nav-item">
+          <a href="{% url 'users:signup' %}" class="nav-item-link">
+            Crear Usuario
+          </a>
+        </li>
+      {% endif %}
       <li class="nav-item">
         <a href="{% url 'users:logout' %}" class="nav-item-link">
           Cerrar Sesion

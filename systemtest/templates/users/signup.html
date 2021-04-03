@@ -1,0 +1,18 @@
+{% extends "users/base.html" %}
+
+{% block subtitle %}Signup{% endblock subtitle %}
+
+
+{% block container %}
+  <form class="form-login" method="POST">
+    {% csrf_token %}
+
+    {% include 'form_errors.html' with form=form %}
+
+    <table class="table-login">
+      {{ form.as_table }}
+    </table>
+
+    <input class="button button-login" type="submit" value="Registrar">
+  </form>
+{% endblock container %}
