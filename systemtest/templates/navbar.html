@@ -1,33 +1,40 @@
 {% load static %}
 
 <header class="navbar">
-  <img
-    src="{% static 'images/power-systems-w.png' %}"
-    alt="Logo power"
-    class="navbar__logo"/>
+  <div class="navbar-left">
+    <img
+      class="navbar__logo"
+      src="{% static 'images/logos/rebus-dark.svg' %}"
+      alt="Logo power"
+    />
+  </div>
 
-  <ul class="navbar-list">
-    <li class="navbar-list__item">
-      <a href="{% url 'pts:index' %}">PTS</a>
-    </li>
+  <ul class="navbar__list navbar--center">
+      {% include 'pts/navbar.html' %}
+  </ul>
+
+  <ul class="navbar__list navbar--rigth">
     {% if user.is_authenticated  %}
-      <li class="navbar-list__item">
+      <li>
         <a href="{% url 'users:update' %}">{{ user.username }}</a>
       </li>
+
       {% if user.is_staff %}
-        <li class="nav-item">
+        <li>
           <a href="{% url 'users:signup' %}" class="nav-item-link">
             Crear Usuario
           </a>
         </li>
       {% endif %}
-      <li class="nav-item">
+
+      <li class="navbar__list--fullfill">
         <a href="{% url 'users:logout' %}" class="nav-item-link">
           Cerrar Sesion
         </a>
       </li>
+
     {% else %}
-      <li class="navbar-list__item">
+      <li class="navbar__list--fullfill">
         <a href="{% url 'users:login' %}">Iniciar Sesion</a>
       </li>
     {% endif %}

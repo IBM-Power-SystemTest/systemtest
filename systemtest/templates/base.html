@@ -17,9 +17,9 @@
     <link rel="stylesheet" href="{% static 'fonts/css/ibm-plex.css' %}">
 
     {% if request.META.HTTP_USER_AGENT|is_legacy %}
-      <link rel="stylesheet" href="{% static 'css/legacy/pts/navbar.css' %}">
+      <link rel="stylesheet" href="{% static 'css/legacy/main.css' %}">
     {% else %}
-      <link rel="stylesheet" href="{% static 'css/legacy/pts/navbar.css' %}">
+      <link rel="stylesheet" href="{% static 'css/modern/main.css' %}">
     {% endif %}
 
     <script src="{% static 'js/project.js' %}"></script>
