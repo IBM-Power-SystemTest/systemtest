@@ -14,8 +14,17 @@
       <li class="navbar-list__item">
         <a href="{% url 'users:update' %}">{{ user.username }}</a>
       </li>
-      <li class="navbar-list__item">
-        <a href="{% url 'users:logout' %}">Cerrar Sesion</a>
+      {% if user.is_staff %}
+        <li class="nav-item">
+          <a href="{% url 'users:signup' %}" class="nav-item-link">
+            Crear Usuario
+          </a>
+        </li>
+      {% endif %}
+      <li class="nav-item">
+        <a href="{% url 'users:logout' %}" class="nav-item-link">
+          Cerrar Sesion
+        </a>
       </li>
     {% else %}
       <li class="navbar-list__item">

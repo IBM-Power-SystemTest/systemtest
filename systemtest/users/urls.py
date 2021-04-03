@@ -1,5 +1,7 @@
+from django.contrib.messages.api import success
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.urls.base import reverse_lazy
 
 from systemtest.users import views as users_views
 
@@ -14,6 +16,11 @@ urlpatterns = [
         name='login'
     ),
     path(
+        route='signup/',
+        view=users_views.SignUpView.as_view(),
+        name='signup'
+    ),
+    path(
         route='logout/',
         view=auth_views.LogoutView.as_view(),
         name='logout'
@@ -26,7 +33,8 @@ urlpatterns = [
     path(
         route='password/change/',
         view=auth_views.PasswordChangeView.as_view(
-            template_name="users/password_change.html"
+            template_name="users/password_change.html",
+            success_url=reverse_lazy("pts:index")
         ),
         name='password_change'
     ),

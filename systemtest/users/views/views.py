@@ -3,29 +3,12 @@ from datetime import date
 
 # Django Contrib
 from django.contrib import messages
-
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth import (
-    get_user_model,
-    forms as auth_forms,
-    views as auth_views,
-    login as auth_login
-)
-from django.conf import settings
+from django.contrib.auth import login as auth_login, views as auth_views
 
 # Django
-from django.views.generic import UpdateView
 from django.http.response import HttpResponseRedirect
 from django.urls.base import reverse_lazy
-
-
-class UserUpdateView(LoginRequiredMixin, UpdateView):
-    model = get_user_model()
-    fields = ("first_name", "last_name")
-    template_name = "users/update.html"
-
-    def get_object(self):
-        return self.request.user
+from django.conf import settings
 
 
 class LoginView(auth_views.LoginView):

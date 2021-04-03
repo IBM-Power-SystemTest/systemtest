@@ -12,7 +12,7 @@ IMG_DB=postgres
 IMG_REDIS=redis
 IMG_DJANGO=django
 
-LOG_FILE="$PWD/deploy_$(date +%F).log"
+LOG_FILE="$PWD/deploy_logs/$(date +%F).log"
 
 while [[ $# -gt 0 ]]; do
     key="$1"
@@ -37,16 +37,35 @@ while [[ $# -gt 0 ]]; do
             BUILD="1"
             shift # past argument
         ;;
+        -f|--force)
+            FORCE="1"
+            shift # past argument
+        ;;
     esac
 done
+
+create_folder() {
+    # Get the pare
+    # If folder does not exist create that
+    # $1 path to directory
+    local DIR=$1
+    if [ ! -d "$DIR" ]; then
+        logit "CREATE" "FOLDER $DIR"
+        mkdir -p $DIR
+    fi
+}
+
+# Create folder to save logs
+create_folder $(dirname $LOG_FILE)
 
 logit() {
     # Save a log, basically a `echo` with format in a file $LOG_FILE
     # First save the date, type of log [INFO, WARN, ERR, ETC.], finallyy a message
     # $1 = Type of log
     # ${@:2} = message to save in log
-    echo -e "[ $(date +'%F %X') ][ $1 ] ${@:2}" >> "$LOG_FILE"
+    echo -e "[ $(date +'%F %X') ][ $1 ] ${@:2}" | tee -a "$LOG_FILE"
 }
+
 
 not_exist(){
     # Check if podman resourse exist (When format is `podman {resourse} ls`)
@@ -91,7 +110,6 @@ create_img(){
     local NAME="${POD_NAME}_${1}"
     if [[ $(not_exist "image" "${NAME}\s+$VERSION") || -n $BUILD ]]; then
         logit "CREATE" "IMAGE $NAME from $2\n"
-        # echo "podman build -t $NAME:$VERSION -f $2 ."
         podman build -t $NAME:$VERSION -f $2 .
     else
         logit "EXIST" "IMAGE: $NAME\n"
@@ -104,6 +122,30 @@ not_running(){
     # $1 = container_name
     logit "CHECK" "CONTAINER RUNNING: $1"
     [ ! $(podman ps -af status=running | grep -Ec $1) -eq 1 ]
+}
+
+stop_containers(){
+    # Stop pod containers and prune all pods
+    echo -e "\n" >> "$LOG_FILE"
+
+    if [[ -n $FORCE ]]; then
+        logit "CLEAN" "STOPING CONTAINERS"
+
+        # Stopping pod's containers
+        podman pod stop $POD_NAME 2> /dev/null
+
+        return_code=$?
+        case $return_code in
+            0)
+                login "STOP" "PODS CONTAINERS STOPPED";;
+            125)
+                logit "ERROR $return_code" "NO SUCH POD";;
+        esac
+    fi
+
+    # Prune containers
+    podman pod prune -f
+    logit "CLEAN" "REMOVING CONTAINERS\n"
 }
 
 create_service(){
@@ -122,6 +164,10 @@ create_service(){
     fi
 }
 
+
+# Cleaning POD
+stop_containers
+
 # If pod doesn't exist create it
 create_pod $POD_NAME
 
@@ -133,14 +179,6 @@ create_vol $VOL_REDIS
 # If images don't exist it create them
 create_img $IMG_DB ./compose/production/postgres/Dockerfile
 create_img $IMG_DJANGO ./compose/production/django/Dockerfile
-
-# Removing containers not running to be able to create new ones
-echo -e "\n" >> LOG_FILE
-logit "CLEAN" "CONTAINERS STOPED"
-podman rm $(eval podman ps -aq) 2> /dev/null
-return_code=$?
-[ $return_code -ge $return_code ] && \
-    logit "ERROR $return_code" "THE CONTAINERS COULD NOT BE ERASE\n"
 
 # Creating Data Base
 create_service $IMG_DB \
@@ -173,6 +211,9 @@ up_django_service django /start
 up_django_service celeryworker /start-celeryworker
 up_django_service celerybeat /start-celerybeat
 up_django_service flower /start-flower
+
+logit "CLEAN" "REMOVING <NONE> IMAGES"
+podman rmi $(podman images -f "dangling=true" -q) 2> /dev/null
 
 s=$(printf "%-23s")
 echo -e "\n\n${s// /=}\n\n" >> "$LOG_FILE"
