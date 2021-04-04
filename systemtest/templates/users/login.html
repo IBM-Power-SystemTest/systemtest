@@ -6,24 +6,24 @@
 {% block subtitle %}Login{% endblock subtitle %}
 
 {% block styles %}
-  {% comment %} {% if request.META.HTTP_USER_AGENT|is_legacy %} {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/legacy/users/login.css' %}">
-  {% comment %} {% else %}
-    <link rel="stylesheet" href="{% static 'css/modern/users/login.css' %}">
-  {% endif %} {% endcomment %}
+  {% if request.META.HTTP_USER_AGENT|is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/users/main.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
+  {% endif %}
 {% endblock styles %}
 
 {% block content %}
   <main class="content">
     <div class="card-user">
       <img
-        src="{% static 'images/power-systems-b.png' %}"
         class="card-user__img"
+        src="{% static 'images/logos/power-systems-dark.png' %}"
       />
 
-      <form class="login-form" method="POST">
+      <form class="card-user__form" method="POST">
         {% csrf_token %}
-        {% include 'form_errors.html' with form=form %}
+        {% include 'utils/form_errors.html' with form=form %}
 
         {{ form.username.label_tag }}
         {{ form.username }}

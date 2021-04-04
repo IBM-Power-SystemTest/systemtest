@@ -7,7 +7,7 @@
   <form class="form-login" method="POST">
     {% csrf_token %}
 
-    {% include 'form_errors.html' with form=form %}
+    {% include 'utils/form_errors.html' with form=form %}
 
     <table class="table-login">
       {{ form.as_table }}

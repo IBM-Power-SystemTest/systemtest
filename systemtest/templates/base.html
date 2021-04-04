@@ -20,6 +20,7 @@
       <link rel="stylesheet" href="{% static 'css/legacy/main.css' %}">
     {% else %}
       <link rel="stylesheet" href="{% static 'css/modern/main.css' %}">
+      <link rel="stylesheet" href="{% static 'css/variables.css' %}">
     {% endif %}
 
     <script src="{% static 'js/project.js' %}"></script>
@@ -33,7 +34,8 @@
   </head>
 
   <body>
-    {% include 'navbar.html' %}
+    {% include 'header.html' %}
+
     {% if messages %}
       <ul class="messages">
           {% for message in messages %}
@@ -41,8 +43,11 @@
           {% endfor %}
       </ul>
     {% endif %}
-    {% block body %}
-      {% block content %} {% endblock content %}
-    {% endblock body%}
+
+    <div class="body">
+      {% block body %}{% endblock body %}
+    </div>
+
+    {% include 'footer.html' %}
   </body>
 </html>

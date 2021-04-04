@@ -7,7 +7,7 @@
   <h2>{{ object.username }}</h2>
   <form method="POST">
     {% csrf_token %}
-    {% include 'form_errors.html' with form=form %}
+    {% include 'utils/form_errors.html' with form=form %}
     {{ form.as_p }}
     <input type="submit" value="Guardar">
   </form>
