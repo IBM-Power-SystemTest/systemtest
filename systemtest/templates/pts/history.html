@@ -1,0 +1,73 @@
+{% extends 'pts/base_table.html' %}
+{% load humanize %}
+{% load tz %}
+{% load measures %}
+{% load static %}
+
+{% block subtitle %} Close {% endblock subtitle %}
+
+{% block container %}
+<div class="table_overflow">
+  <table class="table_default">
+    <caption>Historico</caption>
+    <thead>
+      <tr class="tr_open_thead">
+        <th> Folio </th>
+        <th> Status </th>
+        <th> Tiempo </th>
+        <th> Turno </th>
+        <th> Parte </th>
+        <th> Serial </th>
+        <th> Descripcion </th>
+        <th> NCM Tag </th>
+        <th> Sistema </th>
+        <th> Celda </th>
+        <th> Usuario </th>
+        {% block extra_columns %}{% endblock extra_columns %}
+      </tr>
+    </thead>
+    <tbody class="tr_open_body">
+    {% for request in page_obj %}
+      <tr>
+        <td> {{ request.request.pk }} </td>
+        <td> {{ request.request_status }} </td>
+        <td> {{ request.created }} </td>
+        <td> {{ request.created | get_shift }}</td>
+        <td> {{ request.part_number }} </td>
+        <td> {{ request.serial_number }} </td>
+        <td> {{ request.request.request_group.part_description }} </td>
+        <td>
+          {% if request. %}
+          {% comment %} {% if request.request.ncm_tag %} {% endcomment %}
+            {{ request.request.ncm_tag }}
+          {% endif %}
+        </td>
+        <td> {{ request.request.request_group.system_number }} </td>
+        <td> {{ request.request.request_group.system_cell }} </td>
+        <td> {{ request.user }} </td>
+        {% block extra_rows %}{% endblock extra_rows %}
+      </tr>
+    {% empty %}
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+  <div class="pagination">
+    <span class="step-links">
+      {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; first</a>
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+      {% endif %}
+
+      <span class="current">
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+    </span>
+  </div>
+{% endblock container %}
