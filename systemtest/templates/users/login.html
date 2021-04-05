@@ -1,46 +1,21 @@
 {% extends "users/base.html" %}
-
 {% load static %}
-{% load legacy %}
 
 {% block subtitle %}Login{% endblock subtitle %}
 
-{% block styles %}
-  {% if request.META.HTTP_USER_AGENT|is_legacy %}
-    <link rel="stylesheet" href="{% static 'css/legacy/users/main.css' %}">
-  {% else %}
-    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
-  {% endif %}
-{% endblock styles %}
+{% block form %}
+  <div class="form__input">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+  </div>
+  <div class="form__input">
+    {{ form.password.label_tag }}
+    {{ form.password }}
+  </div>
 
-{% block body %}
-  <main class="content">
-    <div class="card-form">
-      <img
-        class="card-form__img"
-        src="{% static 'images/logos/power_dark.png' %}"
-      />
+  <button class="form__button" type="submit" value="Login">
+    Login <i class="fas fa-sign-in-alt"></i>
+  </button>
 
-      <form class="form" method="POST">
-        {% csrf_token %}
-        {% include 'utils/form_errors.html' with form=form %}
-
-        <div class="form__input">
-          {{ form.username.label_tag }}
-          {{ form.username }}
-        </div>
-        <div class="form__input">
-          {{ form.password.label_tag }}
-          {{ form.password }}
-        </div>
-
-        <button class="form__button" type="submit" value="Login">
-          Login
-          <i class="fas fa-sign-in-alt"></i>
-        </button>
-        <input type="hidden" name="next" value="{{ next }}">
-          <span class="icon"></span>
-      </form>
-    </div>
-  </main>
-{% endblock body %}
+  <input type="hidden" name="next" value="{{ next }}">
+{% endblock form %}

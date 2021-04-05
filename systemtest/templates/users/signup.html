@@ -2,17 +2,50 @@
 
 {% block subtitle %}Signup{% endblock subtitle %}
 
+{% block form %}
+  <div class="form__input form--left">
+    {{ form.username.label_tag }}
+    {{ form.username }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.email.label_tag }}
+    {{ form.email }}
+  </div>
+  <div class="form__input form--left">
+    {{ form.first_name.label_tag }}
+    {{ form.first_name }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.last_name.label_tag }}
+    {{ form.last_name }}
+  </div>
+  <div class="form__input form--left">
+    {{ form.groups.label_tag }}
+    {{ form.groups }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.job.label_tag }}
+    {{ form.job }}
+  </div>
+  <div class="form__input form--left">
+    {{ form.is_staff.label_tag }}
+    {{ form.is_staff }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.mfs.label_tag }}
+    {{ form.mfs }}
+  </div>
+  <div class="form__input form--left">
+    {{ form.password1.label_tag }}
+    {{ form.password1 }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.password2.label_tag }}
+    {{ form.password2 }}
+  </div>
 
-{% block container %}
-  <form class="form-login" method="POST">
-    {% csrf_token %}
-
-    {% include 'utils/form_errors.html' with form=form %}
-
-    <table class="table-login">
-      {{ form.as_table }}
-    </table>
-
-    <input class="button button-login" type="submit" value="Registrar">
-  </form>
-{% endblock container %}
+  <button class="form__button" type="submit" value="Registrar">
+    Registrar
+    <i class="fas fa-user-plus"></i>
+  </button>
+{% endblock form %}

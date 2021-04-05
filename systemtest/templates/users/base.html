@@ -1,6 +1,33 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load legacy %}
 
 {% block title %}
   User |
   {% block subtitle %}{% endblock subtitle %}
 {% endblock title %}
+
+{% block styles %}
+  {% if request.META.HTTP_USER_AGENT|is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/users/main.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block body %}
+  <main class="content">
+    <div class="card-form">
+      <img
+        class="card-form__img"
+        src="{% static 'images/logos/power_dark.png' %}"
+      />
+
+      <form class="form" method="POST">
+        {% csrf_token %}
+        {% include 'utils/form_errors.html' with form=form %}
+        {% block form %}{% endblock form %}
+      </form>
+    </div>
+  </main>
+{% endblock body %}

@@ -24,11 +24,26 @@
   align-self: center;
 }
 
+
 .form {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 50px;
   width: 70%;
   align-self: center;
+}
+
+.form__input,
+.form__button {
+  grid-column: 1 / -1;
+}
+
+.form--left {
+  grid-column: 1;
+}
+
+.form--right {
+  grid-column: 2;
 }
 
 .form__input label {
@@ -61,7 +76,7 @@
   margin: auto;
   padding: 7px 10px;
   border: none;
-  border-radius: 5px;
+  border-radius: 35px;
   outline: none;
   background-color: var(--cyan_50);
   color: var(--gray_20);
@@ -73,4 +88,19 @@
   background-color: var(--cyan_60);
   transition: var(--transition_default);
   cursor: pointer;
+}
+
+.form__button a {
+  color: var(--gray_20);
+  text-decoration: none;
+}
+
+
+.button--secondary {
+  background-color: var(--teal_50);
+}
+
+.button--secondary:hover,
+.button--secondary:focus {
+  background-color: var(--teal_60);
 }

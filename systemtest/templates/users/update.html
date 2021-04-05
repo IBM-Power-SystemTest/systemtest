@@ -3,13 +3,33 @@
 
 {% block subtitle %}Update{% endblock subtitle %}
 
-{% block container %}
-  <h2>{{ object.username }}</h2>
-  <form method="POST">
-    {% csrf_token %}
-    {% include 'utils/form_errors.html' with form=form %}
-    {{ form.as_p }}
-    <input type="submit" value="Guardar">
-  </form>
-  <a href="{% url 'users:password_change' %}">Cambiar contraseña</a>
-{% endblock container %}
+{% block form %}
+  <div class="form__input form--left">
+    {{ form.first_name.label_tag }}
+    {{ form.first_name }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.last_name.label_tag }}
+    {{ form.last_name }}
+  </div>
+  <div class="form__input form--left">
+    {{ form.email.label_tag }}
+    {{ form.email }}
+  </div>
+  <div class="form__input form--right">
+    {{ form.shift.label_tag }}
+    {{ form.shift }}
+  </div>
+
+  <button class="form__button form--left" type="submit" value="Guardar">
+    Guardar
+    <i class="fas fa-save"></i>
+  </button>
+
+  <button class="form__button form--right button--secondary">
+    <a href="{% url 'users:password_change' %}">
+      Contraseña <i class="fas fa-unlock-alt"></i>
+    </a>
+  </button>
+
+{% endblock form %}

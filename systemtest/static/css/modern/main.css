@@ -50,17 +50,21 @@ body {
 
 .navbar__list a:hover,
 .navbar__list a:focus {
-  background-color: var(--cyan_50);
+  border-bottom: 3px solid var(--cyan_60);
+  background-color: var(--cyan_60);
   transition: var(--transition_default);
 }
 
 .navbar__list--fullfill a {
+  border-radius: 35px;
+  border-bottom: 3px solid var(--cyan_50);
   background-color: var(--cyan_50);
 }
 
 .navbar__list--fullfill a:hover,
 .navbar__list--fullfill a:focus {
-  background-color: var(--cyan_40);
+  border-bottom: 3px solid var(--cyan_60);
+  background-color: var(--cyan_60);
 }
 
 
