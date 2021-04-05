@@ -1,6 +1,76 @@
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+}
 
-.card-user {
-  max-height: 500px;
-  max-width: 350px;
-  background-color: red;
+
+.card-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 600px;
+  min-width: 450px;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 25px;
+  font-size: var(--p_size);
+  color: var(--gray_20);
+}
+
+.card-form__img {
+  width: 150px;
+  align-self: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 70%;
+  align-self: center;
+}
+
+.form__input label {
+  font-size: 1.3rem;
+  color: var(--gray_50)
+}
+
+.form__input input {
+  width: 100%;
+  height: 25px;
+  padding: 3px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 2px solid var(--gray_50);
+  outline: none;
+  color: var(--gray_20);
+  background: transparent;
+  font-size: 1.5rem;
+}
+
+.form__input input:-webkit-autofill {
+  box-shadow: none;
+  -webkit-text-fill-color: var(--gray_20);
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form__button {
+  width: 50%;
+  min-height: 40px;
+  margin: auto;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  background-color: var(--cyan_50);
+  color: var(--gray_20);
+  font-weight: 900;
+}
+
+.form__button:hover,
+.form__button:focus {
+  background-color: var(--cyan_60);
+  transition: var(--transition_default);
+  cursor: pointer;
 }

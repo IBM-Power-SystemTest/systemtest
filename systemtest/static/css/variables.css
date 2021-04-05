@@ -44,5 +44,7 @@
   --teal_10: #d9fbfb;
 
   --p_size: 1.5rem;
-  --title_size: 3rem
+  --title_size: 3rem;
+
+  --transition_default: 400ms;
 }

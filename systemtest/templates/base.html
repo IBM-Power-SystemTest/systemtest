@@ -14,13 +14,14 @@
     />
 
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
-    <link rel="stylesheet" href="{% static 'fonts/css/ibm-plex.css' %}">
+    <link rel="stylesheet" href="{% static 'fonts/ibm_plex_sans/fonts.css' %}">
 
     {% if request.META.HTTP_USER_AGENT|is_legacy %}
       <link rel="stylesheet" href="{% static 'css/legacy/main.css' %}">
     {% else %}
-      <link rel="stylesheet" href="{% static 'css/modern/main.css' %}">
+      <link rel="stylesheet" href="{% static 'fonts/fontawesome/fonts.css' %}">
       <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+      <link rel="stylesheet" href="{% static 'css/modern/main.css' %}">
     {% endif %}
 
     <script src="{% static 'js/project.js' %}"></script>
