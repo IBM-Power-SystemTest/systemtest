@@ -25,7 +25,6 @@
             <th> Sistema </th>
             <th> Celda </th>
             <th> Usuario </th>
-            <th> Serial </th>
             {% block extra_columns %}{% endblock extra_columns %}
           </tr>
         </thead>
@@ -55,7 +54,7 @@
               <td> {{ data.modified | get_shift }}</td>
               <td>
                 {{ data.part_number }}
-                {{ data.serial_number }}
+                {{ data.serial_number | default:"" }}
               </td>
               <td> {{ data.request_group.part_description }} </td>
               {% if data.request_group.is_loaner %}
@@ -68,7 +67,6 @@
               <td> {{ data.request_group.system_number }} </td>
               <td> {{ data.request_group.system_cell }} </td>
               <td> {{ data.user }} </td>
-              <td> {{ form.part_id }} </td>
               {% block extra_rows %} {% endblock extra_rows %}
             </tr>
           {% empty %}

@@ -14,7 +14,7 @@
       <tr class="tr_open_thead">
         <th> Folio </th>
         <th> Status </th>
-        <th> Tiempo </th>
+        <th> Fecha </th>
         <th> Turno </th>
         <th> Parte </th>
         <th> Serial </th>
@@ -34,7 +34,7 @@
         <td> {{ request.modified }} </td>
         <td> {{ request.modified | get_shift }}</td>
         <td> {{ request.part_number }} </td>
-        <td> {{ request.serial_number }} </td>
+        <td> {{ request.serial_number | default:"" }} </td>
         <td> {{ request.request_group.part_description }} </td>
         <td> {{ request.ncm_tag }}</td>
         <td> {{ request.request_group.system_number }} </td>
@@ -48,21 +48,21 @@
   </table>
 </div>
 
-  <div class="pagination">
-    <span class="step-links">
-      {% if page_obj.has_previous %}
-        <a href="?page=1">&laquo; first</a>
-        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-      {% endif %}
+<div class="pagination">
+  <span class="step-links">
+    {% if page_obj.has_previous %}
+      <a href="?page=1">&laquo; first</a>
+      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
 
-      <span class="current">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-      </span>
-
-      {% if page_obj.has_next %}
-        <a href="?page={{ page_obj.next_page_number }}">next</a>
-        <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
+    <span class="current">
+      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
     </span>
-  </div>
+
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">next</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+    {% endif %}
+  </span>
+</div>
 {% endblock container %}

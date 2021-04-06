@@ -9,4 +9,5 @@ from systemtest.pts import models as pts_models
 class HistoryPartListView(ListView):
     template_name = "pts/history.html"
     model = pts_models.RequestHistory
-    paginate_by = 100
+    paginate_by = 30
+    ordering = ["-created"]

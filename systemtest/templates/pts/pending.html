@@ -42,11 +42,11 @@
           <td> {{ data.request_group.system_cell }} </td>
           <td>
             {{ data.get_first_request.part_number }}
-            {{ data.get_first_request.serial_number }}
+            {{ data.get_first_request.serial_number | default:"" }}
           </td>
           <td>
             {{ data.part_number }}
-            {{ data.serial_number }}
+            {{ data.serial_number | default:"" }}
           </td>
           <td> {{ data.user }} </td>
           {% block extra_rows %}
