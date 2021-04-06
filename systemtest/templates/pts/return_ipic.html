@@ -6,7 +6,7 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ data.ncm_tag | default:"" }} </td>
+  <td> {{ data.ncm_tag | default_if_none:"" }} </td>
 
   {% if data.request_status.name == "GOOD" %}
     <td> {{ form.part_id }} </td>

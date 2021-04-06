@@ -19,6 +19,7 @@
         <th> Parte </th>
         <th> Serial </th>
         <th> Descripcion </th>
+        <th> Comentarios </th>
         <th> NCM Tag </th>
         <th> Sistema </th>
         <th> Celda </th>
@@ -34,8 +35,9 @@
         <td> {{ request.created }} </td>
         <td> {{ request.created | get_shift }}</td>
         <td> {{ request.part_number }} </td>
-        <td> {{ request.serial_number | default:"" }} </td>
+        <td> {{ request.serial_number | default_if_none:"" }} </td>
         <td> {{ request.request.request_group.part_description }} </td>
+        <td> {{ request.comment | default_if_none:"" }} </td>
         <td>
           {% if request.request_status.name == "CLOSE BAD" %}
             {{ request.request.ncm_tag }}

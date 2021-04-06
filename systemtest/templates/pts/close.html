@@ -34,7 +34,7 @@
         <td> {{ request.modified }} </td>
         <td> {{ request.modified | get_shift }}</td>
         <td> {{ request.part_number }} </td>
-        <td> {{ request.serial_number | default:"" }} </td>
+        <td> {{ request.serial_number | default_if_none:"" }} </td>
         <td> {{ request.request_group.part_description }} </td>
         <td> {{ request.ncm_tag }}</td>
         <td> {{ request.request_group.system_number }} </td>

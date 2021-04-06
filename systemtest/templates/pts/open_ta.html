@@ -8,7 +8,7 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ data.comment | default:"" }} </td>
+  <td> {{ data.comment | default_if_none:"" }} </td>
   <td> {{ form.part_id }} </td>
   <td>
     <a href="{{ data.get_absolute_url }}cancel">
