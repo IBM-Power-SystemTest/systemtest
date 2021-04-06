@@ -11,8 +11,11 @@
 
   <script>
     $(document).ready( function () {
-        $('.table_default').DataTable();
-    } );
+      $('.table_default').DataTable({
+        "paging": false,
+        "info": false,
+      });
+    });
   </script>
 {% endblock head %}
 

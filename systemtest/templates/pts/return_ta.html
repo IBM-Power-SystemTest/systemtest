@@ -1,8 +1,8 @@
 {% extends 'pts/return.html' %}
 
 {% block extra_columns %}
-  <th> Serial </th>
-  <th> NCM tag </th>
+  <th> Actualizar Serial </th>
+  <th> Actualizar NCM Tag </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
@@ -11,7 +11,7 @@
   {% if data.request_status.name == "BAD" %}
     <td> {{ form.ncm_tag }} </td>
   {% else %}
-    <td></td>
+    <td> {{ form.ncm_tag.as_hidden }} </td>
   {% endif %}
   {{ form.request_status.as_hidden }}
 {% endblock extra_rows %}

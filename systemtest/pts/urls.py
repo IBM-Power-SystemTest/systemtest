@@ -39,6 +39,11 @@ urlpatterns = [
         name="close"
     ),
     path(
+        route="history/",
+        view=views.HistoryPartListView.as_view(),
+        name="history"
+    ),
+    path(
         route="request/<pk>/",
         view=views.DetailRequestView.as_view(),
         name="detail"

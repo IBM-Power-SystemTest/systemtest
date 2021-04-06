@@ -3,11 +3,13 @@
 {% load static %}
 
 {% block extra_columns %}
-  <th> Serial </th>
+  <th> Usuario </th>
+  <th> Actualizar Parte </th>
   <th> Re-open </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
+  <td> {{ data.user }} </td>
   <td> {{ form.part_id }} </td>
   <td>
     <a href="{{ data.get_absolute_url }}reopen">

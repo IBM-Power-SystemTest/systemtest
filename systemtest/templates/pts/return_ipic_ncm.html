@@ -2,20 +2,18 @@
 
 {% block extra_columns %}
   <th> NCM Tag </th>
-  <th> Serial </th>
+  <th> Recibir Parte </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-    {% if data.ncm_tag %}
-      <td> {{ data.ncm_tag }} </td>
-    {% else %}
-      <td></td>
-    {% endif %}
-    {% if data.request_status.name == "BAD" %}
-      <td> {{ form.part_id }} </td>
-    {% else %}
-      <td></td>
-    {% endif %}
+  <td> {{ data.ncm_tag | default_if_none:"" }} </td>
+  {% if data.request_status.name == "BAD" %}
+    <td> {{ form.part_id }} </td>
+  {% else %}
+    <td></td>
+  {% endif %}
+  {{ form.request_status.as_hidden }}
+  {{ form.ncm_tag.as_hidden }}
 {% endblock extra_rows %}
 
 {% block submit %}

@@ -3,16 +3,13 @@
 
 {% block extra_columns %}
   <th> Comentario </th>
-  {% comment %} <th> Cambiar </th> {% endcomment %}
+  <th> Actualizar Parte </th>
   <th> Eliminar </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td>
-    {% if data.comment %}
-      {{ data.comment }}
-    {% endif %}
-  </td>
+  <td> {{ data.comment | default_if_none:"" }} </td>
+  <td> {{ form.part_id }} </td>
   <td>
     <a href="{{ data.get_absolute_url }}cancel">
       <img src="{% static 'images/icons/delete_1.png' %}" alt="">

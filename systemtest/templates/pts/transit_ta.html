@@ -1,10 +1,12 @@
 {% extends 'pts/transit.html' %}
 
 {% block extra_columns %}
-  <th> Serial </th>
+  <th> Usuario </th>
+  <th> Recibir Parte </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
+  <td> {{ data.get_first_request.user }} </td>
   <td> {{ form.part_id }} </td>
 {% endblock extra_rows %}
 
