@@ -15,3 +15,4 @@ class ClosePartListView(ListView):
         Q(request_status__name="CLOSE BAD")
     )
     queryset = pts_models.Request.objects.filter(query)
+    ordering = ["-modified"]
