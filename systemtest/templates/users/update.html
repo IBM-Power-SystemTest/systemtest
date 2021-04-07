@@ -21,15 +21,16 @@
     {{ form.shift }}
   </div>
 
-  <button class="form__button form--left" type="submit" value="Guardar">
+  <button class="button form--left" type="submit" value="Guardar">
     Guardar
     <i class="fas fa-save"></i>
   </button>
 
-  <button class="form__button form--right button--secondary">
-    <a href="{% url 'users:password_change' %}">
-      Contraseña <i class="fas fa-unlock-alt"></i>
-    </a>
-  </button>
+  <a
+    class="button form--right button--secondary button--fixed"
+    href="{% url 'users:password_change' %}"
+  >
+    Contraseña <i class="fas fa-unlock-alt"></i>
+  </a>
 
 {% endblock form %}

@@ -34,7 +34,7 @@
 }
 
 .form__input,
-.form__button {
+.button {
   grid-column: 1 / -1;
 }
 
@@ -46,22 +46,39 @@
   grid-column: 2;
 }
 
-.form__input label {
-  font-size: 1.3rem;
-  color: var(--gray_50)
+.form--fixed {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
-.form__input input {
+.form--fixed label {
+  margin-right: 25px;
+}
+
+
+.form__input label {
+  font-size: 1.3rem;
+  color: var(--gray_50);
+}
+
+.form__input input,
+.form__input select {
   width: 100%;
-  height: 25px;
+  height: 30px;
+  box-sizing: border-box;
   padding: 3px;
   margin-bottom: 20px;
   border: none;
   border-bottom: 2px solid var(--gray_50);
   outline: none;
   color: var(--gray_20);
-  background: transparent;
-  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.form__input input:focus,
+.form__input select:focus {
+  border: 2px solid var(--cyan_50);
 }
 
 .form__input input:-webkit-autofill {
@@ -70,37 +87,98 @@
   transition: background-color 5000s ease-in-out 0s;
 }
 
-.form__button {
-  width: 50%;
-  min-height: 40px;
+.form__input select {
+  appearance: none;
+  background: url('../../../images/icons/caret-down.svg') 97% / 8% no-repeat;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.form__input select option {
+  background-color: var(--gray_70);
+}
+
+.button {
+  min-width: 50%;
+  box-sizing: border-box;
   margin: auto;
-  padding: 7px 10px;
+  padding: 12px 10px;
   border: none;
-  border-radius: 35px;
+  border-radius: 5px;
   outline: none;
   background-color: var(--cyan_50);
   color: var(--gray_20);
-  font-weight: 900;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
 }
 
-.form__button:hover,
-.form__button:focus {
+.button:hover,
+.button:focus {
   background-color: var(--cyan_60);
   transition: var(--transition_default);
   cursor: pointer;
 }
 
-.form__button a {
-  color: var(--gray_20);
-  text-decoration: none;
-}
-
-
 .button--secondary {
-  background-color: var(--teal_50);
+  border: 3px solid var(--cyan_50);
+  background-color: transparent;
 }
 
 .button--secondary:hover,
 .button--secondary:focus {
-  background-color: var(--teal_60);
+  border: 3px solid var(--cyan_60);
+  background-color: var(--cyan_60);
+}
+
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch--slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--gray_60);
+  transition: var(--transition_default);
+}
+
+.switch--slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 3px;
+  bottom: 3px;
+  background-color: var(--gray_20);
+  transition: var(--transition_default);
+}
+
+
+.switch--slider.switch--round {
+  border-radius: 26px;
+}
+
+.switch--slider.switch--round:before {
+  border-radius: 50%;
+}
+
+
+input:checked+.switch--slider:before {
+  transform: translateX(24px);
+  background-color: var(--cyan_50);
 }

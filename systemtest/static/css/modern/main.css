@@ -39,7 +39,6 @@ body {
   margin: 5px;
   padding: 7px 10px;
   border-bottom: 3px solid var(--cyan_50);
-  border-radius: 5px;
   outline: none;
   color: var(--gray_20);
   text-decoration: none;
@@ -50,13 +49,14 @@ body {
 
 .navbar__list a:hover,
 .navbar__list a:focus {
+  border-radius: 5px;
   border-bottom: 3px solid var(--cyan_60);
   background-color: var(--cyan_60);
   transition: var(--transition_default);
 }
 
 .navbar__list--fullfill a {
-  border-radius: 35px;
+  border-radius: 5px;
   border-bottom: 3px solid var(--cyan_50);
   background-color: var(--cyan_50);
 }

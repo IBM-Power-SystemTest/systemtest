@@ -7,30 +7,44 @@
     {{ form.username.label_tag }}
     {{ form.username }}
   </div>
+
   <div class="form__input form--right">
     {{ form.email.label_tag }}
     {{ form.email }}
   </div>
+
   <div class="form__input form--left">
     {{ form.first_name.label_tag }}
     {{ form.first_name }}
   </div>
+
   <div class="form__input form--right">
     {{ form.last_name.label_tag }}
     {{ form.last_name }}
   </div>
+
   <div class="form__input form--left">
-    {{ form.groups.label_tag }}
+    <label for="{{ form.groups.id_for_label }}">
+      Grupo:
+    </label>
     {{ form.groups }}
   </div>
+
   <div class="form__input form--right">
-    {{ form.job.label_tag }}
+    <label for="{{ form.jobs.id_for_label }}">
+      Puesto:
+    </label>
     {{ form.job }}
   </div>
-  <div class="form__input form--left">
+
+  <div class="form__input form--left form--fixed">
     {{ form.is_staff.label_tag }}
-    {{ form.is_staff }}
+    <label class="switch">
+      {{ form.is_staff }}
+      <span class="switch--slider switch--round"></span>
+    </label>
   </div>
+
   <div class="form__input form--right">
     {{ form.mfs.label_tag }}
     {{ form.mfs }}
@@ -44,8 +58,7 @@
     {{ form.password2 }}
   </div>
 
-  <button class="form__button" type="submit" value="Registrar">
-    Registrar
-    <i class="fas fa-user-plus"></i>
+  <button class="button" type="submit" value="Registrar">
+    Registrar <i class="fas fa-user-plus"></i>
   </button>
 {% endblock form %}
