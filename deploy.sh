@@ -82,7 +82,7 @@ create_pod(){
     if not_exist "pod" " $1 "; then
         logit "CREATE" "POD: $1\n"
         # echo "podman pod create --name $1 -p 80:5000 -p 5555:5555"
-        podman pod create --name $1 -p 80:5000 -p 5555:5555
+        podman pod create --name $1 -p 80:5000 -p 5555:5555 -p 5432:5432
     else
         logit "EXIST" "POD: $1\n"
     fi
