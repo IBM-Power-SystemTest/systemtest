@@ -17,7 +17,8 @@
           <tr class="tr_open_thead border_line">
             <th> Folio </th>
             <th> Status </th>
-            <th> Tiempo </th>
+            <th> Tiempo Requerido </th>
+            <th> Tiempo Actualizacion </th>
             <th> Turno </th>
             <th> Parte </th>
             <th> Descripcion </th>
@@ -50,6 +51,7 @@
                   {{ data.request_status }}
                 </div>
               </td>
+              <td> {{ data.get_first_request.created | timesince }} </td>
               <td> {{ data.modified | timesince }} </td>
               <td> {{ data.modified | get_shift }}</td>
               <td>
