@@ -54,12 +54,12 @@ class BaseRequestListView(FormView):
                 form.fields[self.choice_field] = forms.ModelChoiceField(choices)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        queryset = self.get_queryset()
-        self.form_class = self.form_class(queryset=queryset)
+        self.queryset = self.get_queryset()
+        self.form_class = self.form_class(queryset=self.queryset)
         self.set_custom_choices(self.form_class)
 
         kwargs["form"] = self.form_class
-        kwargs["rows"] = zip(queryset, self.form_class)
+        kwargs["rows"] = zip(self.queryset, self.form_class)
 
         return super().get_context_data(**kwargs)
 
@@ -76,9 +76,10 @@ class BaseRequestListView(FormView):
         valid_forms = []
         for form in formset:
             if form.has_changed() and form.is_valid():
-                print(form.changed_data)
-                print(form.cleaned_data)
-                valid_forms.append(form)
+                queryset = self.get_queryset()
+                initial_status = form.initial.get("request_status")
+                if queryset.filter(request_status__pk=initial_status):
+                    valid_forms.append(form)
 
         if valid_forms:
             return self.form_valid(valid_forms)

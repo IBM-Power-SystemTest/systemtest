@@ -40,20 +40,20 @@
                 <div
                   {% if data.request_status.name != "OPEN" or data.comment %}
                     class="table__status alert"
-                  {% elif data.modified|elapsed_time_min >= 40 %}
+                  {% elif data.created|elapsed_time_min >= 40 %}
                     class="table__status alert3"
-                  {% elif data.modified|elapsed_time_min >= 25 %}
+                  {% elif data.created|elapsed_time_min >= 25 %}
                     class="table__status alert2"
-                  {% elif data.modified|elapsed_time_min >= 15 %}
+                  {% elif data.created|elapsed_time_min >= 15 %}
                     class="table__status alert1"
                   {% endif %}
                 >
                   {{ data.request_status }}
                 </div>
               </td>
-              <td> {{ data.get_first_request.created | timesince }} </td>
+              <td> {{ data.created | timesince }} </td>
               <td> {{ data.modified | timesince }} </td>
-              <td> {{ data.modified | get_shift }}</td>
+              <td> {{ data.created | get_shift }}</td>
               <td>
                 {{ data.part_number }}
                 {{ data.serial_number | default_if_none:"" }}
