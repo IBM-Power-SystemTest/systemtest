@@ -7,6 +7,7 @@
   <form id="form_request" class="form_request" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
+    {{ detailed_form.non_form_errors }}
     {{ detailed_form.as_p }}
     <input type="button" class="request_bottom" value="Solicitar" onclick="this.form.submit()"/>
   </form>

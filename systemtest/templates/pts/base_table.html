@@ -6,14 +6,18 @@
 {% endblock styles %}
 
 {% block head %}
-  <link rel="stylesheet" type="text/css" href="{% static 'js/DataTables/datatables.css' %}">
-  <script type="text/javascript" charset="utf8" src="{% static 'js/DataTables/datatables.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/DataTables/datatables.min.css' %}">
+  <script type="text/javascript" charset="utf8" src="{% static 'vendor/DataTables/datatables.min.js' %}"></script>
 
   <script>
     $(document).ready( function () {
       $('.table_default').DataTable({
-        "paging": false,
-        "info": false,
+        paging: false,
+        info: false,
+        dom: 'Bfrtip',
+        buttons: [
+          'csv', 'print'
+        ]
       });
     });
   </script>

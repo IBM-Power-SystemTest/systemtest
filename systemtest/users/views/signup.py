@@ -36,6 +36,7 @@ class SignUpView(LoginRequiredMixin, CreateView):
 
         new_user.department = self.request.user.department
         new_user.shift = self.request.user.shift
+        new_user.groups.add(form.cleaned_data["groups"])
 
         new_user.save()
 

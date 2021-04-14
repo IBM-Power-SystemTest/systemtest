@@ -12,7 +12,6 @@ class RequestGroupForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         system_number = self.fields["system_number"]
         system_cell = self.fields["system_cell"]
-        request_group_workspace = self.fields["request_group_workspace"]
         request_bay = self.fields["request_bay"]
         part_description = self.fields["part_description"]
 
@@ -109,6 +108,36 @@ class RequestPartForm(forms.Form):
         return data
 
 
+class RequestPartFormset(forms.BaseFormSet):
+    def clean(self):
+        """Checks that no two articles have the same title."""
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+
+        part_id_set = self.cleaned_data
+        part_number_set = {part_id.get("pn") for part_id in part_id_set} - {None}
+
+        if len(part_number_set) > 1:
+            error_message = "Se estan requiriendo distintos numeros de parte {} ".format(
+                ", ".join(part_number_set)
+            )
+            raise forms.ValidationError(error_message)
+
+        serial_number_list = []
+        serial_duplicate_set = set()
+        for part_id in part_id_set:
+            if (sn := part_id.get("sn")) in serial_number_list:
+                serial_duplicate_set.add(sn)
+            serial_number_list.append(sn)
+
+        if serial_duplicate_set:
+            error_message = "Se estan requiriendo el mismo serial {} ".format(
+                ", ".join(serial_duplicate_set)
+            )
+            raise forms.ValidationError(error_message)
+
+
 class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -155,6 +184,7 @@ class RequestReturnListForm(RequestUpdateListForm):
         widgets = {
             "ncm_tag": forms.TextInput()
         }
+
 
 ReturnFormset = forms.modelformset_factory(
     models.Request,

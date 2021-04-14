@@ -48,11 +48,12 @@ class RequestView(LoginRequiredMixin, FormView):
         )
         parts_qty = parts_qty if are_more_fields_required else 1
 
-        RequestPartFormset = formset_factory(
+        formset = formset_factory(
             pts_forms.RequestPartForm,
+            formset=pts_forms.RequestPartFormset,
             extra=parts_qty,
         )
-        return RequestPartFormset
+        return formset
 
     def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
         form = self.get_form()
@@ -68,36 +69,25 @@ class RequestView(LoginRequiredMixin, FormView):
     def form_valid(self, form, *args) -> HttpResponse:
         data = form.cleaned_data
 
-        detailed_form = args[0]
-
         request_group = form.save(commit=False)
         user = self.request.user
 
+        detailed_form = args[0]
         part_id_set = detailed_form.cleaned_data
-        part_number_set = {part_id.get("pn") for part_id in part_id_set} - {None}
-        serial_number_set = {part_id.get("sn") for part_id in part_id_set} - {None}
 
-        if len(part_number_set) > 1:
-            error_message = "Se estan requiriendo distintos numeros de parte"
-            form.add_error("part_id", error_message)
-            self.form_invalid(form=form)
-
-        part_number = part_number_set.pop()
+        part_number = part_id_set[0].get("pn")
         request_group.part_number = part_number
+
         request_group.save()
         if data.get("is_serialized"):
-            real_qty = 0
-            for serial_number in serial_number_set:
+            for part_id in part_id_set:
                 request = pts_models.Request(
                     request_group=request_group,
                     part_number=part_number,
-                    serial_number=serial_number,
+                    serial_number=part_id.get("sn"),
                     user=user
                 )
                 request.save()
-                real_qty += 1
-
-            request_group.qty = real_qty
         else:
             for _ in range(data.get("qty")):
                 request = pts_models.Request(
@@ -106,8 +96,6 @@ class RequestView(LoginRequiredMixin, FormView):
                     user=user
                 )
                 request.save()
-
-        request_group.save()
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, **kwargs) -> HttpResponse:
