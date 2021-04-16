@@ -6,7 +6,7 @@
 
 {% block subtitle %} Transit {% endblock subtitle %}
 
-{% block container %}
+{% block body %}
   <form method="post" class="form_transit">
     {% csrf_token %}
     {{ form.management_form }}
@@ -51,4 +51,4 @@
     </div>
     <input type="button" value="Guardar" onclick="this.form.submit()"/>
   </form>
-{% endblock container %}
+{% endblock body %}

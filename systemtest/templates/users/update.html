@@ -1,18 +1,13 @@
 {% extends "users/base.html" %}
 {% load static %}
+{% load types %}
 
 {% block subtitle %}Update{% endblock subtitle %}
 
 {% block form %}
 
-  {% for field in form %}
-    <div class="form__input
-      {% cycle 'form--left' 'form--right' %}
-      {{ field.field.required|yesno:'form--required,form--non-required' }}"
-    >
-      {% include "utils/forms/field_basic.html" with field=field %}
-    </div>
-  {% endfor %}
+  {% to_list "email" as full_size %}
+  {% include 'utils/forms/form_fields.html' with form=form %}
 
   <button class="button form--left" type="submit" value="Guardar">
     Guardar

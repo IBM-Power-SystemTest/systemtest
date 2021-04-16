@@ -18,38 +18,40 @@ class RequestGroup(models.Model):
     # Part info
     part_description = utils_models.CharFieldUpper(
         "Descripcion",
-        help_text="Nombre de la pieza/parte",
+        help_text="Nombre o descripcion de la pieza/parte (15 caracteres maximo)",
         max_length=15,
         uppercase=True,
     )
     part_number = utils_models.CharFieldUpper(
         "Part Number [ PN ]",
-        help_text="Numero de parte(s) del requerimiento original",
+        help_text="Numero de parte(s) del requerimiento original (7 caracteres)",
         max_length=7,
         validators=[utils_models.Validators.seven_chars],
         uppercase=True,
     )
     is_vpd = models.BooleanField(
         "VPD o TPM",
-        help_text="Se entrega al cambio",
+        help_text="Son piezas que se entregan al cambio",
         default=False,
     )
     is_serialized = models.BooleanField(
         "Serializado",
-        help_text="Numero de parte con serial",
+        help_text="""Numero de parte con serial.
+            Si no tiene serial solo es necesario registrar un numero de parte.
+            Los seriales solo pueden pertenecer a un numero de parte""",
         default=True,
     )
     # System info
     system_number = utils_models.CharFieldUpper(
         "Numero de sistema",
-        help_text="7 caracteres",
+        help_text="MFGN. Familia del Sistema (7 caracteres)",
         max_length=7,
         validators=[utils_models.Validators.seven_chars],
         uppercase=True,
     )
     system_cell = utils_models.CharFieldUpper(
         "Celda del sistema",
-        help_text="4 caracteres",
+        help_text="Celda logica donde esta el sistema (7 caracteres maximo)",
         max_length=7,
         null=True,
         blank=False,
@@ -59,7 +61,8 @@ class RequestGroup(models.Model):
     # Request info
     is_loaner = models.BooleanField(
         "Loaner",
-        help_text="El sistema necesita piezas 'Loaner'",
+        help_text="""El sistema necesita piezas 'Loaner'.
+            Solo se debe usar cuando no deje reemplazar piezas normales""",
         default=False,
     )
     qty = models.SmallIntegerField(
@@ -77,7 +80,7 @@ class RequestGroup(models.Model):
     )
     request_bay = utils_models.CharFieldUpper(
         "Bahia TA",
-        help_text="4 caracteres",
+        help_text="Bahia del usuario que requiere la pieaza (4 caracteres maximo)",
         max_length=4,
         null=True,
         blank=False,

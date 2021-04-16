@@ -28,14 +28,14 @@ class RequestAbstractModel(models.Model):
     )
     part_number = utils_models.CharFieldUpper(
         "Numero de parte [ PN ]",
-        help_text="7 caracteres, rellenar con 0's",
+        help_text="Numerp de parte (7 caracteres)",
         max_length=7,
         validators=[utils_models.Validators.seven_chars],
         uppercase=True,
     )
     serial_number = utils_models.CharFieldUpper(
         "Numero de Seria [ SN ]",
-        help_text="12 caracteres",
+        help_text="Numero de seria [opcional] (12 caracteres)",
         max_length=12,
         validators=[utils_models.Validators.twelve_chars],
         null=True,
@@ -52,11 +52,11 @@ class RequestAbstractModel(models.Model):
         to="users.User",
         on_delete=models.PROTECT,
         verbose_name="Usuario",
-        help_text="Usuario que realizo el cambio de estado",
+        help_text="Usuario que realizo la ultima transaccion",
     )
     comment = utils_models.CharFieldUpper(
         "Comentario",
-        help_text="Comentario adicional en estado actual",
+        help_text="Comentario adicional",
         max_length=30,
         blank=True,
         null=True,
@@ -76,7 +76,7 @@ class Request(RequestAbstractModel):
     )
     ncm_tag = models.PositiveIntegerField(
         "NCM",
-        help_text="Numero de Tag en caso de tener",
+        help_text="Numero de Tag cuando la pieza es retornada como mala (8 caracteres numericos)",
         null=True,
         blank=True,
         unique=True,
@@ -87,7 +87,7 @@ class Request(RequestAbstractModel):
     )
     modified = models.DateTimeField(
         "Actualizacion",
-        help_text="Fecha y hora de ultimo cambio de estado",
+        help_text="Fecha y hora de ultima transaccion",
         auto_now=True,
     )
 
@@ -137,7 +137,7 @@ class RequestHistory(RequestAbstractModel):
         to=Request,
         on_delete=models.PROTECT,
         verbose_name="Requerimiento",
-        help_text="Numero del requerimiento original, con el estado actual",
+        help_text="Numero del requerimiento original con el estado actual",
         related_name="request_history"
     )
 

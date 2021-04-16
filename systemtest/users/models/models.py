@@ -23,11 +23,17 @@ class User(AbstractUser):
     department = models.ForeignKey(
         to=Department, on_delete=models.PROTECT, null=True, blank=True
     )
-    job = models.ForeignKey(to=Job, on_delete=models.PROTECT, null=True, blank=True)
+    job = models.ForeignKey(
+        verbose_name="Puesto",
+        help_text="Puesto del usuario",
+        to=Job,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True)
     shift = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         null=True, blank=True
-        )
+    )
     mfs = utils_models.CharFieldUpper(
         max_length=30,
         null=True,

@@ -3,42 +3,9 @@
 {% block subtitle %}Signup{% endblock subtitle %}
 
 {% block form %}
-
-  {% for field in form %}
-    {% cycle 'form--left' 'form--right' as class_position silent %}
-
-    {% if field.name == 'is_staff' %}
-      <div class="form__input
-        {{ class_position }}
-        {{ field.field.required|yesno:'form--required,form--non-required' }}"
-      >
-        <div class="form--fixed">
-          {{ field.label_tag }}
-          {% include 'utils/forms/help_text.html' with field=field %}
-        </div>
-
-        <label class="switch">
-          {{ field }}
-          <span class="switch--slider switch--round"></span>
-        </label>
-
-      </div>
-
-    {% else %}
-
-      <div class="form__input
-        {{ class_position }}
-        {{ field.field.required|yesno:'form--required,form--non-required' }}"
-      >
-      {% include "utils/forms/field_basic.html" with field=field %}
-    </div>
-
-    {% endif %}
-  {% endfor %}
-
+  {% include 'utils/forms/form_fields.html' with form=form full_size=full_size %}
 
   <button class="button" type="submit" value="Registrar">
     Registrar <i class="fas fa-user-plus"></i>
   </button>
-
-  {% endblock form %}
+{% endblock form %}

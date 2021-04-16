@@ -1,0 +1,16 @@
+{% load types %}
+
+{% for field in form %}
+  {% cycle 'form--left' 'form--right' as class_position silent %}
+
+  {% if field.name in full_size %}
+    {% define None as class_position %}
+    {% resetcycle %}
+  {% endif %}
+
+  {% if field.field.widget.input_type == "checkbox" %}
+    {% include 'utils/forms/field_toggle.html' with field=field %}
+  {% else %}
+    {% include "utils/forms/field_container.html" with field=field class_position=class_position %}
+  {% endif %}
+{% endfor %}

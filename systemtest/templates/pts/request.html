@@ -1,14 +1,52 @@
 {% extends 'pts/base.html' %}
 
+{% load static %}
+{% load legacy %}
+{% load types %}
 
 {% block subtitle %}Request{% endblock subtitle %}
-{% block container %}
-<h1 style="text-align: center; margin-top: 30px;">Solicitar remplazo<o<o</h1>
-  <form id="form_request" class="form_request" method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    {{ detailed_form.non_form_errors }}
-    {{ detailed_form.as_p }}
-    <input type="button" class="request_bottom" value="Solicitar" onclick="this.form.submit()"/>
-  </form>
-{% endblock %}
+
+{% block styles %}
+  {% if request.META.HTTP_USER_AGENT|is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block body %}
+  <main class="content">
+    <div class="card-form">
+      <img
+        class="card-form__img"
+        src="{% static 'images/logos/power.png' %}"
+      />
+
+      <form class="form" method="POST">
+        {% csrf_token %}
+        {% include 'utils/forms/form_errors.html' with form=form %}
+        {% to_list "part_description" "qty" as full_size %}
+
+        {% include 'utils/forms/form_fields.html' with form=form full_size=full_size %}
+
+        {% for form in detailed_form %}
+          {% cycle 'form--left' 'form--right' as class_position silent %}
+          {% for field in form %}
+            {% include "utils/forms/field_container.html" with field=field class_position=class_position %}
+          {% endfor %}
+        {% endfor %}
+
+        <button class="button" type="submit" value="Solicitar">
+          Solicitar <i class="fas fa-user-plus"></i>
+        </button>
+
+      </form>
+    </div>
+  </main>
+  <form class="form">
+
+
+{% endblock body %}

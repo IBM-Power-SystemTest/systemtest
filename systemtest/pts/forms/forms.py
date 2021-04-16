@@ -10,6 +10,8 @@ from systemtest.utils.forms import set_placeholder
 class RequestGroupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+
         system_number = self.fields["system_number"]
         system_cell = self.fields["system_cell"]
         request_bay = self.fields["request_bay"]
@@ -66,12 +68,18 @@ class RequestGroupForm(forms.ModelForm):
 class RequestPartForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.label_suffix = ""
         part_id = self.fields["part_id"]
-        set_placeholder(part_id, "78P4198 YH10MS0C3090")
+        set_placeholder(part_id, "eg. 78P4198 YH10MS0C3090")
 
     part_id = forms.CharField(
-        label="11S",
-        help_text="PN + SN",
+        label="Numero de Parte [ + Numero de Serie ]",
+        help_text="""
+            Algunos formatos validos:
+            11S78P4198YH10MS0C3090
+            78P4198 YH10MS0C3090
+            P78P4198 SYH10MS0C3090
+            """,
         max_length=30,
         min_length=7,
         strip=True,
@@ -98,7 +106,7 @@ class RequestPartForm(forms.Form):
         part_id_regex = re.compile(pattern)
 
         if not (match := part_id_regex.fullmatch(data)):
-            error_message = "11S no es valido, sin match para el PN o SN"
+            error_message = "11S no es valido, revise los formatos validos"
             raise forms.ValidationError(error_message)
 
         groups_matched = match.groupdict()
@@ -110,13 +118,18 @@ class RequestPartForm(forms.Form):
 
 class RequestPartFormset(forms.BaseFormSet):
     def clean(self):
-        """Checks that no two articles have the same title."""
         if any(self.errors):
             # Don't bother validating the formset unless each form is valid on its own
             return
 
         part_id_set = self.cleaned_data
-        part_number_set = {part_id.get("pn") for part_id in part_id_set} - {None}
+        part_number_set = {
+            part_id.get("pn") for part_id in part_id_set
+        } - {None}
+
+        if not part_number_set:
+            error_message = "Debes ingresar por lo menos un numero de parte valido"
+            raise forms.ValidationError(error_message)
 
         if len(part_number_set) > 1:
             error_message = "Se estan requiriendo distintos numeros de parte {} ".format(

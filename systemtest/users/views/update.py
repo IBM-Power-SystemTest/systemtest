@@ -10,9 +10,9 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
     fields = (
         "first_name",
         "last_name",
-        "email",
         "shift",
-        "mfs"
+        "mfs",
+        "email",
     )
 
     success_url = reverse_lazy("users:update")
