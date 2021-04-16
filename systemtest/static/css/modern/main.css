@@ -11,6 +11,14 @@ body {
   padding: 0;
 }
 
+body::-webkit-scrollbar {
+  background: rgba(0, 0, 0, 0.5);
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--gray_80);
+}
 
 .navbar {
   position: sticky;
@@ -38,7 +46,7 @@ body {
   display: inherit;
   margin: 5px;
   padding: 7px 10px;
-  border-bottom: 3px solid var(--cyan_50);
+  border-bottom: 3px solid var(--primary_50);
   outline: none;
   color: var(--gray_20);
   text-decoration: none;
@@ -50,21 +58,21 @@ body {
 .navbar__list a:hover,
 .navbar__list a:focus {
   border-radius: 5px;
-  border-bottom: 3px solid var(--cyan_60);
-  background-color: var(--cyan_60);
+  border-bottom: 3px solid var(--primary_60);
+  background-color: var(--primary_60);
   transition: var(--transition_default);
 }
 
 .navbar__list--fullfill a {
   border-radius: 5px;
-  border-bottom: 3px solid var(--cyan_50);
-  background-color: var(--cyan_50);
+  border-bottom: 3px solid var(--primary_50);
+  background-color: var(--primary_50);
 }
 
 .navbar__list--fullfill a:hover,
 .navbar__list--fullfill a:focus {
-  border-bottom: 3px solid var(--cyan_60);
-  background-color: var(--cyan_60);
+  border-bottom: 3px solid var(--primary_60);
+  background-color: var(--primary_60);
 }
 
 

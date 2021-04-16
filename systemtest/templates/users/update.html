@@ -4,22 +4,15 @@
 {% block subtitle %}Update{% endblock subtitle %}
 
 {% block form %}
-  <div class="form__input form--left">
-    {{ form.first_name.label_tag }}
-    {{ form.first_name }}
-  </div>
-  <div class="form__input form--right">
-    {{ form.last_name.label_tag }}
-    {{ form.last_name }}
-  </div>
-  <div class="form__input form--left">
-    {{ form.email.label_tag }}
-    {{ form.email }}
-  </div>
-  <div class="form__input form--right">
-    {{ form.shift.label_tag }}
-    {{ form.shift }}
-  </div>
+
+  {% for field in form %}
+    <div class="form__input
+      {% cycle 'form--left' 'form--right' %}
+      {{ field.field.required|yesno:'form--required,form--non-required' }}"
+    >
+      {% include "utils/forms/field_basic.html" with field=field %}
+    </div>
+  {% endfor %}
 
   <button class="button form--left" type="submit" value="Guardar">
     Guardar

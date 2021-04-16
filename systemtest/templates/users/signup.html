@@ -3,62 +3,42 @@
 {% block subtitle %}Signup{% endblock subtitle %}
 
 {% block form %}
-  <div class="form__input form--left">
-    {{ form.username.label_tag }}
-    {{ form.username }}
-  </div>
 
-  <div class="form__input form--right">
-    {{ form.email.label_tag }}
-    {{ form.email }}
-  </div>
+  {% for field in form %}
+    {% cycle 'form--left' 'form--right' as class_position silent %}
 
-  <div class="form__input form--left">
-    {{ form.first_name.label_tag }}
-    {{ form.first_name }}
-  </div>
+    {% if field.name == 'is_staff' %}
+      <div class="form__input
+        {{ class_position }}
+        {{ field.field.required|yesno:'form--required,form--non-required' }}"
+      >
+        <div class="form--fixed">
+          {{ field.label_tag }}
+          {% include 'utils/forms/help_text.html' with field=field %}
+        </div>
 
-  <div class="form__input form--right">
-    {{ form.last_name.label_tag }}
-    {{ form.last_name }}
-  </div>
+        <label class="switch">
+          {{ field }}
+          <span class="switch--slider switch--round"></span>
+        </label>
 
-  <div class="form__input form--left">
-    <label for="{{ form.groups.id_for_label }}">
-      Grupo:
-    </label>
-    {{ form.groups }}
-  </div>
+      </div>
 
-  <div class="form__input form--right">
-    <label for="{{ form.jobs.id_for_label }}">
-      Puesto:
-    </label>
-    {{ form.job }}
-  </div>
+    {% else %}
 
-  <div class="form__input form--left form--fixed">
-    {{ form.is_staff.label_tag }}
-    <label class="switch">
-      {{ form.is_staff }}
-      <span class="switch--slider switch--round"></span>
-    </label>
-  </div>
+      <div class="form__input
+        {{ class_position }}
+        {{ field.field.required|yesno:'form--required,form--non-required' }}"
+      >
+      {% include "utils/forms/field_basic.html" with field=field %}
+    </div>
 
-  <div class="form__input form--right">
-    {{ form.mfs.label_tag }}
-    {{ form.mfs }}
-  </div>
-  <div class="form__input form--left">
-    {{ form.password1.label_tag }}
-    {{ form.password1 }}
-  </div>
-  <div class="form__input form--right">
-    {{ form.password2.label_tag }}
-    {{ form.password2 }}
-  </div>
+    {% endif %}
+  {% endfor %}
+
 
   <button class="button" type="submit" value="Registrar">
     Registrar <i class="fas fa-user-plus"></i>
   </button>
-{% endblock form %}
+
+  {% endblock form %}

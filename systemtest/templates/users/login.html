@@ -4,14 +4,12 @@
 {% block subtitle %}Login{% endblock subtitle %}
 
 {% block form %}
-  <div class="form__input">
-    {{ form.username.label_tag }}
-    {{ form.username }}
-  </div>
-  <div class="form__input">
-    {{ form.password.label_tag }}
-    {{ form.password }}
-  </div>
+
+  {% for field in form %}
+    <div class="form__input {{ field.field.required|yesno:'form--required,form--non-required' }}">
+      {% include "utils/forms/field_basic.html" with field=field %}
+    </div>
+  {% endfor %}
 
   <button class="button" type="submit" value="Login">
     Login <i class="fas fa-sign-in-alt"></i>

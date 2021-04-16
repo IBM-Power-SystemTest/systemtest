@@ -1,0 +1,8 @@
+{% if field.help_text %}
+  <div class="tooltip" tabindex="0">
+    <i class="fas fa-question-circle tooltip__icon"></i>
+    <span class="tooltip__box">
+      {{ field.help_text }}
+    </span>
+  </div>
+{% endif %}
