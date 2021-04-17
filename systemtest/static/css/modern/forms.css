@@ -70,7 +70,15 @@
 
 .form--required label::before {
   content: "* ";
-  color: var(--wrong_50)
+  color: var(--error_50)
+}
+
+.form--error input {
+  border: 2px solid var(--error_50);
+}
+
+.form--error input:focus {
+  border: 2px solid var(--error_40);
 }
 
 .button {
@@ -153,12 +161,12 @@
 
 input:checked+.switch--slider:before {
   transform: translateX(24px);
-  background-color: var(--primary_50);
+  background-color: var(--ok_40);
 }
 
 
 .form__error {
-  color: var(--wrong_50);
+  color: var(--error_50);
   font-size: 1.3rem;
 }
 

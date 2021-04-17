@@ -54,16 +54,16 @@
   --ok_20: #a7f0ba;
   --ok_10: #defbe6;
 
-  --wrong_100: #2d0709;
-  --wrong_90: #520408;
-  --wrong_80: #750e13;
-  --wrong_70: #a2191f;
-  --wrong_60: #da1e28;
-  --wrong_50: #fa4d56;
-  --wrong_40: #ff8389;
-  --wrong_30: #ffb3b8;
-  --wrong_20: #ffd7d9;
-  --wrong_10: #fff1f1;
+  --error_100: #2d0709;
+  --error_90: #520408;
+  --error_80: #750e13;
+  --error_70: #a2191f;
+  --error_60: #da1e28;
+  --error_50: #fa4d56;
+  --error_40: #ff8389;
+  --error_30: #ffb3b8;
+  --error_20: #ffd7d9;
+  --error_10: #fff1f1;
 
   --alert_60: #da1e28;
   --alert_50: #24a148;

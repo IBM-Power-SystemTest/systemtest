@@ -28,6 +28,7 @@ body::-webkit-scrollbar-thumb {
   justify-content: space-between;
   align-items: center;
   background-color: black;
+  z-index: 1000;
 }
 
 .navbar__logo {

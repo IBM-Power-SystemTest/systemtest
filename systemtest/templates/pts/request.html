@@ -11,9 +11,9 @@
     <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
     <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
   {% else %}
-    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
-    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
   {% endif %}
 {% endblock styles %}
 
@@ -27,13 +27,19 @@
 
       <form class="form" method="POST">
         {% csrf_token %}
+
         {% include 'utils/forms/form_errors.html' with form=form %}
         {% to_list "part_description" "qty" as full_size %}
-
         {% include 'utils/forms/form_fields.html' with form=form full_size=full_size %}
 
+        <br><br>
+
+        {{ detailed_form.management_form }}
+        {% include 'utils/forms/formset_errors.html' with formset=detailed_form %}
         {% for form in detailed_form %}
           {% cycle 'form--left' 'form--right' as class_position silent %}
+          {% include 'utils/forms/form_errors.html' with form=form %}
+
           {% for field in form %}
             {% include "utils/forms/field_container.html" with field=field class_position=class_position %}
           {% endfor %}
@@ -46,7 +52,4 @@
       </form>
     </div>
   </main>
-  <form class="form">
-
-
 {% endblock body %}

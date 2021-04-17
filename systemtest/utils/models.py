@@ -3,9 +3,18 @@ from django.core.validators import RegexValidator, MaxValueValidator, MinValueVa
 
 
 class Validators:
-    twelve_chars = RegexValidator(r"^[a-zA-Z0-9]{12}$")
-    seven_chars = RegexValidator(r"^[a-zA-Z0-9]{7}$")
-    four_chars = RegexValidator(r"^[a-zA-Z0-9]{4}$")
+    twelve_chars = RegexValidator(
+        r"^[a-zA-Z0-9]{12}$",
+        message="Solo 12 caracteres alfa-numericos"
+    )
+    seven_chars = RegexValidator(
+        r"^[a-zA-Z0-9]{7}$",
+        message="Solo 7 caracteres alfa-numericos"
+    )
+    four_chars = RegexValidator(
+        r"^[a-zA-Z0-9]{4}$",
+        message="Solo 4 caracteres alfa-numericos"
+    )
     eight_digits_max = MaxValueValidator(int("9" * 8))
     eight_digits_min = MinValueValidator(int("1"+"0"*7))
 

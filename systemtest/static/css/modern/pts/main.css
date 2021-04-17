@@ -1,0 +1,11 @@
+.navbar {
+  background: var(--gray_100);
+}
+
+.body {
+  background: var(--gray_100);
+}
+
+.footer {
+  background: var(--gray_100);
+}
