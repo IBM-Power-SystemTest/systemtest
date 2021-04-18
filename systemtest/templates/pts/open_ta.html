@@ -1,19 +1,29 @@
 {% extends 'pts/open.html' %}
 {% load static %}
+{% load types %}
 
 {% block extra_columns %}
-  <th> Comentario </th>
-  <th> Actualizar Parte </th>
-  <th> Eliminar </th>
+  {% to_list "Comentario" "Actualizar Parte" "Eliminar" as column_names %}
+  <th> Comentarios </th>
+  <th> Actualizar Parte {% include "utils/forms/field_help.html" with field=form.0.part_id %}</th>
+  <th> Cancelar </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
   <td> {{ data.comment | default_if_none:"" }} </td>
-  <td> {{ form.part_id }} </td>
+
+  <td>
+    <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
+      {{ f.part_id }}
+      {{ f.part_id.errors }}
+      {% include "utils/forms/field_errors.html" with field=f.part_id %}
+    </div>
+  </td>
+
   <td>
     <a href="{{ data.get_absolute_url }}cancel">
-      <img src="{% static 'images/icons/delete_1.png' %}" alt="">
+      <img src="{% static 'images/icons/delete--alt.svg' %}" alt="">
     </a>
   </td>
-  {{ form.request_status.as_hidden }}
+  {{ f.request_status.as_hidden }}
 {% endblock extra_rows %}

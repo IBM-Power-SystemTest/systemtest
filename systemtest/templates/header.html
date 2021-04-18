@@ -2,40 +2,51 @@
 
 <header class="navbar">
   <div class="navbar-left">
-    <img
+    <a href="{% url 'home' %}">
+      <img
       class="navbar__logo"
       src="{% static 'images/logos/rebus_h_white.png' %}"
       alt="Logo power"
-    />
+      />
+    </a>
   </div>
 
   <ul class="navbar__list navbar--center">
-      {% include 'pts/navbar.html' %}
+    {% block navbar %} {% endblock navbar %}
   </ul>
 
   <ul class="navbar__list navbar--rigth">
     {% if user.is_authenticated  %}
-      <li>
-        <a href="{% url 'users:update' %}">{{ user.username }}</a>
+
+      {% url 'users:update' as url %}
+      <li {% if url == request.path %} class="navbar__list--active" {% endif %} >
+        <a href="{{ url }}">
+          {{ user.username }} <i class="fas fa-user"></i>
+        </a>
       </li>
 
       {% if user.is_staff %}
-        <li>
-          <a href="{% url 'users:signup' %}" class="nav-item-link">
-            Crear Usuario
+        {% url 'users:signup' as url %}
+        <li {% if url == request.path %} class="navbar__list--active" {% endif %}>
+          <a href="{{ url }}">
+            Crear Usuario <i class="fas fa-user-plus"></i>
           </a>
         </li>
       {% endif %}
 
-      <li class="navbar__list--fullfill">
-        <a href="{% url 'users:logout' %}" class="nav-item-link">
+      {% url 'users:logout' as url %}
+      <li class="navbar__list--fullfill {% if url == request.path %} navbar__list--active {% endif %}">
+        <a href="{{ url }}">
           Cerrar Sesion  <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>
 
     {% else %}
-      <li class="navbar__list--fullfill">
-        <a href="{% url 'users:login' %}">Iniciar Sesion</a>
+      {% url 'users:login' as url %}
+      <li class="navbar__list--fullfill {% if url == request.path %} navbar__list--active {% endif %}">
+        <a href="{{ url }}">
+          Iniciar Sesion <i class="fas fa-sign-in-alt"></i>
+        </a>
       </li>
     {% endif %}
   </ul>

@@ -7,15 +7,18 @@
 
 {% block extra_rows %}
   <td> {{ data.ncm_tag | default_if_none:"" }} </td>
+
   {% if data.request_status.name == "BAD" %}
-    <td> {{ form.part_id }} </td>
+    <td>
+      <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
+        {{ f.part_id }}
+        {% include "utils/forms/field_errors.html" with field=f.part_id %}
+      </div>
+    </td>
   {% else %}
     <td></td>
   {% endif %}
-  {{ form.request_status.as_hidden }}
-  {{ form.ncm_tag.as_hidden }}
-{% endblock extra_rows %}
 
-{% block submit %}
-  <input type="button" value="Guardar" onclick="this.form.submit()"/>
-{% endblock submit %}
+  {{ f.request_status.as_hidden }}
+  {{ f.ncm_tag.as_hidden }}
+{% endblock extra_rows %}

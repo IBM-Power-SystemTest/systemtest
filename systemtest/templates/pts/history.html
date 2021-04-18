@@ -1,58 +1,43 @@
 {% extends 'pts/base_table.html' %}
-{% load humanize %}
-{% load tz %}
+
 {% load measures %}
-{% load static %}
+{% load types %}
 
 {% block subtitle %} Close {% endblock subtitle %}
 
-{% block container %}
-<div class="table_overflow">
-  <table class="table_default">
-    <caption>Historico</caption>
-    <thead>
-      <tr class="tr_open_thead">
-        <th> Folio </th>
-        <th> Status </th>
-        <th> Fecha </th>
-        <th> Turno </th>
-        <th> Parte </th>
-        <th> Serial </th>
-        <th> Descripcion </th>
-        <th> Comentarios </th>
-        <th> NCM Tag </th>
-        <th> Sistema </th>
-        <th> Celda </th>
-        <th> Usuario </th>
-        {% block extra_columns %}{% endblock extra_columns %}
-      </tr>
-    </thead>
-    <tbody class="tr_open_body">
-    {% for request in page_obj %}
-      <tr>
-        <td> {{ request.request.pk }} </td>
-        <td> {{ request.request_status }} </td>
-        <td> {{ request.created }} </td>
-        <td> {{ request.created | get_shift }}</td>
-        <td> {{ request.part_number }} </td>
-        <td> {{ request.serial_number | default_if_none:"" }} </td>
-        <td> {{ request.request.request_group.part_description }} </td>
-        <td> {{ request.comment | default_if_none:"" }} </td>
-        <td>
-          {% if request.request_status.name == "CLOSE BAD" %}
-            {{ request.request.ncm_tag }}
-          {% endif %}
-        </td>
-        <td> {{ request.request.request_group.system_number }} </td>
-        <td> {{ request.request.request_group.system_cell }} </td>
-        <td> {{ request.user }} </td>
-        {% block extra_rows %}{% endblock extra_rows %}
-      </tr>
-    {% empty %}
-    {% endfor %}
-    </tbody>
-  </table>
-</div>
+{% block table_title %} Historial {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "Folio" "Status" "Fecha" "Turno" "Parte" "Serial" "Descripcion" "NCM Tag" "Sistema" "Celda" "Usuario" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block table_body %}
+  {% for request in object_list %}
+    <tr class="table__row">
+      <td> {{ request.request.pk }} </td>
+      <td> {{ request.request_status }} </td>
+      <td> {{ request.created }} </td>
+      <td> {{ request.created | get_shift }}</td>
+      <td> {{ request.part_number }} </td>
+      <td> {{ request.serial_number | default_if_none:"" }} </td>
+      <td> {{ request.request.request_group.part_description }} </td>
+
+      <td>
+        {% if request.request_status.name == "CLOSE BAD" %}
+          {{ request.request.ncm_tag }}
+        {% endif %}
+      </td>
+
+      <td> {{ request.request.request_group.system_number }} </td>
+      <td> {{ request.request.request_group.system_cell }} </td>
+      <td> {{ request.user }} </td>
+    </tr>
+  {% endfor %}
+{% endblock table_body %}
+
+{% block button %} {% endblock button %}
 
 <div class="pagination">
   <span class="step-links">
@@ -71,4 +56,3 @@
     {% endif %}
   </span>
 </div>
-{% endblock container %}

@@ -7,6 +7,12 @@
 
 {% block extra_rows %}
   <td> {{ data.get_first_request.user }} </td>
-  <td> {{ form.part_id }} </td>
+
+  <td>
+    <div class="form__input {% if f.part_id.errors %} form--error {% endif %}">
+      {{ f.part_id }}
+      {% include "utils/forms/field_errors.html" with field=f.part_id %}
+    </div>
+  </td>
 {% endblock extra_rows %}
 

@@ -1,82 +1,55 @@
 {% extends 'pts/base_table.html' %}
-{% load humanize %}
+
 {% load static %}
-{% load tz %}
 {% load measures %}
+{% load types %}
 
 {% block subtitle %} Open {% endblock subtitle %}
 
-{% block container %}
-  <form method="post" class="form_transit">
-    {% csrf_token %}
-    {{ form.management_form }}
-    <div class="table_overflow">
-      <table class="table_default">
-        <caption>Solicitudes abiertas</caption>
-        <thead>
-          <tr class="tr_open_thead border_line">
-            <th> Folio </th>
-            <th> Status </th>
-            <th> Tiempo Requerido </th>
-            <th> Tiempo Actualizacion </th>
-            <th> Turno </th>
-            <th> Parte </th>
-            <th> Descripcion </th>
-            <th> Loaner </th>
-            <th> Sistema </th>
-            <th> Celda </th>
-            <th> Usuario </th>
-            {% block extra_columns %}{% endblock extra_columns %}
-          </tr>
-        </thead>
-        <tbody class="tr_open_body">
-          {% localtime on %}
-          {% for data, form in rows %}
-            <tr>
-              {{ form.errors }}
-              {{ form.id }}
-              <td> {{ data.pk }} </td>
-              <td>
-                <div
-                  {% if data.request_status.name != "OPEN" or data.comment %}
-                    class="table__status alert"
-                  {% elif data.created|elapsed_time_min >= 40 %}
-                    class="table__status alert3"
-                  {% elif data.created|elapsed_time_min >= 25 %}
-                    class="table__status alert2"
-                  {% elif data.created|elapsed_time_min >= 15 %}
-                    class="table__status alert1"
-                  {% endif %}
-                >
-                  {{ data.request_status }}
-                </div>
-              </td>
-              <td> {{ data.created | timesince }} </td>
-              <td> {{ data.modified | timesince }} </td>
-              <td> {{ data.created | get_shift }}</td>
-              <td>
-                {{ data.part_number }}
-                {{ data.serial_number | default_if_none:"" }}
-              </td>
-              <td> {{ data.request_group.part_description }} </td>
-              {% if data.request_group.is_loaner %}
-                <td>
-                  <img src="{% static 'images/icons/true.png' %}" alt="">
-                </td>
-              {% else %}
-                <td></td>
-              {% endif %}
-              <td> {{ data.request_group.system_number }} </td>
-              <td> {{ data.request_group.system_cell }} </td>
-              <td> {{ data.user }} </td>
-              {% block extra_rows %} {% endblock extra_rows %}
-            </tr>
-          {% empty %}
-          {% endfor %}
-          {% endlocaltime %}
-        </tbody>
-      </table>
+{% block table_title %} Solicitudes abiertas {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "Folio" "Status" "Tiempo Requerido" "Tiempo Actualizacion" "Turno" "Parte" "Descripcion" "Loaner" "Sistema" "Celda" "Usuario" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block rows %}
+  <td> {{ data.pk }} </td>
+
+  <td>
+    <div
+      {% if data.request_status.name != "OPEN" or data.comment %}
+        class="table__status table--alert"
+      {% elif data.created|elapsed_time_min >= 40 %}
+        class="table__status table--alert3"
+      {% elif data.created|elapsed_time_min >= 25 %}
+        class="table__status table--alert2"
+      {% elif data.created|elapsed_time_min >= 15 %}
+        class="table__status table--alert1"
+      {% endif %}
+    >
+      {{ data.request_status }}
     </div>
-    <input type="button" value="Guardar" onclick="this.form.submit()"/>
-  </form>
-{% endblock container %}
+  </td>
+
+  <td> {{ data.created | timesince }} </td>
+  <td> {{ data.modified | timesince }} </td>
+  <td> {{ data.created | get_shift }} </td>
+  <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
+  <td> {{ data.request_group.part_description }} </td>
+
+  {% if data.request_group.is_loaner %}
+    <td>
+      <img src="{% static 'images/icons/checkmark--outline.svg' %}" alt="">
+    </td>
+  {% else %}
+    <td></td>
+  {% endif %}
+
+  <td> {{ data.request_group.system_number }} </td>
+  <td> {{ data.request_group.system_cell }} </td>
+  <td> {{ data.user }} </td>
+
+  {% block extra_rows %} {% endblock extra_rows %}
+{% endblock rows %}

@@ -10,11 +10,18 @@
 
 {% block extra_rows %}
   <td> {{ data.user }} </td>
-  <td> {{ form.part_id }} </td>
+
   <td>
-    <a href="{{ data.get_absolute_url }}reopen">
-      <img src="{% static 'images/icons/delete_1.png' %}" alt="">
+    <div class="form__input {% if f.part_id.errors %} form--error {% endif %}">
+      {{ f.part_id }}
+      {% include "utils/forms/field_errors.html" with field=f.part_id %}
+    </div>
+  </td>
+
+  <td>
+    <a href="{{ data.get_absolute_url }}return/open/">
+      <img src="{% static 'images/icons/delete--alt.svg' %}" alt="">
     </a>
   </td>
-  {{ form.request_status.as_hidden }}
+  {{ f.request_status.as_hidden }}
 {% endblock extra_rows %}

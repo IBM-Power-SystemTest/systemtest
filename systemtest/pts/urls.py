@@ -1,11 +1,13 @@
 from django.urls import path
+from django.views.generic.base import RedirectView
+
 from systemtest.pts import views
 
 app_name = "pts"
 urlpatterns = [
     path(
         route="",
-        view=views.RequestView.as_view(),
+        view=RedirectView.as_view(url="request/"),
         name="index"
     ),
     path(
@@ -45,7 +47,7 @@ urlpatterns = [
     ),
     path(
         route="request/<pk>/",
-        view=views.DetailRequestView.as_view(),
+        view=RedirectView.as_view(url="request/"),
         name="detail"
     ),
     path(
@@ -54,18 +56,13 @@ urlpatterns = [
         name="cancel"
     ),
     path(
-        route="request/<pk>/reopen/",
-        view=views.RequestReopen.as_view(),
-        name="reopen"
+        route="request/<pk>/return/open/",
+        view=views.ReturnToOpen.as_view(),
+        name="return_to_open"
     ),
     path(
-        route="request_group/<pk>",
-        view=views.RequestGroupDetail.as_view(),
-        name="detail_group"
-    ),
-    path(
-        route="request_group/<pk>/update",
-        view=views.DetailRequestView.as_view(),
-        name="update"
+        route="request/<pk>/return/pending/",
+        view=views.ReturnToPending.as_view(),
+        name="return_to_pending"
     ),
 ]

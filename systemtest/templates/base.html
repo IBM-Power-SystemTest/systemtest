@@ -1,5 +1,6 @@
 {% load static %}
 {% load legacy %}
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -35,7 +36,7 @@
   </head>
 
   <body>
-    {% include 'header.html' %}
+    {% block navbar %} {% endblock navbar %}
 
     {% if messages %}
       <ul class="messages">

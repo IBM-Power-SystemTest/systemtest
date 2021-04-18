@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load static %}
 {% load legacy %}
 
@@ -16,6 +17,10 @@
   <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
   {% endif %}
 {% endblock styles %}
+
+{% block navbar %}
+  {% include 'header.html'%}
+{% endblock navbar %}
 
 {% block body %}
   <main class="content">

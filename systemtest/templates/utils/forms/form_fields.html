@@ -1,5 +1,7 @@
 {% load types %}
 
+{% include 'utils/forms/form_errors.html' with form=form %}
+
 {% for field in form %}
   {% cycle 'form--left' 'form--right' as class_position silent %}
 

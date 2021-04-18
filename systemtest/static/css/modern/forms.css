@@ -40,7 +40,7 @@
   box-sizing: border-box;
   padding: 3px;
   margin-bottom: 8px;
-  border: none;
+  border: 2px solid transparent;
   border-bottom: 2px solid var(--gray_50);
   outline: none;
   color: var(--gray_20);
@@ -60,7 +60,7 @@
 
 .form__input select {
   appearance: none;
-  background: url('../../images/icons/caret-down.svg') 97% / 8% no-repeat;
+  background: url('../../images/icons/caret-down.svg') 100% / 8% no-repeat;
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -82,7 +82,6 @@
 }
 
 .button {
-  min-width: 50%;
   box-sizing: border-box;
   margin: 20px auto;
   padding: 12px 10px;
@@ -132,10 +131,10 @@
 .switch--slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
+  top: -6px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 6px;
   background-color: var(--gray_60);
   transition: var(--transition_default);
 }
@@ -162,6 +161,17 @@
 input:checked+.switch--slider:before {
   transform: translateX(24px);
   background-color: var(--ok_40);
+}
+
+.switch--slider::after {
+  position: absolute;
+  top: 5px;
+  padding-left: 60px;
+  content: "OFF";
+}
+
+input:checked+.switch--slider::after {
+  content: "ON";
 }
 
 

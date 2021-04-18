@@ -1,54 +1,42 @@
 {% extends 'pts/base_table.html' %}
-{% load humanize %}
-{%load static %}
-{% load tz %}
+
 {% load measures %}
+{% load types %}
 
 {% block subtitle %} Transit {% endblock subtitle %}
 
-{% block body %}
-  <form method="post" class="form_transit">
-    {% csrf_token %}
-    {{ form.management_form }}
-    <div class="table_overflow">
-      <table class="table_default">
-        <caption>Solicitudes en transito</caption>
-        <thead>
-          <tr class="tr_open_thead border_line">
-            <th> Folio </th>
-            <th> Status </th>
-            <th> Tiempo </th>
-            <th> Turno </th>
-            <th> Parte </th>
-            <th> Descripcion </th>
-            <th> Sistema </th>
-            <th> Celda </th>
-            {% block extra_columns %}{% endblock extra_columns %}
-          </tr>
-        </thead>
-        <tbody class="tr_open_body">
-          {% for data, form in rows %}
-            <tr>
-              {{ form.id }}
-              {{ form.errors }}
-              <td> {{ data.pk }} </td>
-              <td> {{ data.request_status }} </td>
-              <td> {{ data.modified | timesince }} </td>
-              <td> {{ data.modified | get_shift }}</td>
-              <td>
-                {{ data.part_number }}
-                {{ data.serial_number | default_if_none:"" }}
-              </td>
-              <td> {{ data.request_group.part_description }} </td>
-              <td> {{ data.request_group.system_number }} </td>
-              <td> {{ data.request_group.system_cell }} </td>
-              {% block extra_rows %}{% endblock extra_rows %}
-            </tr>
-          {% empty %}
-          {% endfor %}
-        </tbody>
-      </table>
+{% block table_title %} Solicitudes entregadas {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "Folio" "Status" "Tiempo" "Turno" "Parte" "Descripcion" "Loaner" "Sistema" "Celda" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %}{% endblock extra_columns %}
+{% endblock columns %}
+
+{% block rows %}
+  <td> {{ data.pk }} </td>
+
+  <td>
+    <div
+      {% if data.created|elapsed_time_min >= 40 %}
+        class="table__status table--alert3"
+      {% elif data.created|elapsed_time_min >= 25 %}
+        class="table__status table--alert2"
+      {% elif data.created|elapsed_time_min >= 15 %}
+        class="table__status table--alert1"
+      {% endif %}
+    >
+      {{ data.request_status }}
     </div>
-    <input type="button" value="Guardar" onclick="this.form.submit()"/>
-  </form>
-{% endblock body %}
+  </td>
+
+  <td> {{ data.request_status }} </td>
+  <td> {{ data.modified | timesince }} </td>
+  <td> {{ data.modified | get_shift }}</td>
+  <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
+  <td> {{ data.request_group.part_description }} </td>
+  <td> {{ data.request_group.system_number }} </td>
+  <td> {{ data.request_group.system_cell }} </td>
+  {% block extra_rows %}{% endblock extra_rows %}
+
+{% endblock rows %}

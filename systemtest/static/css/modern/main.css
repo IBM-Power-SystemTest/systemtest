@@ -12,19 +12,20 @@ body {
 }
 
 body::-webkit-scrollbar {
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--gray_100);
   width: 10px;
 }
 
 body::-webkit-scrollbar-thumb {
-  background: var(--gray_80);
+  background: var(--gray_70);
 }
+
 
 .navbar {
   position: sticky;
   top: 0;
   display: flex;
-  padding: 0 25px;
+  padding-right: 25px;
   justify-content: space-between;
   align-items: center;
   background-color: black;
@@ -74,6 +75,17 @@ body::-webkit-scrollbar-thumb {
 .navbar__list--fullfill a:focus {
   border-bottom: 3px solid var(--primary_60);
   background-color: var(--primary_60);
+}
+
+.navbar__list--active a {
+  border-bottom: 3px solid var(--secondary_50);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar__list--active a:hover,
+.navbar__list--active a:focus {
+  border-bottom: 3px solid var(--secondary_60);
+  background-color: var(--secondary_60)
 }
 
 

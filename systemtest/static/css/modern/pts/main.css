@@ -4,8 +4,182 @@
 
 .body {
   background: var(--gray_100);
+  padding-top: 25px;
 }
 
 .footer {
   background: var(--gray_100);
+}
+
+
+.form {
+  display: block;
+  width: 100%;
+}
+
+.table__wrapper {
+  display: block;
+  font-size: 1.2rem;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.table__wrapper::-webkit-scrollbar {
+  background: var(--gray_100);
+  width: 10px;
+}
+
+.table__wrapper::-webkit-scrollbar-thumb {
+  background: var(--gray_70);
+}
+
+
+.table__title {
+  margin: 20px;
+  font-size: 2.5rem;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+
+.table__header th {
+  border-top: 1px solid var(--gray_60);
+  background: var(--gray_100);
+}
+
+.table__row td {
+  border-bottom: 1px solid var(--gray_70);
+  background: var(--gray_90);
+}
+
+.table__row:nth-child(2n) td {
+  background: var(--gray_100);
+}
+
+.table__row:hover td {
+  background: var(--gray_70);
+}
+
+
+.table__row .form__input input,
+.table__row .form__input select {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--gray_10);
+}
+
+.form .table__row .form__input select {
+  appearance: none;
+  background: url('../../../images/icons/caret-down.svg') 97% / 8% no-repeat;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+.table__row img {
+  width: 24px;
+}
+
+
+.table__status {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.table--alert {
+  background: var(--secondary_60);
+}
+
+.table__body tr:hover .table--alert {
+  background: var(--secondary_50);
+}
+
+.table--alert1 {
+  background: #d3a400;
+  color: var(--gray_80);
+}
+
+.table__body tr:hover .table--alert1 {
+  background: var(--alert_30);
+  color: var(--gray_80);
+}
+
+.table--alert2 {
+  background: #e07237;
+}
+
+.table__body tr:hover .table--alert2 {
+  background: var(--alert_40);
+}
+
+.table--alert3 {
+  background: var(--error_60);
+}
+
+.table__body tr:hover .table--alert3 {
+  background: var(--error_50);
+}
+
+
+.table__wrapper+.button {
+  margin-left: 25px;
+}
+
+
+.form .table__wrapper .dataTables_wrapper .dt-buttons button.dt-button {
+  all: unset;
+  box-sizing: border-box;
+  margin-left: 25px;
+  padding: 12px 10px;
+  border-radius: 5px;
+  outline: none;
+  background: var(--gray_60);
+  color: var(--gray_20);
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-align: center;
+  transition: var(--transition_default);
+  cursor: pointer;
+}
+
+.form .table__wrapper .dataTables_wrapper .dt-buttons button.dt-button:hover,
+.form .table__wrapper .dataTables_wrapper .dt-buttons button.dt-button:focus,
+.form .table__wrapper .dataTables_wrapper .dt-buttons button.dt-button:active {
+  border: unset;
+  text-shadow: unset;
+  background-color: unset;
+  background: var(--gray_50);
+}
+
+#DataTables_Table_0_filter {
+  margin-right: 30px;
+  box-sizing: border-box;
+  color: var(--gray_20);
+  font-size: 1.4rem;
+}
+
+#DataTables_Table_0_filter input {
+  height: 30px;
+  margin-left: 8px;
+  padding: 3px;
+  padding-left: 28px;
+  border: 2px solid transparent;
+  border-bottom: 2px solid var(--gray_50);
+  border-radius: unset;
+  outline: none;
+  background: url('../../../images/icons/search.svg') 1% / 10% no-repeat;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--gray_20);
+}
+
+#DataTables_Table_0_filter input:focus {
+  border: 2px solid var(--primary_50);
+}
+
+
+.dataTables_empty {
+  background: var(--gray_90);
+  color: var(--gray_20);
 }

@@ -77,8 +77,9 @@ class RequestPartForm(forms.Form):
         help_text="""
             Algunos formatos validos:
             11S78P4198YH10MS0C3090
-            78P4198 YH10MS0C3090
             P78P4198 SYH10MS0C3090
+            78P4198 YH10MS0C3090
+            78P4198YH10MS0C3090
             """,
         max_length=30,
         min_length=7,
@@ -163,6 +164,13 @@ class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
         required=False,
     )
     part_id = forms.CharField(
+        help_text="""
+            Algunos formatos validos:
+            11S78P4198YH10MS0C3090
+            P78P4198 SYH10MS0C3090
+            78P4198 YH10MS0C3090
+            78P4198YH10MS0C3090
+            """,
         max_length=30,
         min_length=7,
         strip=True,

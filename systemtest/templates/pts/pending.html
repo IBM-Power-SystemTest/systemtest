@@ -1,62 +1,30 @@
 {% extends 'pts/base_table.html' %}
-{% load humanize %}
-{% load static %}
-{% load tz %}
-{% load measures %}
 
-{% block subtitle %}Pending{% endblock subtitle %}
-{% block container %}
-  <form method="post"  class="form_transit">
-    {% csrf_token %}
-    {{ form.management_form }}
-    <div class="table_overflow">
-    <table class="table_default">
-      <caption>Solicitudes en pendientes</caption>
-      <thead>
-        <tr class="tr_open_thead border_line">
-          <th> Folio </th>
-          <th> Status </th>
-          <th> Tiempo </th>
-          <th> Turno </th>
-          <th> Descripcion </th>
-          <th> Sistema </th>
-          <th> Celda </th>
-          <th> Parte Requerida </th>
-          <th> Parte Entregada </th>
-          <th> Usuario </th>
-          {% block extra_columns %}
-          {% endblock extra_columns %}
-        </tr>
-      </thead>
-      <tbody class="tr_open_body">
-      {% for data, form in rows %}
-        <tr>
-          {{ form.id }}
-          {{ form.errors }}
-          <td> {{ data.pk }} </td>
-          <td> {{ data.request_status }} </td>
-          <td> {{ data.modified | timesince }} </td>
-          <td> {{ data.modified | get_shift }}</td>
-          <td> {{ data.request_group.part_description }} </td>
-          <td> {{ data.request_group.system_number }} </td>
-          <td> {{ data.request_group.system_cell }} </td>
-          <td>
-            {{ data.get_first_request.part_number }}
-            {{ data.get_first_request.serial_number | default_if_none:"" }}
-          </td>
-          <td>
-            {{ data.part_number }}
-            {{ data.serial_number | default_if_none:"" }}
-          </td>
-          <td> {{ data.user }} </td>
-          {% block extra_rows %}
-          {% endblock extra_rows %}
-        </tr>
-      {% empty %}
-      {% endfor %}
-      </tbody>
-    </table>
-  </div>
-    {% block submit %}{% endblock submit %}
-  </form>
-{% endblock container %}
+{% load measures %}
+{% load types %}
+
+{% block subtitle %} Pending {% endblock subtitle %}
+
+{% block table_title %} Solicitudes pendientes {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "Folio" "Status" "Tiempo" "Turno" "Descripcion" "Sistema" "Celda" "Parte Requerida" "Parte Entregada" "Usuario" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block rows %}
+  <td> {{ data.pk }} </td>
+  <td> {{ data.request_status }} </td>
+  <td> {{ data.modified | timesince }} </td>
+  <td> {{ data.modified | get_shift }}</td>
+  <td> {{ data.request_group.part_description }} </td>
+  <td> {{ data.request_group.system_number }} </td>
+  <td> {{ data.request_group.system_cell }} </td>
+  <td> {{ data.get_first_request.part_number }} {{ data.get_first_request.serial_number | default_if_none:"" }} </td>
+  <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
+  <td> {{ data.user }} </td>
+  {% block extra_rows %} {% endblock extra_rows %}
+{% endblock rows %}
+
+{% block button %} {% endblock button %}

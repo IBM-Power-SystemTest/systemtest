@@ -1,21 +1,36 @@
 {% extends 'pts/return.html' %}
 
+{% load static %}
+
 {% block extra_columns %}
   <th> Actualizar Serial </th>
   <th> Actualizar NCM Tag </th>
+  <th> Regresar </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ form.part_id }} </td>
+  <td>
+    <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
+      {{ f.part_id }}
+      {% include "utils/forms/field_errors.html" with field=f.part_id %}
+    </div>
+  </td>
 
   {% if data.request_status.name == "BAD" %}
-    <td> {{ form.ncm_tag }} </td>
+    <td>
+      <div class="form__input {{ f.ncm_tag.errors|yesno:'form--error,' }}">
+        {{ f.ncm_tag }}
+        {% include "utils/forms/field_errors.html" with field=f.ncm_tag %}
+      </div>
+    </td>
   {% else %}
-    <td> {{ form.ncm_tag.as_hidden }} </td>
+    <td> {{ f.ncm_tag.as_hidden }} </td>
   {% endif %}
-  {{ form.request_status.as_hidden }}
-{% endblock extra_rows %}
 
-{% block submit %}
-  <input type="button" value="Guardar" onclick="this.form.submit()"/>
-{% endblock submit %}
+  <td>
+    <a href="{{ data.get_absolute_url }}return/pending/">
+      <img src="{% static 'images/icons/delete--alt.svg' %}" alt="">
+    </a>
+  </td>
+  {{ f.request_status.as_hidden }}
+{% endblock extra_rows %}

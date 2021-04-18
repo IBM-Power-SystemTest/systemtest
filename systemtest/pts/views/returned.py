@@ -2,6 +2,8 @@ from typing import Any, Type
 
 # Django HTTP
 from django.urls.base import reverse_lazy
+from django.views.generic.edit import DeleteView
+from django.http.response import HttpResponse, HttpResponseRedirect
 
 # Django db
 from django.db.models import Q
@@ -51,9 +53,24 @@ class ReturnPartListView(BaseRequestListView):
 
         return super().get_new_status(request)
 
-class ReturnPartNoNCM(PendingPartListView):
-    query = (
-        Q(request_status__pk__gte=9) &
-        Q(request_status__pk__lte=10)
-    )
-    template_name = "pts/return_ta.html"
+
+class ReturnToPending(DeleteView):
+    model = pts_models.Request
+    success_url = reverse_lazy("pts:return")
+
+    def get(self, request, *args, **kwargs):
+        user_groups = self.request.user.groups.all()
+        if user_groups.filter(name="TA"):
+            return self.delete()
+
+    def delete(self) -> HttpResponse:
+        """
+        Change the status of object on the fetched object and then redirect to the
+        success URL.
+        """
+        self.object = self.get_object()
+        self.object.request_status = pts_models.RequestStatus.objects.get(
+            name="PENDING")
+        self.object.ncm_tag = None
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
