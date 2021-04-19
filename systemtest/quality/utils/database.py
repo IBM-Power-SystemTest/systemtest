@@ -1,3 +1,7 @@
+from typing import Any
+from pathlib import Path
+import re
+
 import ibm_db
 
 
@@ -11,6 +15,7 @@ class Database:
             "UID": user,
             "PWD": password,
         }
+        self.conn_str = self.get_conn_str(self.config)
         self.conn = None
 
     @staticmethod
@@ -19,21 +24,57 @@ class Database:
             (f"{key}={value}" for key, value in config_dict.items()))
         return conn_str
 
-    def connect(self):
+    def get_connection(self):
         try:
-            conn = ibm_db.connect(self.get_conn_str(self.config))
+            conn = ibm_db.connect(self.conn_str, "", "")
             return conn
         except:
-            print("Error in connection, sqlstate = ")
-            errorMsg = ibm_db.conn_errormsg()
-            print(errorMsg)
+            error_code = ibm_db.conn_error()
+            error_message = ibm_db.conn_errormsg()
+            print(f"[{error_code}] Error in connection, sqlstate \n{error_message}")
             return None
 
-    def get_connection(self):
-        if self.conn is None:
-            self.conn = self.connect()
+    def close(self) -> bool:
+        if ibm_db.active(self.conn):
+            try:
+                closed = ibm_db.close(self.conn)
+            except Exception as error:
+                print(error)
+            finally:
+                return closed
+        else:
+            print("Connection already closed")
+            return True
 
-        return self.conn
+    @staticmethod
+    def get_sql(path: str, spaceless: bool = True) -> str:
+        sql_path = Path(path)
+        with open(sql_path, "r") as sql_file:
+            sql = sql_file.read()
 
-    def close(self):
-        return ibm_db.close(self.conn)
+        if spaceless:
+            sql = re.sub(r"\s+", " ", sql)
+
+        return sql
+
+    def validate_conn(function):
+        def wrapper(*args):
+            self = args[0]
+
+            if ibm_db.active(self.conn):
+                return function(*args)
+
+            self.conn = self.get_connection()
+            return function(*args)
+        return wrapper
+
+    @validate_conn
+    def fecth(self, sql, transaction_unique=True) -> dict[str, Any]:
+        result = ibm_db.exec_immediate(self.conn, sql)
+        row = ibm_db.fetch_assoc(result)
+        while (row):
+            yield row
+            row = ibm_db.fetch_assoc(result)
+
+        if transaction_unique:
+            self.close()
