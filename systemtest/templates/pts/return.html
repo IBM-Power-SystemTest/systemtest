@@ -3,12 +3,12 @@
 {% load measures %}
 {% load types %}
 
-{% block subtitle %} Return {% endblock subtitle %}
+{% block subtitle %} Returned {% endblock subtitle %}
 
-{% block table_title %} Solicitudes Regresadas {% endblock table_title %}
+{% block table_title %} RETURNED {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "Folio" "Status" "Tiempo" "Turno" "Parte" "Descripcion" "Sistema" "Celda" "Usuario" as column_names %}
+  {% to_list "ID" "Status" "Time" "Shift" "Part" "Description" "System" "Testcell" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

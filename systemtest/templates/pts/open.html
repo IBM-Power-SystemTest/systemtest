@@ -6,10 +6,10 @@
 
 {% block subtitle %} Open {% endblock subtitle %}
 
-{% block table_title %} Solicitudes abiertas {% endblock table_title %}
+{% block table_title %} OPEN {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "Folio" "Status" "Tiempo Requerido" "Tiempo Actualizacion" "Turno" "Parte" "Descripcion" "Loaner" "Sistema" "Celda" "Usuario" as column_names %}
+  {% to_list "ID" "Status" "Require Time" "Update Time" "Shift" "Part" "Description" "Loaner" "System" "Testcell" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

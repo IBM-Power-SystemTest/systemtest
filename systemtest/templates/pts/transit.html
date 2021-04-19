@@ -5,10 +5,10 @@
 
 {% block subtitle %} Transit {% endblock subtitle %}
 
-{% block table_title %} Solicitudes entregadas {% endblock table_title %}
+{% block table_title %} TRANSIT {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "Folio" "Status" "Tiempo" "Turno" "Parte" "Descripcion" "Loaner" "Sistema" "Celda" as column_names %}
+  {% to_list "ID" "Status" "Time" "Shift" "Part" "Description" "Loaner" "System" "Testcell" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %}{% endblock extra_columns %}
 {% endblock columns %}

@@ -5,15 +5,15 @@ from django.core.validators import RegexValidator, MaxValueValidator, MinValueVa
 class Validators:
     twelve_chars = RegexValidator(
         r"^[a-zA-Z0-9]{12}$",
-        message="Solo 12 caracteres alfa-numericos"
+        message="Only 12 chars alpha-numeric"
     )
     seven_chars = RegexValidator(
         r"^[a-zA-Z0-9]{7}$",
-        message="Solo 7 caracteres alfa-numericos"
+        message="Only 7 chars alpha-numeric"
     )
     four_chars = RegexValidator(
         r"^[a-zA-Z0-9]{4}$",
-        message="Solo 4 caracteres alfa-numericos"
+        message="Only 4 chars alpha-numeric"
     )
     eight_digits_max = MaxValueValidator(int("9" * 8))
     eight_digits_min = MinValueValidator(int("1"+"0"*7))
@@ -39,8 +39,8 @@ class AbstractOptionsModel(models.Model):
         editable=False
     )
     name = CharFieldUpper(
-        "Nombre",
-        help_text="Elemento de la lista",
+        "Name",
+        help_text="List element",
         max_length=50,
         unique=True,
         uppercase=True

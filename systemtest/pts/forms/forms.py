@@ -49,18 +49,19 @@ class RequestGroupForm(forms.ModelForm):
     def clean_qty(self):
         qty = self.cleaned_data['qty']
         if qty < 1:
-            raise forms.ValidationError("El minimo de requerimientos es '1'")
+            raise forms.ValidationError("The minimum requirement is '1'")
         elif qty > 10:
-            raise forms.ValidationError("El maximo de requerimientos es '10'")
+            raise forms.ValidationError("The maximum requirement is '10'")
         return qty
 
     def clean(self) -> Dict[str, Any]:
         data = super().clean()
         if data.get("is_vpd") and data.get("qty") > 1:
-            raise forms.ValidationError("No es posible pedir mas de una VPD")
+            raise forms.ValidationError(
+                "It is not possible to request more than one VPD")
 
         if data.get("is_vpd") and not data.get("is_serialized"):
-            raise forms.ValidationError("Todas las VPD son serializadas")
+            raise forms.ValidationError("All VPDs are serialized")
 
         return data
 
@@ -73,9 +74,9 @@ class RequestPartForm(forms.Form):
         set_placeholder(part_id, "eg. 78P4198 YH10MS0C3090")
 
     part_id = forms.CharField(
-        label="Numero de Parte [ + Numero de Serie ]",
+        label="Part Number [ + Serial Number ]",
         help_text="""
-            Algunos formatos validos:
+            Some valid formats:
             11S78P4198YH10MS0C3090
             P78P4198 SYH10MS0C3090
             78P4198 YH10MS0C3090
@@ -107,7 +108,7 @@ class RequestPartForm(forms.Form):
         part_id_regex = re.compile(pattern)
 
         if not (match := part_id_regex.fullmatch(data)):
-            error_message = "11S no es valido, revise los formatos validos"
+            error_message = "11S is not valid, check the valid formats"
             raise forms.ValidationError(error_message)
 
         groups_matched = match.groupdict()
@@ -129,11 +130,11 @@ class RequestPartFormset(forms.BaseFormSet):
         } - {None}
 
         if not part_number_set:
-            error_message = "Debes ingresar por lo menos un numero de parte valido"
+            error_message = "You must enter at least a valid part number"
             raise forms.ValidationError(error_message)
 
         if len(part_number_set) > 1:
-            error_message = "Se estan requiriendo distintos numeros de parte {} ".format(
+            error_message = "Different part numbers are being required {} ".format(
                 ", ".join(part_number_set)
             )
             raise forms.ValidationError(error_message)
@@ -146,7 +147,7 @@ class RequestPartFormset(forms.BaseFormSet):
             serial_number_list.append(sn)
 
         if serial_duplicate_set:
-            error_message = "Se estan requiriendo el mismo serial {} ".format(
+            error_message = "The same serial is required {} ".format(
                 ", ".join(serial_duplicate_set)
             )
             raise forms.ValidationError(error_message)
@@ -165,7 +166,7 @@ class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
     )
     part_id = forms.CharField(
         help_text="""
-            Algunos formatos validos:
+            Some valid formats:
             11S78P4198YH10MS0C3090
             P78P4198 SYH10MS0C3090
             78P4198 YH10MS0C3090

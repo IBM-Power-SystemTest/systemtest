@@ -3,10 +3,9 @@
 {% load types %}
 
 {% block extra_columns %}
-  {% to_list "Comentario" "Actualizar Parte" "Eliminar" as column_names %}
-  <th> Comentarios </th>
-  <th> Actualizar Parte {% include "utils/forms/field_help.html" with field=form.0.part_id %}</th>
-  <th> Cancelar </th>
+  <th> Comment </th>
+  <th> Update Part {% include "utils/forms/field_help.html" with field=form.0.part_id %}</th>
+  <th> Cancel </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}

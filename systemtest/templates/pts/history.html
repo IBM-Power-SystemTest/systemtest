@@ -5,10 +5,10 @@
 
 {% block subtitle %} Close {% endblock subtitle %}
 
-{% block table_title %} Historial {% endblock table_title %}
+{% block table_title %} HISTORY {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "Folio" "Status" "Fecha" "Turno" "Parte" "Serial" "Descripcion" "NCM Tag" "Sistema" "Celda" "Usuario" as column_names %}
+  {% to_list "ID" "Status" "Date" "Shift" "Part" "Serial" "Description" "NCM Tag" "System" "Testcell" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

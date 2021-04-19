@@ -97,6 +97,10 @@
   text-decoration: none;
 }
 
+.card-form .button {
+  min-width: 50%;
+}
+
 .button:hover,
 .button:focus {
   background-color: var(--primary_60);

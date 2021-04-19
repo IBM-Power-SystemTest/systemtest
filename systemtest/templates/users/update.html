@@ -10,8 +10,8 @@
   {% to_list "email" as full_size %}
   {% include 'utils/forms/form_fields.html' with form=form %}
 
-  <button class="button form--left" type="submit" value="Guardar">
-    Guardar
+  <button class="button form--left" type="submit" value="Save">
+    Save
     <i class="fas fa-save"></i>
   </button>
 
@@ -19,7 +19,7 @@
     class="button form--right button--secondary button--fixed"
     href="{% url 'users:password_change' %}"
   >
-    Contraseña <i class="fas fa-unlock-alt"></i>
+    Password <i class="fas fa-unlock-alt"></i>
   </a>
 
 {% endblock form %}
