@@ -110,3 +110,22 @@ body::-webkit-scrollbar-thumb {
   font-weight: 600;
   color: var(--gray_20);
 }
+
+
+.pagination {
+  display: inline-flex;
+  height: 30px;
+  padding: 3px;
+  margin-left: 25px;
+  margin-top: 20px;
+  align-items: center;
+  color: var(--gray_20);
+  font-size: 1.4rem;
+}
+.pagination img {
+  height: 30px;
+}
+
+.pagination__current {
+  padding: 0 8px;
+}

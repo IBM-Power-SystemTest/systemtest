@@ -23,7 +23,7 @@
       <td> {{ request.part_number }} </td>
       <td> {{ request.serial_number | default_if_none:"" }} </td>
       <td> {{ request.request_group.part_description }} </td>
-      <td> {{ request.ncm_tag }}</td>
+      <td> {{ request.ncm_tag | default_if_none:"" }}</td>
       <td> {{ request.request_group.system_number }} </td>
       <td> {{ request.request_group.system_cell }} </td>
       <td> {{ request.user }} </td>
@@ -33,20 +33,6 @@
 
 {% block button %} {% endblock button %}
 
-<div class="pagination">
-  <span class="step-links">
-    {% if page_obj.has_previous %}
-      <a href="?page=1">&laquo; first</a>
-      <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-    {% endif %}
-
-    <span class="current">
-      Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-    </span>
-
-    {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}">next</a>
-      <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-    {% endif %}
-  </span>
-</div>
+{% block pagination %}
+  {% include 'utils/basic/pagination.html' with page_obj=page_obj %}
+{% endblock pagination %}

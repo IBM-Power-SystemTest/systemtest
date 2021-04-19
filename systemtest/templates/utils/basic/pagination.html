@@ -1,0 +1,27 @@
+{% load static %}
+
+<div class="pagination">
+  {% if page_obj.has_previous %}
+    <a href="?page=1">
+      <img src="{% static 'images/icons/skip-previous--outline.svg' %}" alt="first page">
+    </a>
+
+    <a class="pagination__previus" href="?page={{ page_obj.previous_page_number }}">
+      <img src="{% static 'images/icons/previous--outline.svg' %}" alt="previous page">
+    </a>
+  {% endif %}
+
+  <span class="pagination__current">
+    {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+  </span>
+
+  {% if page_obj.has_next %}
+    <a class="pagination__next" href="?page={{ page_obj.next_page_number }}">
+      <img src="{% static 'images/icons/next--outline.svg' %}" alt="next page">
+    </a>
+
+    <a href="?page={{ page_obj.paginator.num_pages }}">
+      <img src="{% static 'images/icons/skip-next--outline.svg' %}" alt="last page">
+    </a>
+  {% endif %}
+</div>
