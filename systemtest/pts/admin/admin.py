@@ -1,21 +1,16 @@
 from django.contrib import admin
 from systemtest.pts import models
+from systemtest.utils.models import AbstractOptionsModelAdmin
 
 
 @admin.register(models.RequestGroupWorkspace)
-class RequestGroupWorkspaceAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-    list_display_links = ("pk",)
-    list_editable = ("name",)
-    search_fields = ("pk", "name")
+class RequestGroupWorkspaceAdmin(AbstractOptionsModelAdmin):
+    pass
 
 
 @admin.register(models.RequestStatus)
-class RequestStatusAdmin(admin.ModelAdmin):
-    list_display = ("pk", "name")
-    list_display_links = ("pk",)
-    list_editable = ("name",)
-    search_fields = ("pk", "name")
+class RequestStatusAdmin(AbstractOptionsModelAdmin):
+    pass
 
 
 @admin.register(models.RequestGroup)

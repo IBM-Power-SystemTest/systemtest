@@ -1,22 +1,29 @@
+from typing import Tuple, Union
 from django.db import models
+from django.contrib import admin
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
 
 
 class Validators:
-    twelve_chars = RegexValidator(
-        r"^[a-zA-Z0-9]{12}$",
-        message="Only 12 chars alpha-numeric"
-    )
-    seven_chars = RegexValidator(
-        r"^[a-zA-Z0-9]{7}$",
-        message="Only 7 chars alpha-numeric"
-    )
-    four_chars = RegexValidator(
-        r"^[a-zA-Z0-9]{4}$",
-        message="Only 4 chars alpha-numeric"
-    )
-    eight_digits_max = MaxValueValidator(int("9" * 8))
-    eight_digits_min = MinValueValidator(int("1"+"0"*7))
+    @staticmethod
+    def chars(qty: int) -> RegexValidator:
+        return RegexValidator(
+            "^[a-zA-Z0-9]{" + str(qty) + "}$",
+            message=f"Only {qty} chars alpha-numeric"
+        )
+
+    @staticmethod
+    def digits(max_value: int, min_value: Union[int, None] = None, digits: bool = True) -> Tuple[MaxValueValidator, MinValueValidator]:
+        if digits:
+            if not min_value:
+                min_value = int("1"+"0"*(max_value - 1))
+            max_value = int("9" * max_value)
+
+        min_value = min_value if min_value else 0
+
+        max_validator = MaxValueValidator(max_value)
+        min_validator = MinValueValidator(min_value)
+        return max_validator, min_validator
 
 
 class CharFieldUpper(models.CharField):
@@ -51,3 +58,10 @@ class AbstractOptionsModel(models.Model):
 
     class Meta:
         abstract = True
+
+
+class AbstractOptionsModelAdmin(admin.ModelAdmin):
+    list_display = ("pk", "name")
+    list_display_links = ("pk",)
+    list_editable = ("name",)
+    search_fields = ("pk", "name")

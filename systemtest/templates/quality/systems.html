@@ -1,0 +1,86 @@
+{% extends 'pts/base_table.html' %}
+{% load humanize %}
+{% load static %}
+{% load tz %}
+{% load measures %}
+
+{% block subtitle %} Open {% endblock subtitle %}
+
+{% block scripts %}
+  <script>
+    window.setTimeout(function () {
+      window.location.reload();
+    }, 1000*60*5);
+  </script>
+{% endblock scripts %}
+
+{% block container %}
+  <form method="post" class="form_transit">
+    {% csrf_token %}
+    {{ form.management_form }}
+    <div class="table_overflow">
+      <table class="table_default">
+        <caption>Solicitudes abiertas</caption>
+        <thead>
+          <tr class="tr_open_thead border_line">
+            <th> Folio </th>
+            <th> Status </th>
+            <th> Tiempo </th>
+            <th> Turno </th>
+            <th> Parte </th>
+            <th> Descripcion </th>
+            <th> Loaner </th>
+            <th> Sistema </th>
+            <th> Celda </th>
+            <th> Usuario </th>
+            <th> Serial </th>
+            {% block extra_columns %}{% endblock extra_columns %}
+          </tr>
+        </thead>
+        <tbody class="tr_open_body">
+          {% localtime on %}
+          {% for data, form in rows %}
+            <tr
+              {% if data.request_status.name != "OPEN" or data.comment %}
+                class="alert"
+              {% elif data.modified|elapsed_time_min >= 40 %}
+                class="alert3"
+              {% elif data.modified|elapsed_time_min >= 25 %}
+                class="alert2"
+              {% elif data.modified|elapsed_time_min >= 15 %}
+                class="alert1"
+              {% endif %}
+            >
+              {{ form.errors }}
+              {{ form.id }}
+              <td> {{ data.pk }} </td>
+              <td> {{ data.request_status }} </td>
+              <td> {{ data.modified | timesince }} </td>
+              <td> {{ data.modified | get_shift }}</td>
+              <td>
+                {{ data.part_number }}
+                {{ data.serial_number }}
+              </td>
+              <td> {{ data.request_group.part_description }} </td>
+              {% if data.request_group.is_loaner %}
+                <td>
+                  <img src="{% static 'images/icons/true.png' %}" alt="">
+                </td>
+              {% else %}
+                <td></td>
+              {% endif %}
+              <td> {{ data.request_group.system_number }} </td>
+              <td> {{ data.request_group.system_cell }} </td>
+              <td> {{ data.user }} </td>
+              <td> {{ form.part_id }} </td>
+              {% block extra_rows %} {% endblock extra_rows %}
+            </tr>
+          {% empty %}
+          {% endfor %}
+          {% endlocaltime %}
+        </tbody>
+      </table>
+    </div>
+    <input type="button" value="Guardar" onclick="this.form.submit()"/>
+  </form>
+{% endblock container %}

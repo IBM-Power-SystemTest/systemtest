@@ -12,7 +12,8 @@ class ClosePartListView(ListView):
     paginate_by = 30
     query = (
         Q(request_status__name="CLOSE GOOD") |
-        Q(request_status__name="CLOSE BAD")
+        Q(request_status__name="CLOSE BAD") |
+        Q(request_status__name="CANCEL")
     )
     queryset = pts_models.Request.objects.filter(query)
     ordering = ["-modified"]

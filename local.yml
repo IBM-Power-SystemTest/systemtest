@@ -18,8 +18,8 @@ services:
       - .:/app:z
       - local_vscode_data:/root
     env_file:
-      - ./.envs/.local/.django
-      - ./.envs/.local/.postgres
+      - ./.envs/.django.local
+      - ./.envs/.postgres
     ports:
       - "8000:8000"
     command: /start
@@ -34,7 +34,7 @@ services:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
     env_file:
-      - ./.envs/.local/.postgres
+      - ./.envs/.postgres
 
   redis:
     image: redis:6.0.9

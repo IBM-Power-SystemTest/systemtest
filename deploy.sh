@@ -184,7 +184,7 @@ create_img $IMG_DJANGO ./compose/production/django/Dockerfile
 create_service $IMG_DB \
     -v ${POD_NAME}_${VOL_DB}:/var/lib/postgresql/data:Z \
     -v ${POD_NAME}_${VOL_DB_BAK}:/backups:z \
-    --env-file ./.envs/.production/.postgres \
+    --env-file ./.envs/.postgres \
     -e POSTGRES_HOST="${POD_NAME}_${IMG_DB}" \
     ${POD_NAME}_${IMG_DB}:${VERSION}
 
@@ -198,8 +198,8 @@ up_django_service(){
     # $1 = container_name
     # $2 = command
     create_service $1 \
-        --env-file ./.envs/.production/.postgres \
-        --env-file ./.envs/.production/.django \
+        --env-file ./.envs/.postgres \
+        --env-file ./.envs/.django.production \
         -e POSTGRES_HOST="${POD_NAME}_${IMG_DB}" \
         -e REDIS_URL=redis://"${POD_NAME}_${IMG_REDIS}":6379/0 \
         -e CELERY_BROKER_URL=redis://"${POD_NAME}_${IMG_REDIS}":6379/0 \

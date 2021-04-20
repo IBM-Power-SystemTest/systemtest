@@ -101,6 +101,12 @@
   min-width: 50%;
 }
 
+.button.form--left,
+.button.form--right {
+  width: 100%;
+}
+
+
 .button:hover,
 .button:focus {
   background-color: var(--primary_60);
