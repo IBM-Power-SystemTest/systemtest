@@ -20,6 +20,7 @@
             <th> Tiempo Requerido </th>
             <th> Tiempo Actualizacion </th>
             <th> Turno </th>
+            <th> Area </th>
             <th> Parte </th>
             <th> Descripcion </th>
             <th> Loaner </th>
@@ -54,6 +55,7 @@
               <td> {{ data.created | timesince }} </td>
               <td> {{ data.modified | timesince }} </td>
               <td> {{ data.created | get_shift }}</td>
+              <td> {{ data.request_group.request_group_workspace }}</td>
               <td>
                 {{ data.part_number }}
                 {{ data.serial_number | default_if_none:"" }}

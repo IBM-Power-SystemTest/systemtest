@@ -18,6 +18,7 @@
           <th> Status </th>
           <th> Tiempo </th>
           <th> Turno </th>
+          <th> Area </th>
           <th> Parte </th>
           <th> Descripcion </th>
           <th> Sistema </th>
@@ -36,6 +37,7 @@
           <td> {{ data.request_status }} </td>
           <td> {{ data.modified | timesince }} </td>
           <td> {{ data.modified | get_shift }}</td>
+          <td> {{ data.request_group.request_group_workspace }}</td>
           <td>
             {{ data.part_number }}
             {{ data.serial_number | default_if_none:"" }}
