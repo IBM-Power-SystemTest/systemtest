@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load legacy %}
+
+{% block styles %}
+  {% if request.META.HTTP_USER_AGENT|is_legacy %}
+
+  {% else %}
+  <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+  <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block title %}
+  QUALITY | {% block subtitle %}{% endblock subtitle %}
+{% endblock title %}
+
+{% block navbar %}
+  {% include 'quality/base_navbar.html'%}
+{% endblock navbar %}

@@ -1,0 +1,66 @@
+{% extends 'quality/base.html' %}
+{% load static %}
+{% load tz %}
+
+{% block scripts %}
+  <link rel="stylesheet" type="text/css" href="{% static 'vendor/DataTables/datatables.min.css' %}">
+  <script type="text/javascript" charset="utf8" src="{% static 'vendor/DataTables/datatables.min.js' %}"></script>
+
+  <script>
+    $(document).ready( function () {
+      $('.table').DataTable({
+        paging: false,
+        info: false,
+        dom: 'Bfrtip',
+        buttons: [
+          {
+            extend: 'excel',
+            text: 'Excel <i class="fas fa-file-excel"></i>'
+          },
+        ]
+      });
+    });
+  </script>
+{% endblock scripts %}
+
+{% block body %}
+  <form method="POST" class="form">
+    {% csrf_token %}
+    {{ form.management_form }}
+    {% include 'utils/forms/formset_errors.html' with formset=form %}
+
+    <div class="table__wrapper">
+      <table class="table">
+        <caption class="table__title"> {% block table_title %}{% endblock table_title %} </caption>
+
+        <thead class="table__header">
+          <tr>
+            {% block columns %} {% endblock columns %}
+          </tr>
+        </thead>
+
+        <tbody class="table__body">
+          {% localtime on %}
+            {% block table_body %}
+              {% for data, f in rows %}
+                <tr class="table__row">
+                  {{ f.workunit }}
+                  {% block rows %} {% endblock rows %}
+                </tr>
+              {% endfor %}
+            {% endblock table_body %}
+          {% endlocaltime %}
+        </tbody>
+
+      </table>
+    </div>
+
+    {% block button %}
+      <button class="button" type="submit" value="Save" onclick="this.form.submit()">
+        Save <i class="fas fa-level-up-alt"></i>
+      </button>
+    {% endblock button %}
+
+  </form>
+  {% block pagination %} {% endblock pagination %}
+{% endblock body %}

@@ -40,7 +40,7 @@ class RequestAbstractModel(models.Model):
         validators=[utils_models.Validators.chars(12)],
         null=True,
         blank=True,
-        default="",
+        default=None,
         uppercase=True,
     )
     created = models.DateTimeField(
@@ -60,7 +60,7 @@ class RequestAbstractModel(models.Model):
         max_length=30,
         blank=True,
         null=True,
-        default=""
+        default=None
     )
 
     class Meta:
@@ -80,6 +80,7 @@ class Request(RequestAbstractModel):
         null=True,
         blank=True,
         unique=True,
+        default=None,
         validators=utils_models.Validators.digits(8)
     )
     modified = models.DateTimeField(

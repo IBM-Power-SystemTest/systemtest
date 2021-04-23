@@ -1,0 +1,15 @@
+{% extends 'header.html' %}
+
+{% block navbar %}
+
+{% url 'quality:index' as url %}
+  <li {% if url == request.path %} class="navbar__list--active" {% endif %} >
+    <a href="{{ url }}">Systems</a>
+  </li>
+
+  {% url 'quality:history' as url %}
+  <li {% if url == request.path %} class="navbar__list--active" {% endif %} >
+    <a href="{{ url }}">History</a>
+  </li>
+
+{% endblock navbar %}

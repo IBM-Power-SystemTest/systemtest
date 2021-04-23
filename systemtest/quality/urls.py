@@ -1,7 +1,7 @@
 from django.urls import path
 from systemtest.quality import views
 
-app_name = "pts"
+app_name = "quality"
 urlpatterns = [
     path(
         route="",

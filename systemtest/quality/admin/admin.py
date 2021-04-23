@@ -7,7 +7,9 @@ from systemtest.utils.models import AbstractOptionsModelAdmin
 class QualityStatusAdmin(AbstractOptionsModelAdmin):
     pass
 
-class QualityAbstractAdmin(admin.ModelAdmin):
+
+@admin.register(models.QualitySystem)
+class QualitySystemAdmin(admin.ModelAdmin):
     list_display = (
         "workunit",
         "system_number",
@@ -25,11 +27,24 @@ class QualityAbstractAdmin(admin.ModelAdmin):
         "system_number",
         "product_line",
     )
+    search_fields = (
+        "workunit",
+        "system_number",
+        "product_line",
+    )
 
-@admin.register(models.QualitySystem)
-class QualitySystemAdmin(QualityAbstractAdmin):
-    pass
 
 @admin.register(models.QualityHistory)
-class QualityHistoryAdmin(QualityAbstractAdmin):
-    list_editable = []
+class QualityHistoryAdmin(admin.ModelAdmin):
+    list_display = (
+        "system",
+        "quality_status",
+        "created",
+        "user",
+    )
+    search_fields = (
+        "workunit",
+        "system_number",
+        "product_line",
+        "quality_status"
+    )

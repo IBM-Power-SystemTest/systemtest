@@ -5,6 +5,7 @@ from typing import Any
 from django.forms.models import BaseModelForm
 
 # Django HTTP
+from django.urls.base import reverse_lazy
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse, HttpResponseRedirect
 
@@ -22,27 +23,44 @@ from systemtest.quality import forms as quality_forms, models as quality_models
 class QualitySystems(FormView):
     model = quality_models.QualitySystem
     form_class = quality_forms.QualitySystemFormset
+    template_name = "quality/systems.html"
+    success_url = reverse_lazy("quality:index")
 
     def get_queryset(self) -> QuerySet:
-        return self.model.objects.exclude(operation_status="W")
+        return self.model.objects.exclude(operation_status="A")
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        self.form_class = self.form_class(self.get_queryset())
+        self.queryset = self.get_queryset()
+        self.form_class = self.form_class(queryset=self.queryset)
 
         kwargs["form"] = self.form_class
-        kwargs["rows"] = zip(queryset, self.form_class)
+        kwargs["rows"] = zip(self.form_class.get_queryset(), self.form_class)
 
         return super().get_context_data(**kwargs)
 
+    def get(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
+        return super().get(request, *args, **kwargs)
+
     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
         formset = self.get_form()
+        valid_forms = []
         for form in formset:
             if form.has_changed() and form.is_valid():
-                self.form_valid(form)
+                queryset = self.get_queryset()
+                initial_status = form.initial.get("quality_status")
+                if queryset.filter(quality_status__pk=initial_status):
+                    valid_forms.append(form)
+
+        if valid_forms:
+            return self.form_valid(valid_forms)
+        else:
+            return self.form_invalid(formset)
+
+    def form_valid(self, forms: list[BaseModelForm]) -> HttpResponse:
+        for form in forms:
+            system = form.save(commit=False)
+
+            system.user = self.request.user
+            system.save()
+
         return HttpResponseRedirect(self.get_success_url())
-
-    def form_valid(self, form: BaseModelForm) -> None:
-        system = form.save(commit=False)
-
-        system.user = self.request.user
-        system.save()

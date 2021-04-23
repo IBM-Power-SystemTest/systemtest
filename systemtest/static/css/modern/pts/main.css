@@ -122,6 +122,14 @@
   background: var(--error_50);
 }
 
+.table--pass {
+  background: var(--ok_60);
+}
+
+.table__body tr:hover .table--pass {
+  background: var(--ok_50);
+}
+
 
 .table__wrapper+.button {
   margin-left: 25px;

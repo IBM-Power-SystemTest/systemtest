@@ -1,15 +1,14 @@
 SELECT
-  WUMFGN,
-  WUMCTL,
-  WUWORN,
-  WUPROD,
-  WUNMBR,
-  WUOPST,
-  WUCODS,
+  WUMFGN AS system_number,
+  WUMCTL AS workunit,
+  WUWORN AS workunit_order,
+  WUPROD AS product_line,
+  WUNMBR AS operation_number,
+  WUOPST AS operation_status,
   CASE
     WHEN cast(WUTWRC AS INT) > 1 THEN cast(WUTWRC AS INT) - 1
     WHEN cast(WUTWRC AS INT) = 1 THEN cast(WUTWRC AS INT) END
-      AS WUTWRC
+      AS workunit_qty
 FROM QRYQ.MFSGWU10_GRC
   WHERE
     WUNMBR IN ('VI20','LDUQ','0650','0850')

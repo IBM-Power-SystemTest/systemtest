@@ -1,86 +1,63 @@
-{% extends 'pts/base_table.html' %}
-{% load humanize %}
+{% extends 'quality/base_table.html' %}
+
 {% load static %}
-{% load tz %}
 {% load measures %}
+{% load types %}
 
-{% block subtitle %} Open {% endblock subtitle %}
+{% block subtitle %} Systems {% endblock subtitle %}
 
-{% block scripts %}
-  <script>
-    window.setTimeout(function () {
-      window.location.reload();
-    }, 1000*60*5);
-  </script>
-{% endblock scripts %}
+{% block table_title %} QUALITY INSPECTION {% endblock table_title %}
 
-{% block container %}
-  <form method="post" class="form_transit">
-    {% csrf_token %}
-    {{ form.management_form }}
-    <div class="table_overflow">
-      <table class="table_default">
-        <caption>Solicitudes abiertas</caption>
-        <thead>
-          <tr class="tr_open_thead border_line">
-            <th> Folio </th>
-            <th> Status </th>
-            <th> Tiempo </th>
-            <th> Turno </th>
-            <th> Parte </th>
-            <th> Descripcion </th>
-            <th> Loaner </th>
-            <th> Sistema </th>
-            <th> Celda </th>
-            <th> Usuario </th>
-            <th> Serial </th>
-            {% block extra_columns %}{% endblock extra_columns %}
-          </tr>
-        </thead>
-        <tbody class="tr_open_body">
-          {% localtime on %}
-          {% for data, form in rows %}
-            <tr
-              {% if data.request_status.name != "OPEN" or data.comment %}
-                class="alert"
-              {% elif data.modified|elapsed_time_min >= 40 %}
-                class="alert3"
-              {% elif data.modified|elapsed_time_min >= 25 %}
-                class="alert2"
-              {% elif data.modified|elapsed_time_min >= 15 %}
-                class="alert1"
-              {% endif %}
-            >
-              {{ form.errors }}
-              {{ form.id }}
-              <td> {{ data.pk }} </td>
-              <td> {{ data.request_status }} </td>
-              <td> {{ data.modified | timesince }} </td>
-              <td> {{ data.modified | get_shift }}</td>
-              <td>
-                {{ data.part_number }}
-                {{ data.serial_number }}
-              </td>
-              <td> {{ data.request_group.part_description }} </td>
-              {% if data.request_group.is_loaner %}
-                <td>
-                  <img src="{% static 'images/icons/true.png' %}" alt="">
-                </td>
-              {% else %}
-                <td></td>
-              {% endif %}
-              <td> {{ data.request_group.system_number }} </td>
-              <td> {{ data.request_group.system_cell }} </td>
-              <td> {{ data.user }} </td>
-              <td> {{ form.part_id }} </td>
-              {% block extra_rows %} {% endblock extra_rows %}
-            </tr>
-          {% empty %}
-          {% endfor %}
-          {% endlocaltime %}
-        </tbody>
-      </table>
+{% block columns %}
+  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Machine Type" "Operation Number" "Created" "Status" "Comment" "User" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block rows %}
+  <td> {{ data.system_number }} </td>
+
+  <td>
+    <div
+      {% if data.quality_status.name == "PASSED" %}
+        class="table__status table--pass"
+      {% elif data.quality_status.name != "WAITING" or data.comment %}
+        class="table__status table--alert"
+      {% elif data.created|elapsed_time_min >= 40 %}
+        class="table__status table--alert3"
+      {% elif data.created|elapsed_time_min >= 25 %}
+        class="table__status table--alert2"
+      {% elif data.created|elapsed_time_min >= 15 %}
+        class="table__status table--alert1"
+      {% endif %}
+    >
+      {{ data.workunit }}
     </div>
-    <input type="button" value="Guardar" onclick="this.form.submit()"/>
-  </form>
-{% endblock container %}
+  </td>
+
+  <td> {{ data.workunit_qty }} </td>
+  <td> {{ data.product_line }} </td>
+  <td> {{ data.system.machine_type | default_if_none:"" }} {{ data.system.system_model | default_if_none:"" }} </td>
+  <td> {{ data.operation_number }} {{ data.operation_status }} </td>
+  <td> {{ data.created | timesince }} </td>
+
+  <td>
+    <div class="form__input {{ f.quailty_status.errors|yesno:'form--error,' }}">
+      {{ f.quality_status }}
+      {{ f.quality_status.errors }}
+      {% include "utils/forms/field_errors.html" with field=f.quality_status %}
+    </div>
+  </td>
+
+  <td>
+    <div class="form__input {{ f.comment.errors|yesno:'form--error,' }}">
+      {{ f.comment }}
+      {{ f.comment.errors }}
+      {% include "utils/forms/field_errors.html" with field=f.comment %}
+    </div>
+  </td>
+
+  <td> {{ data.user | default_if_none:"" }} </td>
+
+  {% block extra_rows %} {% endblock extra_rows %}
+{% endblock rows %}

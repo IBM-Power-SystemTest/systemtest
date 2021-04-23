@@ -69,7 +69,7 @@ class Database:
         return wrapper
 
     @validate_conn
-    def fecth(self, sql, transaction_unique=True) -> dict[str, Any]:
+    def fetch(self, sql: str, transaction_unique: bool = True) -> dict[str, Any]:
         result = ibm_db.exec_immediate(self.conn, sql)
         row = ibm_db.fetch_assoc(result)
         while (row):

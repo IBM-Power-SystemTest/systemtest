@@ -16,60 +16,6 @@ class QualityStatus(utils_models.AbstractOptionsModel):
 
 
 class QualityAbstractSystem(models.Model):
-    id = models.UUIDField(
-        "Identificador",
-        help_text="Identificador unico [ UUID ]",
-        primary_key=True,
-        unique=True,
-        editable=False,
-        default=uuid.uuid4,
-    )
-
-    system_number = utils_models.CharFieldUpper(
-        "Numero de sistema",
-        help_text="7 caracteres",
-        max_length=7,
-        unique=True,
-        validators=[utils_models.Validators.chars(7)],
-        uppercase=True,
-    )
-
-    workunit = utils_models.CharFieldUpper(
-        "WorkUnit",
-        help_text="8 caracteres",
-        max_length=8,
-        unique=True,
-        validators=[utils_models.Validators.chars(8)],
-        uppercase=True
-    )
-
-    workunit_qty = models.PositiveIntegerField(
-        "WorkUnit Quantity",
-        help_text="Cantidad de sistemas de la familia",
-        validators=utils_models.Validators.digits(1, 50, False)
-    )
-
-    product_line = utils_models.CharFieldUpper(
-        "Product Line",
-        max_length=20,
-        help_text="Tipo de sistema",
-        uppercase=True
-    )
-
-    machine_type = models.PositiveIntegerField(
-        "Machine Type",
-        help_text="Numero 4 digitos",
-        validators=utils_models.Validators.digits(4)
-    )
-
-    system_model = utils_models.CharFieldUpper(
-        "Model",
-        help_text="3 caracteres",
-        max_length=3,
-        validators=[utils_models.Validators.chars(3)],
-        uppercase=True
-    )
-
     operation_number = utils_models.CharFieldUpper(
         "Operation Number",
         help_text="Number of operation comming from",
@@ -88,6 +34,7 @@ class QualityAbstractSystem(models.Model):
         to=QualityStatus,
         on_delete=models.PROTECT,
         default=1,
+        null=True,
         blank=True,
         verbose_name="Estado",
         help_text="Estado del sistema"
@@ -104,6 +51,9 @@ class QualityAbstractSystem(models.Model):
         on_delete=models.PROTECT,
         verbose_name="Usuario",
         help_text="Usuario que realizo el cambio de estado",
+        null=True,
+        blank=True,
+        default=None,
     )
 
     comment = utils_models.CharFieldUpper(
@@ -112,13 +62,68 @@ class QualityAbstractSystem(models.Model):
         max_length=30,
         blank=True,
         null=True,
-        default=""
+        default=None
     )
+
     class Meta:
         abstract = True
 
 
 class QualitySystem(QualityAbstractSystem):
+    system_number = utils_models.CharFieldUpper(
+        "Numero de sistema",
+        help_text="MFGN (7 chars)",
+        max_length=7,
+        validators=[utils_models.Validators.chars(7)],
+        uppercase=True,
+    )
+
+    workunit = utils_models.CharFieldUpper(
+        "WorkUnit",
+        help_text="WU (8 chars)",
+        primary_key=True,
+        max_length=8,
+        unique=True,
+        validators=[utils_models.Validators.chars(8)],
+        uppercase=True
+    )
+
+    workunit_qty = models.PositiveIntegerField(
+        "WorkUnit Quantity",
+        help_text="Cantidad de sistemas de la familia",
+        null=True,
+        blank=True,
+        default=1,
+        validators=utils_models.Validators.digits(1, 50, False)
+    )
+
+    product_line = utils_models.CharFieldUpper(
+        "Product Line",
+        max_length=20,
+        help_text="Tipo de sistema",
+        uppercase=True
+    )
+
+    machine_type = models.PositiveIntegerField(
+        "Machine Type",
+        help_text="Numero 4 digitos",
+        null=True,
+        blank=True,
+        default=None,
+        validators=utils_models.Validators.digits(4)
+    )
+
+    system_model = utils_models.CharFieldUpper(
+        "Model",
+        help_text="3 caracteres",
+        max_length=3,
+        null=True,
+        blank=True,
+        default=None,
+        validators=[utils_models.Validators.chars(3)],
+        uppercase=True
+    )
+
     modified = models.DateTimeField(
         "Actualizacion",
         help_text="Fecha y hora de ultimo cambio de estado",
@@ -131,7 +136,7 @@ class QualitySystem(QualityAbstractSystem):
 
         for field in fields:
             name = field.name
-            if name == "id" or name == "created":
+            if name == "workunit" or name == "created":
                 continue
             if hasattr(self, name):
                 value = getattr(self, name)
@@ -140,8 +145,11 @@ class QualitySystem(QualityAbstractSystem):
         return data
 
     def save(self, *args, **kwargs) -> None:
+        _old_operation_status = self.operation_status
+
         super().save(*args, **kwargs)
-        QualityHistory(**self.get_history_data()).save()
+        if _old_operation_status != self.operation_status:
+            QualityHistory(**self.get_history_data()).save()
 
     class Meta:
         db_table = "quality_system"
@@ -150,6 +158,15 @@ class QualitySystem(QualityAbstractSystem):
 
 
 class QualityHistory(QualityAbstractSystem):
+    id = models.UUIDField(
+        "UID",
+        help_text="Unique Identifier [ UUID ]",
+        primary_key=True,
+        unique=True,
+        editable=False,
+        default=uuid.uuid4,
+    )
+
     system = models.ForeignKey(
         to=QualitySystem,
         on_delete=models.PROTECT,
