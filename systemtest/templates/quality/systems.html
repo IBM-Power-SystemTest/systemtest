@@ -9,7 +9,7 @@
 {% block table_title %} QUALITY INSPECTION {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Machine Type" "Operation Number" "Created" "Status" "Comment" "User" as column_names %}
+  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Operation Number" "Updated" "Created" "Shift" "Status" "Comment" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}
@@ -21,14 +21,12 @@
     <div
       {% if data.quality_status.name == "PASSED" %}
         class="table__status table--pass"
-      {% elif data.quality_status.name != "WAITING" or data.comment %}
-        class="table__status table--alert"
-      {% elif data.created|elapsed_time_min >= 40 %}
+      {% elif data.quality_status.name == "DAMAGED" %}
         class="table__status table--alert3"
-      {% elif data.created|elapsed_time_min >= 25 %}
+      {% elif data.quality_status.name == "LABEL" or data.comment %}
+        class="table__status table--alert"
+      {% elif data.quality_status.name != "WAITING" %}
         class="table__status table--alert2"
-      {% elif data.created|elapsed_time_min >= 15 %}
-        class="table__status table--alert1"
       {% endif %}
     >
       {{ data.workunit }}
@@ -37,9 +35,23 @@
 
   <td> {{ data.workunit_qty }} </td>
   <td> {{ data.product_line }} </td>
-  <td> {{ data.system.machine_type | default_if_none:"" }} {{ data.system.system_model | default_if_none:"" }} </td>
   <td> {{ data.operation_number }} {{ data.operation_status }} </td>
-  <td> {{ data.created | timesince }} </td>
+  <td> {{ data.modified | timesince }} </td>
+  <td>
+    <div
+      {% if data.created|elapsed_time_min >= 40 %}
+        class="table__status table--alert3"
+      {% elif data.created|elapsed_time_min >= 25 %}
+        class="table__status table--alert2"
+      {% elif data.created|elapsed_time_min >= 15 %}
+        class="table__status table--alert1"
+      {% endif %}
+    >
+      {{ data.created | timesince }}
+    </div>
+  </td>
+
+  <td> {{ data.created | get_shift  }} </td>
 
   <td>
     <div class="form__input {{ f.quailty_status.errors|yesno:'form--error,' }}">

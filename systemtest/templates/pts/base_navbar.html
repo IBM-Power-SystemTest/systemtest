@@ -1,8 +1,7 @@
 {% extends 'header.html' %}
 
 {% block navbar %}
-
-{% url 'pts:request' as url %}
+  {% url 'pts:request' as url %}
   <li {% if url == request.path %} class="navbar__list--active" {% endif %} >
     <a href="{{ url }}">Request</a>
   </li>

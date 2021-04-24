@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load legacy %}
+
+{% block styles %}
+  {% if request.META.HTTP_USER_AGENT|is_legacy %}
+
+  {% else %}
+  <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block title %}
+  POWERAPPS | {% block subtitle %}{% endblock subtitle %}
+{% endblock title %}
+
+{% block navbar %}
+  {% include 'pages/base_navbar.html'%}
+{% endblock navbar %}

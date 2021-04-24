@@ -15,11 +15,3 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
-
-# Scheduler
-app.conf.beat_schedule = {
-    "Fetch_quality_db_every_6_min": {
-        "task": "quality.fetch_database",
-        "schedule": 60.0*6,
-    },
-}

@@ -3,6 +3,8 @@ import uuid
 
 # Django
 from django.db import models
+from django.urls.base import reverse
+from django.core.exceptions import ObjectDoesNotExist
 
 # APPs
 from systemtest.utils import models as utils_models
@@ -104,26 +106,6 @@ class QualitySystem(QualityAbstractSystem):
         uppercase=True
     )
 
-    machine_type = models.PositiveIntegerField(
-        "Machine Type",
-        help_text="Numero 4 digitos",
-        null=True,
-        blank=True,
-        default=None,
-        validators=utils_models.Validators.digits(4)
-    )
-
-    system_model = utils_models.CharFieldUpper(
-        "Model",
-        help_text="3 caracteres",
-        max_length=3,
-        null=True,
-        blank=True,
-        default=None,
-        validators=[utils_models.Validators.chars(3)],
-        uppercase=True
-    )
-
     modified = models.DateTimeField(
         "Actualizacion",
         help_text="Fecha y hora de ultimo cambio de estado",
@@ -145,11 +127,18 @@ class QualitySystem(QualityAbstractSystem):
         return data
 
     def save(self, *args, **kwargs) -> None:
-        _old_operation_status = self.operation_status
+        try:
+            old_status = QualitySystem.objects.get(pk=self.pk).quality_status
+        except ObjectDoesNotExist:
+            old_status = None
 
-        super().save(*args, **kwargs)
-        if _old_operation_status != self.operation_status:
+        if (old_status is None) or (old_status != self.quality_status):
             QualityHistory(**self.get_history_data()).save()
+
+            super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("quality:system_detail", args=[str(self.pk)])
 
     class Meta:
         db_table = "quality_system"

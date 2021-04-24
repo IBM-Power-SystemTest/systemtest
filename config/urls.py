@@ -11,8 +11,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path(
         route="",
-        # view=TemplateView.as_view(template_name="pages/home.html"),
-        view=RedirectView.as_view(url="pts/"),
+        view=TemplateView.as_view(template_name="pages/home.html"),
         name="home"
     ),
     path(

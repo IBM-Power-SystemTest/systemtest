@@ -25,9 +25,13 @@ class QualitySystems(FormView):
     form_class = quality_forms.QualitySystemFormset
     template_name = "quality/systems.html"
     success_url = reverse_lazy("quality:index")
+    query = (
+        ~Q(operation_status="A") &
+        ~Q(quality_status__name="PASSED")
+    )
 
     def get_queryset(self) -> QuerySet:
-        return self.model.objects.exclude(operation_status="A")
+        return self.model.objects.filter(self.query)
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         self.queryset = self.get_queryset()

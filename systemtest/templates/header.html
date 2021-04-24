@@ -34,6 +34,15 @@
         </li>
       {% endif %}
 
+      {% if user.is_superuser %}
+        {% url 'admin:index' as url %}
+        <li {% if url == request.path %} class="navbar__list--active" {% endif %}>
+          <a href="{{ url }}">
+            Admin Site <i class="fas fa-user-cog"></i>
+          </a>
+        </li>
+      {% endif %}
+
       {% url 'users:logout' as url %}
       <li class="navbar__list--fullfill {% if url == request.path %} navbar__list--active {% endif %}">
         <a href="{{ url }}">

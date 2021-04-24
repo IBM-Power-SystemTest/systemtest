@@ -1,3 +1,6 @@
+# Python
+from typing import Any
+
 # Django
 from django.conf import Settings, settings
 
@@ -10,11 +13,9 @@ from systemtest.quality import forms as quality_forms, models as quality_models
 
 database = Database(**settings.DATABASES.get("db2"))
 
-@app.task(name="quality.fetch_database")
-def fetch_database(name="quality.fetch_databases") -> None:
-    sql = database.get_sql(settings.QUALITY_SQL_PATH)
-    quality_system = quality_models.QualitySystem
 
+def fetch_database() -> dict[str, Any]:
+    sql = database.get_sql(settings.QUALITY_SQL_PATH)
     required_columns = {
         "SYSTEM_NUMBER",
         "WORKUNIT",
@@ -23,8 +24,6 @@ def fetch_database(name="quality.fetch_databases") -> None:
     optional_columns = {
         "WORKUNIT_QTY",
         "PRODUCT_LINE",
-        "MACHINE_TYPE",
-        "SYSTEM_MODEL",
         "OPERATION_NUMBER"
     }
 
@@ -35,5 +34,20 @@ def fetch_database(name="quality.fetch_databases") -> None:
 
         data = {column.lower(): row.get(column)
                 for column in (required_columns | optional_columns)}
+        yield data
 
-        quality_system.objects.update_or_create(**data)
+
+@app.task()
+def sync_database():
+    quality_system = quality_models.QualitySystem.objects
+    waiting_systems = quality_system.filter(operation_status="W")
+    workunit_set = waiting_systems.values("workunit")
+
+    for row in fetch_database():
+        quality_system.update_or_create(**row)
+        workunit_set = workunit_set.exclude(workunit=row.get("workunit"))
+
+    for workunit in workunit_set:
+        system = quality_system.get(**workunit)
+        system.operation_status = "A"
+        system.save()

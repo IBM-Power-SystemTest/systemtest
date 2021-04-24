@@ -14,8 +14,6 @@ class QualitySystemAdmin(admin.ModelAdmin):
         "workunit",
         "system_number",
         "product_line",
-        "machine_type",
-        "system_model",
         "quality_status",
         "created",
         "user",
