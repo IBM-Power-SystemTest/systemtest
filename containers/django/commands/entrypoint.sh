@@ -4,11 +4,8 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-
-
 # N.B. If only .env files supported variable expansion...
 export CELERY_BROKER_URL="${REDIS_URL}"
-
 
 if [ -z "${POSTGRES_USER}" ]; then
     base_postgres_image_default_user='postgres'
@@ -37,8 +34,8 @@ sys.exit(0)
 END
 }
 until postgres_ready; do
-  >&2 echo 'Waiting for PostgreSQL to become available...'
-  sleep 1
+    >&2 echo 'Waiting for PostgreSQL to become available...'
+    sleep 1
 done
 >&2 echo 'PostgreSQL is available'
 

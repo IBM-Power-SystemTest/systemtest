@@ -1,7 +1,7 @@
 # File created using '.gitignore Generator' for Visual Studio Code: https://bit.ly/vscode-gig
 
-# Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,django,eclipse,emacs,jupyternotebooks,macos,python,vim,windows
-# Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,linux,django,eclipse,emacs,jupyternotebooks,macos,python,vim,windows
+# Created by https://www.toptal.com/developers/gitignore/api/django,emacs,git,jupyternotebooks,linux,macos,python,vim,virtualenv,visualstudiocode,vscode,windows,zsh
+# Edit at https://www.toptal.com/developers/gitignore?templates=django,emacs,git,jupyternotebooks,linux,macos,python,vim,virtualenv,visualstudiocode,vscode,windows,zsh
 
 ### Django ###
 *.log
@@ -150,72 +150,6 @@ dmypy.json
 
 # profiling data
 .prof
-
-### Eclipse ###
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders
-
-# External tool builders
-.externalToolBuilders/
-
-# Locally stored "Eclipse launch configurations"
-*.launch
-
-# PyDev specific (Python IDE for Eclipse)
-*.pydevproject
-
-# CDT-specific (C/C++ Development Tooling)
-.cproject
-
-# CDT- autotools
-.autotools
-
-# Java annotation processor (APT)
-.factorypath
-
-# PDT-specific (PHP Development Tools)
-.buildpath
-
-# sbteclipse plugin
-.target
-
-# Tern plugin
-.tern-project
-
-# TeXlipse plugin
-.texlipse
-
-# STS (Spring Tool Suite)
-.springBeans
-
-# Code Recommenders
-.recommenders/
-
-# Annotation Processing
-.apt_generated/
-.apt_generated_test/
-
-# Scala IDE specific (Scala & Java development for Eclipse)
-.cache-main
-.scala_dependencies
-.worksheet
-
-# Uncomment this line if you wish to ignore the project description file.
-# Typically, this file would be tracked if it contains build/dependency configurations:
-#.project
-
-### Eclipse Patch ###
-# Spring Boot Tooling
-.sts4-cache/
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
@@ -402,6 +336,18 @@ tags
 # Persistent undo
 [._]*.un~
 
+### VirtualEnv ###
+# Virtualenv
+# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
+[Bb]in
+[Ii]nclude
+[Ll]ib
+[Ll]ib64
+[Ll]ocal
+[Ss]cripts
+pyvenv.cfg
+pip-selfcheck.json
+
 ### VisualStudioCode ###
 .vscode/*
 !.vscode/tasks.json
@@ -412,6 +358,10 @@ tags
 # Ignore all local history of files
 .history
 .ionide
+
+### vscode ###
+!.vscode/settings.json
+!.vscode/extensions.json
 
 ### Windows ###
 # Windows thumbnail cache files
@@ -439,11 +389,38 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,linux,django,eclipse,emacs,jupyternotebooks,macos,python,vim,windows
+### Zsh ###
+# Zsh compiled script + zrecompile backup
+*.zwc
+*.zwc.old
+
+# Zsh completion-optimization dumpfile
+*zcompdump*
+
+# Zsh zcalc history
+.zcalc_history
+
+# A popular plugin manager's files
+._zplugin
+.zplugin_lstupd
+
+# zdharma/zshelldoc tool's files
+zsdoc/data
+
+# robbyrussell/oh-my-zsh/plugins/per-directory-history plugin's files
+# (when set-up to store the history in the local directory)
+.directory_history
+
+# MichaelAquilina/zsh-autoswitch-virtualenv plugin's files
+# (for Zsh plugins using Python)
+
+# Zunit tests' output
+/tests/_output/*
+!/tests/_output/.gitkeep
+
+# End of https://www.toptal.com/developers/gitignore/api/django,emacs,git,jupyternotebooks,linux,macos,python,vim,virtualenv,visualstudiocode,vscode,windows,zsh
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
-
-.*
-!.coveragerc
-!.env
-!.pylintrc
+.vscode
+!containers/local
+*.production
