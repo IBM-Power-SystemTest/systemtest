@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load legacy %}
+{% load types %}
 
 {% block styles %}
   {% if request.META.HTTP_USER_AGENT|is_legacy %}
@@ -17,5 +18,8 @@
 {% endblock title %}
 
 {% block navbar %}
-  {% include 'pts/base_navbar.html'%}
+  {% to_list 'pts:request' 'pts:open' 'pts:transit' 'pts:pending' 'pts:return' 'pts:close' 'pts:history' as urls %}
+  {% to_list 'Request' 'Open' 'Transit' 'Pending' 'Return' 'Close' 'History' as names %}
+
+  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
 {% endblock navbar %}

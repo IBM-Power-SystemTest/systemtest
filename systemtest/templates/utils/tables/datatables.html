@@ -1,0 +1,20 @@
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/DataTables/datatables.min.css' %}">
+<script type="text/javascript" charset="utf8" src="{% static 'vendor/DataTables/datatables.min.js' %}"></script>
+
+<script>
+  $(document).ready( function () {
+    $('.table').DataTable({
+      paging: false,
+      info: false,
+      dom: 'Bfrtip',
+      buttons: [
+        {
+          extend: 'excel',
+          text: 'Excel <i class="fas fa-file-excel"></i>'
+        },
+      ]
+    });
+  });
+</script>

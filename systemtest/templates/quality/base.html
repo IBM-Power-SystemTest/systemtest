@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load legacy %}
+{% load types %}
 
 {% block styles %}
   {% if request.META.HTTP_USER_AGENT|is_legacy %}
@@ -17,5 +18,8 @@
 {% endblock title %}
 
 {% block navbar %}
-  {% include 'quality/base_navbar.html'%}
+  {% to_list 'quality:index' 'quality:passed' 'quality:history' as urls %}
+  {% to_list 'Inspect' 'Passed' 'History' as names %}
+
+  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
 {% endblock navbar %}

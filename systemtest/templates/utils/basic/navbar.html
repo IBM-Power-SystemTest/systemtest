@@ -1,0 +1,5 @@
+{% load types %}
+
+{% for url, name in urls|zip:names %}
+  {% include 'utils/basic/navbar_link.html' with url_name=url link_name=name %}
+{% endfor %}

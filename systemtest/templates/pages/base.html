@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load legacy %}
+{% load types %}
 
 {% block styles %}
   {% if request.META.HTTP_USER_AGENT|is_legacy %}
@@ -16,5 +17,8 @@
 {% endblock title %}
 
 {% block navbar %}
-  {% include 'pages/base_navbar.html'%}
+  {% to_list 'pts:index' 'quality:index' as urls %}
+  {% to_list 'PARTS TRACKING SYSTEM' 'QUALITY INSPECTION' as names %}
+
+  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
 {% endblock navbar %}
