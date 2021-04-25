@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Iterator
 from pathlib import Path
 import re
 
@@ -69,7 +69,7 @@ class Database:
         return wrapper
 
     @validate_conn
-    def fetch(self, sql: str, transaction_unique: bool = True) -> dict[str, Any]:
+    def fetch(self, sql: str, transaction_unique: bool = True) -> Iterator[dict[str, Any]]:
         result = ibm_db.exec_immediate(self.conn, sql)
         row = ibm_db.fetch_assoc(result)
         while (row):
