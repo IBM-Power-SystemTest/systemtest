@@ -17,46 +17,19 @@
 
   <ul class="navbar__list navbar--rigth">
     {% if user.is_authenticated  %}
-
-      {% url 'users:update' as url %}
-      <li {% if url == request.path %} class="navbar__list--active" {% endif %} >
-        <a href="{{ url }}">
-          {{ user.username }} <i class="fas fa-user"></i>
-        </a>
-      </li>
+      {% include 'utils/basic/navbar_link.html' with url_name='users:update' link_name=user.username|add:' <i class="fas fa-user"></i>' %}
 
       {% if user.is_staff %}
-        {% url 'users:signup' as url %}
-        <li {% if url == request.path %} class="navbar__list--active" {% endif %}>
-          <a href="{{ url }}">
-            Signup <i class="fas fa-user-plus"></i>
-          </a>
-        </li>
+        {% include 'utils/basic/navbar_link.html' with url_name='users:signup' link_name='Signup <i class="fas fa-user-plus"></i>' %}
       {% endif %}
 
       {% if user.is_superuser %}
-        {% url 'admin:index' as url %}
-        <li {% if url == request.path %} class="navbar__list--active" {% endif %}>
-          <a href="{{ url }}">
-            Admin Site <i class="fas fa-user-cog"></i>
-          </a>
-        </li>
+        {% include 'utils/basic/navbar_link.html' with url_name='admin:index' link_name='Admin site <i class="fas fa-user-cog"></i>' %}
       {% endif %}
 
-      {% url 'users:logout' as url %}
-      <li class="navbar__list--fullfill {% if url == request.path %} navbar__list--active {% endif %}">
-        <a href="{{ url }}">
-          Logout  <i class="fas fa-sign-out-alt"></i>
-        </a>
-      </li>
-
+      {% include 'utils/basic/navbar_link.html' with url_name='users:logout' link_name='Logout <i class="fas fa-sign-out-alt"></i>' %}
     {% else %}
-      {% url 'users:login' as url %}
-      <li class="navbar__list--fullfill {% if url == request.path %} navbar__list--active {% endif %}">
-        <a href="{{ url }}">
-          Login <i class="fas fa-sign-in-alt"></i>
-        </a>
-      </li>
+      {% include 'utils/basic/navbar_link.html' with url_name='users:login' link_name='Login <i class="fas fa-sign-in-alt"></i>' %}
     {% endif %}
   </ul>
 </header>

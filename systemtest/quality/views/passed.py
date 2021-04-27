@@ -1,6 +1,7 @@
 # Django Views
 from django.views.generic.edit import DeleteView
 from django.views.generic.list import ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django DB
 from django.db.models.query_utils import Q
@@ -13,7 +14,7 @@ from django.urls.base import reverse_lazy
 from systemtest.quality import models as quality_models
 
 
-class QualityPassed(ListView):
+class QualityPassed(LoginRequiredMixin, ListView):
     template_name = "quality/passed.html"
     model = quality_models.QualitySystem
     paginate_by = 30

@@ -47,9 +47,6 @@ def get_ncm(request: pts_models.Request) -> Union[dict[str, str], None]:
     rows = database.fetch(sql)
     row = next(rows, {})
 
-    print(data)
-    print(row)
-
     if ncm_tag := row.get("NCM_TAG"):
         data["ncm_tag"] = ncm_tag
 

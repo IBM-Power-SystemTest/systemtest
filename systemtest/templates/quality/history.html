@@ -21,7 +21,7 @@
       <td> {{ system.system.workunit_qty }} </td>
       <td> {{ system.system.product_line }} </td>
       <td> {{ system.operation_number }} {{ system.operation_status }} </td>
-      <td> {{ system.created | timesince }} </td>
+      <td> {{ system.created }} </td>
       <td> {{ system.created | get_shift  }} </td>
       <td> {{ system.quality_status }} </td>
       <td> {{ system.comment | default_if_none:"" }} </td>

@@ -1,4 +1,6 @@
-{% url url_name as url %}
-<li {% if url == request.path %} class="navbar__list--active" {% endif %} >
-  <a href="{{ url }}">{{ link_name }}</a>
-</li>
+{% autoescape off %}
+  {% url url_name as url %}
+  <li {% if url == request.path %} class="navbar__list--active" {% endif %} >
+    <a href="{{ url }}">{{ link_name }}</a>
+  </li>
+{% endautoescape %}

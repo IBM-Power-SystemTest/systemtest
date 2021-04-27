@@ -11,6 +11,7 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 
 # Django Views
 from django.views.generic import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django db
 from django.db.models.query import QuerySet
@@ -20,7 +21,7 @@ from django.db.models import Q
 from systemtest.quality import forms as quality_forms, models as quality_models
 
 
-class QualitySystems(FormView):
+class QualitySystems(LoginRequiredMixin, FormView):
     model = quality_models.QualitySystem
     form_class = quality_forms.QualitySystemFormset
     template_name = "quality/systems.html"
