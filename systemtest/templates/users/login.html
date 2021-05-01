@@ -4,7 +4,6 @@
 {% block subtitle %} Login {% endblock subtitle %}
 
 {% block form %}
-
   {% for field in form %}
     {% include "utils/forms/field_container.html" with field=field %}
   {% endfor %}

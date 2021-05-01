@@ -1,15 +1,15 @@
 {% extends 'base.html' %}
 
 {% load static %}
-{% load legacy %}
 {% load types %}
 
 {% block styles %}
-  {% if request.META.HTTP_USER_AGENT|is_legacy %}
-
+  {% if is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
   {% else %}
-  <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
-  <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
   {% endif %}
 {% endblock styles %}
 

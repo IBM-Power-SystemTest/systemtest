@@ -8,9 +8,9 @@ def to_list(*args):
 
 
 @register.simple_tag
-def define(val=None):
+def define(val=""):
     return val
 
-@register.filter(name='zip')
-def zip_lists(a, b):
+@register.filter(name="zip")
+def zip_lists(a: list, b:list):
     return zip(a, b)

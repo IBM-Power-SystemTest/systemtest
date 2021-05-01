@@ -18,11 +18,16 @@
       {% include "utils/forms/field_errors.html" with field=f.part_id %}
     </div>
   </td>
-
-  <td>
-    <a href="{{ data.get_absolute_url }}cancel">
-      <img src="{% static 'images/icons/delete--alt.svg' %}" alt="">
-    </a>
-  </td>
+  {% if request.user == data.get_first_request.user %}
+    <td>
+      <a href="{{ data.get_absolute_url }}cancel">
+        {% if is_legacy %}
+          <img src="{% static 'images/icons/png/delete--alt--black.png' %}" alt="Delete">
+        {% else %}
+          <img src="{% static 'images/icons/png/delete--alt.png' %}" alt="Delete">
+        {% endif %}
+      </a>
+    </td>
+  {% endif %}
   {{ f.request_status.as_hidden }}
 {% endblock extra_rows %}

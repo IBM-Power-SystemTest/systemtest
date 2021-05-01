@@ -1,5 +1,6 @@
 {% load static %}
 {% load legacy %}
+{% load types %}
 
 <!DOCTYPE html>
 
@@ -15,11 +16,13 @@
     />
 
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
-    <link rel="stylesheet" href="{% static 'fonts/ibm_plex_sans/fonts.css' %}">
 
     {% if request.META.HTTP_USER_AGENT|is_legacy %}
+      {% define True as is_legacy %}
       <link rel="stylesheet" href="{% static 'css/legacy/main.css' %}">
     {% else %}
+      {% define False as is_legacy %}
+      <link rel="stylesheet" href="{% static 'fonts/ibm_plex_sans/fonts.css' %}">
       <link rel="stylesheet" href="{% static 'fonts/fontawesome/fonts.css' %}">
       <link rel="stylesheet" href="{% static 'css/variables.css' %}">
       <link rel="stylesheet" href="{% static 'css/modern/main.css' %}">
@@ -40,9 +43,9 @@
 
     {% if messages %}
       <ul class="messages">
-          {% for message in messages %}
+        {% for message in messages %}
           <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
+        {% endfor %}
       </ul>
     {% endif %}
 

@@ -60,7 +60,7 @@
 
 .form__input select {
   appearance: none;
-  background: url('../../images/icons/caret-down.svg') 100% / 8% no-repeat;
+  background: url('../../images/icons/png/caret-down.png') 100% / 8% no-repeat;
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -70,7 +70,7 @@
 
 .form--required label::before {
   content: "* ";
-  color: var(--error_50)
+  color: var(--error_50);
 }
 
 .form--error input {

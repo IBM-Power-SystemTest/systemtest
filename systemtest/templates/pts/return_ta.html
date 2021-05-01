@@ -29,7 +29,11 @@
 
   <td>
     <a href="{{ data.get_absolute_url }}return/pending/">
-      <img src="{% static 'images/icons/delete--alt.svg' %}" alt="">
+      {% if is_legacy %}
+        <img src="{% static 'images/icons/png/delete--alt--black.png' %}" alt="Delete">
+      {% else %}
+        <img src="{% static 'images/icons/png/delete--alt.png' %}" alt="Delete">
+      {% endif %}
     </a>
   </td>
   {{ f.request_status.as_hidden }}

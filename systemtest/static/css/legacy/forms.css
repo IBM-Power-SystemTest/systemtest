@@ -1,0 +1,107 @@
+.button {
+  display: block;
+  margin: 20px auto;
+  padding: 7px 15px;
+  border: none;
+  -moz-border-radius: 5px;
+  outline: none;
+  background-color: #1192e8;
+  color: #dde1e6;
+  font-size: 14px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+}
+
+.button:hover,
+.button:focus {
+  background-color: #0072c3;
+  cursor: pointer;
+}
+
+.button--secondary {
+  display: inline;
+  border: 3px solid #1192e8;
+  background-color: transparent;
+  color: #343a3f;
+}
+
+.button--secondary:hover,
+.button--secondary:focus {
+  border: 3px solid #0072c3;
+  background-color: #0072c3;
+  color: #dde1e6;
+}
+
+.form__input {
+  margin-bottom: 15px;
+}
+
+.form__input label {
+  display: inline;
+  color: #343a3f;
+  font-size: 13px;
+  text-align: start;
+}
+
+.form__input input,
+.form__input select {
+  width: 100%;
+  height: 15px;
+  padding: 3px;
+  border: 2px solid transparent;
+  border-bottom: 2px solid #878d96;
+  outline: none;
+  color: #343a3f;
+  background: #c1c7cd;
+}
+
+.form__input input:focus,
+.form__input select:focus {
+  border: 2px solid #1192e8;
+}
+
+
+.form__input select {
+  position: relative;
+  bottom: 15px;
+  height: 25px;
+}
+
+.form--required label::before {
+  content: "* ";
+  color: #fa4d56;
+}
+
+.switch label {
+  margin-top: 8px;
+}
+
+.switch input {
+  display: inline;
+  position: relative;
+  bottom: 15px;
+  left: 100px;
+  width: 15px;
+}
+
+.tooltip {
+  display: inline-block;
+  font-size: 10px;
+  color: #878d96;
+}
+
+.form__error {
+  position: relative;
+  bottom: 72px;
+  color: #fa4d56;
+}
+
+.form--error input {
+  border: 2px solid #fa4d56;
+}
+
+.form--error input:focus {
+  border: 2px solid #fa4d56;
+}

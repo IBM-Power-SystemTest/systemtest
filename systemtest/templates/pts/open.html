@@ -41,7 +41,11 @@
 
   {% if data.request_group.is_loaner %}
     <td>
-      <img src="{% static 'images/icons/checkmark--outline.svg' %}" alt="">
+      {% if is_legacy %}
+        <img src="{% static 'images/icons/png/checkmark--outline--black.png' %}" alt="True">
+      {% else %}
+        <img src="{% static 'images/icons/png/checkmark--outline.png' %}" alt="True">
+      {% endif %}
     </td>
   {% else %}
     <td></td>

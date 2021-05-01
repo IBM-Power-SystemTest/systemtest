@@ -6,7 +6,7 @@
   {% cycle 'form--left' 'form--right' as class_position silent %}
 
   {% if field.name in full_size %}
-    {% define None as class_position %}
+    {% define as class_position %}
     {% resetcycle %}
   {% endif %}
 

@@ -74,13 +74,12 @@ class RequestPartForm(forms.Form):
         set_placeholder(part_id, "eg. 78P4198 YH10MS0C3090")
 
     part_id = forms.CharField(
-        label="Part Number [ + Serial Number ]",
+        label="Part Number [ PN + SN ]",
         help_text="""
-            Some valid formats:
-            11S78P4198YH10MS0C3090
-            P78P4198 SYH10MS0C3090
-            78P4198 YH10MS0C3090
-            78P4198YH10MS0C3090
+            [ 11S ]
+            [ P78P4198 SYH10MS0C3090 ]
+            [ 78P4198 YH10MS0C3090 ]
+            [ 78P4198YH10MS0C3090 ]
             """,
         max_length=30,
         min_length=7,

@@ -73,7 +73,7 @@
 
 .form .table__row .form__input select {
   appearance: none;
-  background: url('../../../images/icons/caret-down.svg') 97% / 8% no-repeat;
+  background: url('../../../images/icons/png/caret-down.png') 97% / 8% no-repeat;
   background-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -178,7 +178,7 @@
   border-bottom: 2px solid var(--gray_50);
   border-radius: unset;
   outline: none;
-  background: url('../../../images/icons/search.svg') 1% / 10% no-repeat;
+  background: url('../../../images/icons/svg/search.svg') 1% / 10% no-repeat;
   background-color: rgba(255, 255, 255, 0.2);
   color: var(--gray_20);
 }
