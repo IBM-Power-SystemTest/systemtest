@@ -23,44 +23,44 @@ class RequestAbstractModel(models.Model):
         on_delete=models.PROTECT,
         default=1,
         blank=True,
-        verbose_name="Estado",
-        help_text="Estado del requerimiento",
+        verbose_name="Status",
+        help_text="Requirement status",
     )
     part_number = utils_models.CharFieldUpper(
-        "Numero de parte [ PN ]",
-        help_text="7 caracteres, rellenar con 0's",
+        "Part Number [ PN ]",
+        help_text="Part Number (7 chars)",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
     serial_number = utils_models.CharFieldUpper(
-        "Numero de Seria [ SN ]",
-        help_text="12 caracteres",
+        "Serial Number [ SN ]",
+        help_text="Serial Number [optional] (12 chars)",
         max_length=12,
-        validators=[utils_models.Validators.twelve_chars],
+        validators=[utils_models.Validators.chars(12)],
         null=True,
         blank=True,
-        default="",
+        default=None,
         uppercase=True,
     )
     created = models.DateTimeField(
-        "Creacion",
-        help_text="Fecha y hora de solicitud",
+        "Created",
+        help_text="Request DateTime",
         auto_now_add=True,
     )
     user = models.ForeignKey(
         to="users.User",
         on_delete=models.PROTECT,
-        verbose_name="Usuario",
-        help_text="Usuario que realizo el cambio de estado",
+        verbose_name="User",
+        help_text="User who made the last transaction",
     )
     comment = utils_models.CharFieldUpper(
-        "Comentario",
-        help_text="Comentario adicional en estado actual",
+        "Coment",
+        help_text="Aditional comment",
         max_length=30,
         blank=True,
         null=True,
-        default=""
+        default=None
     )
 
     class Meta:
@@ -71,23 +71,21 @@ class Request(RequestAbstractModel):
     request_group = models.ForeignKey(
         to=RequestGroup,
         on_delete=models.PROTECT,
-        verbose_name="Grupo",
-        help_text="Grupo en el que se solicito",
+        verbose_name="Group",
+        help_text="Reqeust Group",
     )
     ncm_tag = models.PositiveIntegerField(
         "NCM",
-        help_text="Numero de Tag en caso de tener",
+        help_text="Non-Conforming Material (8 numeric chars)",
         null=True,
         blank=True,
         unique=True,
-        validators=[
-            utils_models.Validators.eight_digits_min,
-            utils_models.Validators.eight_digits_max
-        ],
+        default=None,
+        validators=utils_models.Validators.digits(8)
     )
     modified = models.DateTimeField(
-        "Actualizacion",
-        help_text="Fecha y hora de ultimo cambio de estado",
+        "Updated",
+        help_text="Updated DateTime",
         auto_now=True,
     )
 
@@ -126,8 +124,8 @@ class Request(RequestAbstractModel):
 
 class RequestHistory(RequestAbstractModel):
     id = models.UUIDField(
-        "Identificador",
-        help_text="Identificador unico [ UUID ]",
+        "UID",
+        help_text="Unique Identifier [ UUID ]",
         primary_key=True,
         unique=True,
         editable=False,
@@ -136,8 +134,8 @@ class RequestHistory(RequestAbstractModel):
     request = models.ForeignKey(
         to=Request,
         on_delete=models.PROTECT,
-        verbose_name="Requerimiento",
-        help_text="Numero del requerimiento original, con el estado actual",
+        verbose_name="Requirement",
+        help_text="Original Requirement",
         related_name="request_history"
     )
 

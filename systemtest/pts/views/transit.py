@@ -44,10 +44,9 @@ class TransitRequestView(BaseRequestListView):
             return self.status_model.objects.get(name="TRANSIT")
         return super().get_new_status(request)
 
-class RequestReopen(DeleteView):
+class ReturnToOpen(DeleteView):
     model = pts_models.Request
     success_url = reverse_lazy("pts:transit")
-    template_name = "pts/request_cancel.html"
 
     def get(self, request, *args, **kwargs):
         user_groups = self.request.user.groups.all()

@@ -1,0 +1,49 @@
+{% extends 'quality/base_table.html' %}
+
+{% load static %}
+{% load measures %}
+{% load types %}
+
+{% block subtitle %} Passed {% endblock subtitle %}
+
+{% block table_title %} PASSED SYSTEMS {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Operation Number" "Created" "Shift" "Status" "Comment" "User" "Return" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block table_body %}
+  {% for system in object_list %}
+    <tr class="table__row">
+      <td> {{ system.system_number }} </td>
+      <td> {{ system.workunit }} </td>
+      <td> {{ system.workunit_qty }} </td>
+      <td> {{ system.product_line }} </td>
+      <td> {{ system.operation_number }} {{ system.operation_status }} </td>
+      <td> {{ system.modified | timesince }} </td>
+      <td> {{ system.modified | get_shift  }} </td>
+      <td> {{ system.quality_status }} </td>
+      <td> {{ system.comment | default_if_none:"" }} </td>
+      <td> {{ system.user | default_if_none:"" }} </td>
+
+      <td>
+        <a href="{{ system.get_absolute_url }}return">
+        {% if is_legacy %}
+          <img src="{% static 'images/icons/png/delete--alt--black.png' %}" alt="Delete">
+        {% else %}
+          <img src="{% static 'images/icons/png/delete--alt.png' %}" alt="Delete">
+        {% endif %}
+        </a>
+      </td>
+
+    </tr>
+  {% endfor %}
+{% endblock table_body %}
+
+{% block button %} {% endblock button %}
+
+{% block pagination %}
+  {% include 'utils/basic/pagination.html' with page_obj=page_obj %}
+{% endblock pagination %}

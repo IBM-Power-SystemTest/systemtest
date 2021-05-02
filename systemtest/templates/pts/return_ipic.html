@@ -2,22 +2,21 @@
 
 {% block extra_columns %}
   <th> NCM Tag </th>
-  <th> Recibir Parte </th>
+  <th> Recive Part </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
   <td> {{ data.ncm_tag | default_if_none:"" }} </td>
 
-  {% if data.request_status.name == "GOOD" %}
-    <td> {{ form.part_id }} </td>
-  {% else %}
-    <td></td>
-  {% endif %}
-  {{ form.request_status.as_hidden }}
-  {{ form.ncm_tag.as_hidden }}
+  <td>
+    {% if data.request_status.name == "GOOD" %}
+      <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
+        {{ f.part_id }}
+        {% include "utils/forms/field_errors.html" with field=f.part_id %}
+      </div>
+    {% endif %}
+  </td>
 
+  {{ f.request_status.as_hidden }}
+  {{ f.ncm_tag.as_hidden }}
 {% endblock extra_rows %}
-
-{% block submit %}
-  <input type="button" value="Guardar" onclick="this.form.submit()"/>
-{% endblock submit %}

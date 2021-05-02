@@ -1,0 +1,105 @@
+table .tooltip {
+  display: none;
+}
+
+.table__wrapper {
+  width: 100%;
+  display: block;
+  color: #343a3f;
+  font-size: 12px;
+  text-align: center;
+  overflow-y: auto;
+}
+
+.table {
+  width: 100%;
+}
+
+.table__title {
+  margin: 20px;
+  font-size: 25px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.table__header th {
+  padding: 10px 10px;
+  background: #343a3f;
+  color: #dde1e6;
+}
+
+.table__row td {
+  padding: 0 7px;
+  background: #f2f4f8;
+}
+
+.table__row--odd td {
+  background: #dde1e6;
+}
+
+.table__row:hover td {
+  background: #a2a9b0;
+}
+
+
+.table__row .form__input input,
+.table__row .form__input select {
+  background: #c1c7cd;
+}
+
+.table__row img {
+  width: 24px;
+  border: none;
+}
+
+.table__status {
+  padding: 5px;
+  -moz-border-radius: 5px;
+}
+
+.table--alert {
+  background: #009d9a;
+  color: #dde1e6;
+}
+
+.table__body tr:hover .table--alert {
+  background: #007d79;
+  color: #dde1e6;
+}
+
+.table--alert1 {
+  background: #f1c21b;
+}
+
+.table__body tr:hover .table--alert1 {
+  background: #d3a400;
+}
+
+.table--alert2 {
+  background: #ff8389;
+}
+
+.table__body tr:hover .table--alert2 {
+  background: #e07237;
+  color: #dde1e6;
+}
+
+.table--alert3 {
+  background: #fa4d56;
+  color: #dde1e6;
+}
+
+.table__body tr:hover .table--alert3 {
+  background: #da1e28;
+  color: #dde1e6;
+}
+
+.table--pass {
+  background: #24a148;
+  color: #dde1e6;
+}
+
+.table__body tr:hover .table--pass {
+  background: #198038;
+  color: #dde1e6;
+}

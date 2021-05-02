@@ -1,0 +1,35 @@
+{% load static %}
+
+<header class="navbar">
+  <div class="navbar-left">
+    <a href="{% url 'home' %}">
+      <img
+      class="navbar__logo"
+      src="{% static 'images/logos/rebus_h_white.png' %}"
+      alt="Logo power"
+      />
+    </a>
+  </div>
+
+  <ul class="navbar__list navbar--center">
+    {% block navbar %} {% endblock navbar %}
+  </ul>
+
+  <ul class="navbar__list navbar--rigth">
+    {% if user.is_authenticated  %}
+      {% include 'utils/basic/navbar_link.html' with url_name='users:update' link_name=user.username|add:' <i class="fas fa-user"></i>' %}
+
+      {% if user.is_staff %}
+        {% include 'utils/basic/navbar_link.html' with url_name='users:signup' link_name='Signup <i class="fas fa-user-plus"></i>' %}
+      {% endif %}
+
+      {% if user.is_superuser %}
+        {% include 'utils/basic/navbar_link.html' with url_name='admin:index' link_name='Admin site <i class="fas fa-user-cog"></i>' %}
+      {% endif %}
+
+      {% include 'utils/basic/navbar_link.html' with url_name='users:logout' link_name='Logout <i class="fas fa-sign-out-alt"></i>' %}
+    {% else %}
+      {% include 'utils/basic/navbar_link.html' with url_name='users:login' link_name='Login <i class="fas fa-sign-in-alt"></i>' %}
+    {% endif %}
+  </ul>
+</header>

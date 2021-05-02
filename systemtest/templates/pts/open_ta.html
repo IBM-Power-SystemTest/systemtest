@@ -1,19 +1,35 @@
 {% extends 'pts/open.html' %}
 {% load static %}
+{% load types %}
 
 {% block extra_columns %}
-  <th> Comentario </th>
-  <th> Actualizar Parte </th>
-  <th> Eliminar </th>
+  <th> Comment </th>
+  <th> Update Part {% include "utils/forms/field_help.html" with field=form.0.part_id %}</th>
+  <th> Cancel </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
   <td> {{ data.comment | default_if_none:"" }} </td>
-  <td> {{ form.part_id }} </td>
+
   <td>
-    <a href="{{ data.get_absolute_url }}cancel">
-      <img src="{% static 'images/icons/delete_1.png' %}" alt="">
-    </a>
+    <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
+      {{ f.part_id }}
+      {{ f.part_id.errors }}
+      {% include "utils/forms/field_errors.html" with field=f.part_id %}
+    </div>
   </td>
-  {{ form.request_status.as_hidden }}
+
+  <td>
+    {% if request.user == data.get_first_request.user %}
+      <a href="{{ data.get_absolute_url }}cancel">
+        {% if is_legacy %}
+          <img src="{% static 'images/icons/png/delete--alt--black.png' %}" alt="Delete">
+        {% else %}
+          <img src="{% static 'images/icons/png/delete--alt.png' %}" alt="Delete">
+        {% endif %}
+      </a>
+    {% endif %}
+  </td>
+
+  {{ f.request_status.as_hidden }}
 {% endblock extra_rows %}

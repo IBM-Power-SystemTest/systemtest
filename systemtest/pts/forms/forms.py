@@ -10,6 +10,8 @@ from systemtest.utils.forms import set_placeholder
 class RequestGroupForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.label_suffix = ""
+
         system_number = self.fields["system_number"]
         system_cell = self.fields["system_cell"]
         request_bay = self.fields["request_bay"]
@@ -47,18 +49,19 @@ class RequestGroupForm(forms.ModelForm):
     def clean_qty(self):
         qty = self.cleaned_data['qty']
         if qty < 1:
-            raise forms.ValidationError("El minimo de requerimientos es '1'")
+            raise forms.ValidationError("The minimum requirement is '1'")
         elif qty > 10:
-            raise forms.ValidationError("El maximo de requerimientos es '10'")
+            raise forms.ValidationError("The maximum requirement is '10'")
         return qty
 
     def clean(self) -> Dict[str, Any]:
         data = super().clean()
         if data.get("is_vpd") and data.get("qty") > 1:
-            raise forms.ValidationError("No es posible pedir mas de una VPD")
+            raise forms.ValidationError(
+                "It is not possible to request more than one VPD")
 
         if data.get("is_vpd") and not data.get("is_serialized"):
-            raise forms.ValidationError("Todas las VPD son serializadas")
+            raise forms.ValidationError("All VPDs are serialized")
 
         return data
 
@@ -66,12 +69,18 @@ class RequestGroupForm(forms.ModelForm):
 class RequestPartForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.label_suffix = ""
         part_id = self.fields["part_id"]
-        set_placeholder(part_id, "78P4198 YH10MS0C3090")
+        set_placeholder(part_id, "eg. 78P4198 YH10MS0C3090")
 
     part_id = forms.CharField(
-        label="11S",
-        help_text="PN + SN",
+        label="Part Number [ PN + SN ]",
+        help_text="""
+            [ 11S ]
+            [ P78P4198 SYH10MS0C3090 ]
+            [ 78P4198 YH10MS0C3090 ]
+            [ 78P4198YH10MS0C3090 ]
+            """,
         max_length=30,
         min_length=7,
         strip=True,
@@ -98,7 +107,7 @@ class RequestPartForm(forms.Form):
         part_id_regex = re.compile(pattern)
 
         if not (match := part_id_regex.fullmatch(data)):
-            error_message = "11S no es valido, sin match para el PN o SN"
+            error_message = "11S is not valid, check the valid formats"
             raise forms.ValidationError(error_message)
 
         groups_matched = match.groupdict()
@@ -110,16 +119,21 @@ class RequestPartForm(forms.Form):
 
 class RequestPartFormset(forms.BaseFormSet):
     def clean(self):
-        """Checks that no two articles have the same title."""
         if any(self.errors):
             # Don't bother validating the formset unless each form is valid on its own
             return
 
         part_id_set = self.cleaned_data
-        part_number_set = {part_id.get("pn") for part_id in part_id_set} - {None}
+        part_number_set = {
+            part_id.get("pn") for part_id in part_id_set
+        } - {None}
+
+        if not part_number_set:
+            error_message = "You must enter at least a valid part number"
+            raise forms.ValidationError(error_message)
 
         if len(part_number_set) > 1:
-            error_message = "Se estan requiriendo distintos numeros de parte {} ".format(
+            error_message = "Different part numbers are being required {} ".format(
                 ", ".join(part_number_set)
             )
             raise forms.ValidationError(error_message)
@@ -132,7 +146,7 @@ class RequestPartFormset(forms.BaseFormSet):
             serial_number_list.append(sn)
 
         if serial_duplicate_set:
-            error_message = "Se estan requiriendo el mismo serial {} ".format(
+            error_message = "The same serial is required {} ".format(
                 ", ".join(serial_duplicate_set)
             )
             raise forms.ValidationError(error_message)
@@ -150,6 +164,13 @@ class RequestUpdateListForm(forms.ModelForm, RequestPartForm):
         required=False,
     )
     part_id = forms.CharField(
+        help_text="""
+            Some valid formats:
+            11S78P4198YH10MS0C3090
+            P78P4198 SYH10MS0C3090
+            78P4198 YH10MS0C3090
+            78P4198YH10MS0C3090
+            """,
         max_length=30,
         min_length=7,
         strip=True,

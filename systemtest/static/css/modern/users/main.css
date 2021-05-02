@@ -1,0 +1,25 @@
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 50px;
+}
+
+
+.card-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  min-height: 600px;
+  min-width: 450px;
+  padding: 25px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 25px;
+  font-size: var(--p_size);
+  color: var(--gray_20);
+}
+
+.card-form__img {
+  width: 150px;
+  align-self: center;
+}

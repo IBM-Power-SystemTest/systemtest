@@ -42,12 +42,20 @@ LOCALE_PATHS = [str(ROOT_DIR / "locale")]
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 DATABASES = {
     "default": {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': env('POSTGRES_DB'),
-        'USER': env('POSTGRES_USER'),
-        'PASSWORD': env('POSTGRES_PASSWORD'),
-        'HOST': env('POSTGRES_HOST'),
-        'PORT': env('POSTGRES_PORT'),
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": env("POSTGRES_DB"),
+        "USER": env("POSTGRES_USER"),
+        "PASSWORD": env("POSTGRES_PASSWORD"),
+        "HOST": env("POSTGRES_HOST"),
+        "PORT": env("POSTGRES_PORT"),
+    },
+    "db2": {
+        "database": env("DB2_DB"),
+        "user": env("DB2_USER"),
+        "password": env("DB2_PASSWORD"),
+        "host": env("DB2_HOST"),
+        "port": env("DB2_PORT"),
+        "protocol": env("DB2_PROTOCOL")
     }
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
@@ -83,7 +91,8 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "systemtest.users.apps.UsersConfig",
     # Your stuff: custom apps go here
-    "systemtest.pts.apps.PtsConfig"
+    "systemtest.pts.apps.PtsConfig",
+    "systemtest.quality.apps.QualityConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -106,7 +115,7 @@ LOGIN_REDIRECT_URL = "home"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "users:login"
 # https://docs.djangoproject.com/en/3.1/ref/settings/#logout-redirect-url
-LOGOUT_REDIRECT_URL = 'users:login'
+LOGOUT_REDIRECT_URL = "users:login"
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -149,7 +158,6 @@ MIDDLEWARE = [
     "django.middleware.common.BrokenLinkEmailsMiddleware",
 
     "django.middleware.csrf.CsrfViewMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
@@ -209,9 +217,6 @@ TEMPLATES = [
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#form-renderer
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
-
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 # FIXTURES
 # ------------------------------------------------------------------------------
@@ -313,3 +318,5 @@ CORS_URLS_REGEX = r"^/api/.*$"
 # ------------------------------------------------------------------------------
 PASSWORD_EXPIRE_DAYS = 90
 CHANGE_PASSWORD_MESSAGE_DAYS = PASSWORD_EXPIRE_DAYS - 10
+
+QUALITY_SQL_PATH = "systemtest/quality/utils/quality.sql"

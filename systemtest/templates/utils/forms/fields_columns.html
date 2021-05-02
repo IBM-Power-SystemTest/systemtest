@@ -1,0 +1,8 @@
+<div class="form__input
+  {% if split %}
+    {% cycle 'form--left' 'form--right' %}
+  {% endif %}
+  {{ field.field.required|yesno:'form--required,form--non-required' }}"
+>
+  {% include "utils/forms/field_basic.html" with field=field %}
+</div>

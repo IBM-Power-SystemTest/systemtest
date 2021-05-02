@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load types %}
+
+{% block styles %}
+  {% if is_legacy %}
+
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block title %}
+  POWERAPPS | {% block subtitle %}{% endblock subtitle %}
+{% endblock title %}
+
+{% block navbar %}
+  {% to_list 'pts:index' 'quality:index' as urls %}
+  {% to_list 'PARTS TRACKING SYSTEM' 'QUALITY INSPECTION' as names %}
+
+  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
+{% endblock navbar %}

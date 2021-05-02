@@ -11,6 +11,7 @@ from django.http.response import HttpResponse, HttpResponseRedirect
 
 # Django Views
 from django.views.generic import FormView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Django db
 from django.db.models.query import QuerySet
@@ -19,7 +20,7 @@ from django.db.models.query import QuerySet
 from systemtest.pts import forms as pts_forms, models as pts_models
 
 
-class BaseRequestListView(FormView):
+class BaseRequestListView(LoginRequiredMixin, FormView):
     model = pts_models.Request
     status_model = pts_models.RequestStatus
 

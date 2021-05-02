@@ -1,0 +1,30 @@
+.card-form {
+  width: 50%;
+  max-width: 500px;
+  padding: 25px;
+  margin: auto;
+  -moz-border-radius: 25px;
+  background: #dde1e6;
+  color: #343a3f;
+  text-align: center;
+}
+
+.card-form__img {
+  display: block;
+  margin: auto;
+  margin-bottom: 25px;
+  width: 150px;
+}
+
+.card-form input,
+.card-form button {
+  position: relative;
+  display: inline-block;
+  left: 1px;
+  margin-bottom: 20px;
+}
+
+.card-form label {
+  position: relative;
+  bottom: 20px
+}

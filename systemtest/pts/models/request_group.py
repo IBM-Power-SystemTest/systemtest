@@ -17,71 +17,71 @@ class RequestGroupWorkspace(utils_models.AbstractOptionsModel):
 class RequestGroup(models.Model):
     # Part info
     part_description = utils_models.CharFieldUpper(
-        "Descripcion",
-        help_text="Nombre de la pieza/parte",
+        "Description",
+        help_text="Name or description of part (15 chars max)",
         max_length=15,
         uppercase=True,
     )
     part_number = utils_models.CharFieldUpper(
         "Part Number [ PN ]",
-        help_text="Numero de parte(s) del requerimiento original",
+        help_text="Part Numbers of the original requirement (7 chars)",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
     is_vpd = models.BooleanField(
         "VPD o TPM",
-        help_text="Se entrega al cambio",
+        help_text="Parts that are given to change",
         default=False,
     )
     is_serialized = models.BooleanField(
-        "Serializado",
-        help_text="Numero de parte con serial",
+        "Serialized",
+        help_text="If Part number has serial number",
         default=True,
     )
     # System info
     system_number = utils_models.CharFieldUpper(
-        "Numero de sistema",
-        help_text="7 caracteres",
+        "System Number [ MFGN ]",
+        help_text="MFGN (7 chars)",
         max_length=7,
-        validators=[utils_models.Validators.seven_chars],
+        validators=[utils_models.Validators.chars(7)],
         uppercase=True,
     )
     system_cell = utils_models.CharFieldUpper(
-        "Celda del sistema",
-        help_text="4 caracteres",
+        "System's testcell",
+        help_text="Logic testcell where the system is (7 chars max)",
         max_length=7,
         null=True,
         blank=False,
-        validators=[utils_models.Validators.four_chars],
+        validators=[utils_models.Validators.chars(4)],
         uppercase=True,
     )
     # Request info
     is_loaner = models.BooleanField(
         "Loaner",
-        help_text="El sistema necesita piezas 'Loaner'",
+        help_text="Only if the system needs loaner parts",
         default=False,
     )
     qty = models.SmallIntegerField(
-        "Cantidad",
-        help_text="Cantidad de piezas del mismo PN",
+        "Quantity",
+        help_text="Number of pieces of the same PN",
         default=1,
-        validators=[MinValueValidator(1), MaxValueValidator(10)]
+        validators=utils_models.Validators.digits(10, 1, False)
     )
     request_group_workspace = models.ForeignKey(
         to=RequestGroupWorkspace,
         on_delete=models.PROTECT,
         default=1,
         verbose_name="Area",
-        help_text="El area donde esta el sistema",
+        help_text="Area where the system is",
     )
     request_bay = utils_models.CharFieldUpper(
-        "Bahia TA",
-        help_text="4 caracteres",
+        "Cluster TA",
+        help_text="Cluster of user (4 chars max)",
         max_length=4,
         null=True,
         blank=False,
-        validators=[utils_models.Validators.four_chars],
+        validators=[utils_models.Validators.chars(4)],
         uppercase=True,
     )
 

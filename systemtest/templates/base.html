@@ -1,5 +1,7 @@
 {% load static %}
 {% load legacy %}
+{% load types %}
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -12,21 +14,19 @@
       name="description"
       content="WEBs projects for Power IBM System Test"
     />
+
     <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}" />
 
     {% if request.META.HTTP_USER_AGENT|is_legacy %}
-      <link rel="stylesheet" href="{% static 'css/v2/index.css' %}">
-      <link rel="stylesheet" href="{% static 'css/v2/navbar/navbar.css' %}">
-      <link rel="stylesheet" href="{% static 'css/v2/forms/form_request.css' %}">
-      <link rel="stylesheet" href="{% static 'css/v2/tables/tablesv2.css' %}">
+      {% define True as is_legacy %}
+      <link rel="stylesheet" href="{% static 'css/legacy/main.css' %}">
     {% else %}
-      <link rel="stylesheet" href="{% static 'css/main/nav_bar.css' %}">
-      <link rel="stylesheet" href="{% static 'css/main/forms_request.css' %}">
-      <link rel="stylesheet" href="{% static 'css/main/login.css' %}">
+      {% define False as is_legacy %}
+      <link rel="stylesheet" href="{% static 'fonts/ibm_plex_sans/fonts.css' %}">
+      <link rel="stylesheet" href="{% static 'fonts/fontawesome/fonts.css' %}">
+      <link rel="stylesheet" href="{% static 'css/variables.css' %}">
+      <link rel="stylesheet" href="{% static 'css/modern/main.css' %}">
     {% endif %}
-
-    <link rel="stylesheet" href="{% static 'fonts/css/ibm-plex.css' %}">
-    <link rel="stylesheet" href="{% static 'css/main/body.css' %}">
 
     <script src="{% static 'js/project.js' %}"></script>
 
@@ -39,16 +39,20 @@
   </head>
 
   <body>
-    {% include 'navbar.html' %}
+    {% block navbar %} {% endblock navbar %}
+
     {% if messages %}
       <ul class="messages">
-          {% for message in messages %}
+        {% for message in messages %}
           <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-          {% endfor %}
+        {% endfor %}
       </ul>
     {% endif %}
-    {% block body %}
-      {% block content %} {% endblock content %}
-    {% endblock body%}
+
+    <div class="body">
+      {% block body %}{% endblock body %}
+    </div>
+
+    {% include 'footer.html' %}
   </body>
 </html>

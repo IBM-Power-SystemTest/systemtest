@@ -1,0 +1,131 @@
+html {
+  font-family: 'IBM Plex Sans';
+  font-size: 62.5%;
+  font-weight: 500;
+  color: var(--gray_20);
+  letter-spacing: 1px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body::-webkit-scrollbar {
+  background: var(--gray_100);
+  width: 10px;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: var(--gray_70);
+}
+
+
+.navbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  padding-right: 25px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  z-index: 1000;
+}
+
+.navbar__logo {
+  height: 70px;
+}
+
+.navbar__list {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: space-evenly;
+  box-sizing: border-box;
+  list-style: none;
+}
+
+.navbar__list a {
+  display: inherit;
+  margin: 5px;
+  padding: 7px 10px;
+  border-bottom: 3px solid var(--primary_50);
+  outline: none;
+  color: var(--gray_20);
+  text-decoration: none;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.navbar__list a:hover,
+.navbar__list a:focus {
+  border-radius: 5px;
+  border-bottom: 3px solid var(--primary_60);
+  background-color: var(--primary_60);
+  transition: var(--transition_default);
+}
+
+.navbar__list--fullfill a {
+  border-radius: 5px;
+  border-bottom: 3px solid var(--primary_50);
+  background-color: var(--primary_50);
+}
+
+.navbar__list--fullfill a:hover,
+.navbar__list--fullfill a:focus {
+  border-bottom: 3px solid var(--primary_60);
+  background-color: var(--primary_60);
+}
+
+.navbar__list--active a {
+  border-bottom: 3px solid var(--secondary_50);
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.navbar__list--active a:hover,
+.navbar__list--active a:focus {
+  border-bottom: 3px solid var(--secondary_60);
+  background-color: var(--secondary_60)
+}
+
+
+.body {
+  min-height: calc(100vh - 123px);
+  background: linear-gradient(black 0%, var(--gray_90) 30%, var(--gray_80) 60%, var(--gray_70) 100%);
+}
+
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: static;
+  bottom: 0;
+  height: 50px;
+  background-color: var(--gray_70);
+}
+
+.footer__text {
+  font-size: var(--p_size);
+  font-weight: 600;
+  color: var(--gray_20);
+}
+
+
+.pagination {
+  display: inline-flex;
+  height: 30px;
+  padding: 3px;
+  margin-left: 25px;
+  margin-top: 20px;
+  align-items: center;
+  color: var(--gray_20);
+  font-size: 1.4rem;
+}
+.pagination img {
+  height: 30px;
+}
+
+.pagination__current {
+  padding: 0 8px;
+}

@@ -52,12 +52,9 @@ class OpenRequestView(BaseRequestListView):
 class RequestCancel(DeleteView):
     model = pts_models.Request
     success_url = reverse_lazy("pts:open")
-    template_name = "pts/request_cancel.html"
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.user != self.request.user:
-            return HttpResponseRedirect(self.get_success_url())
         return self.delete()
 
     def delete(self) -> HttpResponse:

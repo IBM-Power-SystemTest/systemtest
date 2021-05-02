@@ -1,25 +1,16 @@
 {% extends "users/base.html" %}
+{% load static %}
 
-{% block subtitle %}Login{% endblock subtitle %}
+{% block subtitle %} Login {% endblock subtitle %}
 
-{% block container %}
-  <form class="form-login" method="POST">
-    {% csrf_token %}
+{% block form %}
+  {% for field in form %}
+    {% include "utils/forms/field_container.html" with field=field %}
+  {% endfor %}
 
-    {% include 'form_errors.html' with form=form %}
+  <button class="button" type="submit" value="Login">
+    Login <i class="fas fa-sign-in-alt"></i>
+  </button>
 
-    <table class="table-login">
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-
-    <input class="btn-login" type="submit" value="login">
-    <input type="hidden" name="next" value="{{ next }}">
-  </form>
-{% endblock container %}
+  <input type="hidden" name="next" value="{{ next }}">
+{% endblock form %}

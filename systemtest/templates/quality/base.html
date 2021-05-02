@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load types %}
+
+{% block styles %}
+  {% if is_legacy %}
+
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block title %}
+  QUALITY | {% block subtitle %}{% endblock subtitle %}
+{% endblock title %}
+
+{% block navbar %}
+  {% to_list 'quality:index' 'quality:passed' 'quality:history' as urls %}
+  {% to_list 'Inspect' 'Passed' 'History' as names %}
+
+  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
+{% endblock navbar %}

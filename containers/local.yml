@@ -1,0 +1,59 @@
+version: "3"
+
+services:
+  django: &django
+    build:
+      context: ..
+      dockerfile: ./containers/django/local.dockerfile
+    container_name: django
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ..:/app:z
+      - vscode_data:/root
+    env_file:
+      - ../.envs/.django.local.env
+      - ../.envs/.postgres.local.env
+      - ../.envs/.db2.production.env
+    ports:
+      - "8000:8000"
+    command: /commands/django_local.sh
+
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:Z
+    env_file:
+      - ../.envs/.postgres.production.env
+
+  redis:
+    image: redis:6
+    container_name: redis
+    volumes:
+      - redis_data:/data
+
+  celeryworker:
+    <<: *django
+    container_name: celeryworker
+    ports: []
+    command: /commands/celery_worker.sh
+
+  celerybeat:
+    <<: *django
+    container_name: celerybeat
+    ports: []
+    command: /commands/celery_beat.sh
+
+  flower:
+    <<: *django
+    container_name: flower
+    ports:
+      - "5555:5555"
+    command: /commands/celery_flower.sh
+
+volumes:
+  postgres_data:
+  redis_data:
+  vscode_data:

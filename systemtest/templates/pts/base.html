@@ -1,14 +1,25 @@
 {% extends 'base.html' %}
-{% load humanize %}
+
+{% load static %}
+{% load types %}
+
+{% block styles %}
+  {% if is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  {% endif %}
+{% endblock styles %}
 
 {% block title %}
   PTS | {% block subtitle %}{% endblock subtitle %}
 {% endblock title %}
 
-{% block head %}{%endblock head %}
+{% block navbar %}
+  {% to_list 'pts:request' 'pts:open' 'pts:transit' 'pts:pending' 'pts:return' 'pts:close' 'pts:history' as urls %}
+  {% to_list 'Request' 'Open' 'Transit' 'Pending' 'Return' 'Close' 'History' as names %}
 
-{% block body %}
-  {% include 'pts/navbar.html' %}
-  {% block content %}{% endblock content %}
-  {% block container %}{% endblock container %}
-{% endblock body %}
+  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
+{% endblock navbar %}

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+
 {% load static %}
 
 {% block title %}
@@ -6,21 +7,33 @@
   {% block subtitle %}{% endblock subtitle %}
 {% endblock title %}
 
-{% block content %}
-  <div class="container h-100">
-    <div class="row h-100 justify-content-center align-items-center">
-      <div
-        class="col-sm-12 col-md-5 col-lg-5 pt-2 pl-5 pr-5 pb-5"
-        id="auth-container"
-      >
-        <img
-          src="{% static 'images/power-systems-b.png' %}"
-          class="img-login img-fluid rounded mx-auto d-block pb-4"
-          style="max-width: 60%"
-        />
+{% block styles %}
+  {% if is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/users/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+  {% endif %}
+{% endblock styles %}
 
-        {% block container %}{% endblock%}
-      </div>
+{% block navbar %}
+  {% include 'header.html'%}
+{% endblock navbar %}
+
+{% block body %}
+  <main class="content">
+    <div class="card-form">
+      <img
+        class="card-form__img"
+        src="{% static 'images/logos/power.png' %}"
+      />
+
+      <form class="form" method="POST">
+        {% csrf_token %}
+        {% include 'utils/forms/form_errors.html' with form=form %}
+        {% block form %}{% endblock form %}
+      </form>
     </div>
-  </div>
-{% endblock content %}
+  </main>
+{% endblock body %}

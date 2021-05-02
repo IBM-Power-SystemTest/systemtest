@@ -1,0 +1,75 @@
+{% extends 'quality/base_table.html' %}
+
+{% load static %}
+{% load measures %}
+{% load types %}
+
+{% block subtitle %} Systems {% endblock subtitle %}
+
+{% block table_title %} QUALITY INSPECTION {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Operation Number" "Updated" "Created" "Shift" "Status" "Comment" "User" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block rows %}
+  <td> {{ data.system_number }} </td>
+
+  <td>
+    <div
+      {% if data.quality_status.name == "PASSED" %}
+        class="table__status table--pass"
+      {% elif data.quality_status.name == "DAMAGED" %}
+        class="table__status table--alert3"
+      {% elif data.quality_status.name == "LABEL" or data.comment %}
+        class="table__status table--alert"
+      {% elif data.quality_status.name != "WAITING" %}
+        class="table__status table--alert2"
+      {% endif %}
+    >
+      {{ data.workunit }}
+    </div>
+  </td>
+
+  <td> {{ data.workunit_qty }} </td>
+  <td> {{ data.product_line }} </td>
+  <td> {{ data.operation_number }} {{ data.operation_status }} </td>
+  <td> {{ data.modified | timesince }} </td>
+  <td>
+    <div
+      {% if data.created|elapsed_time_min >= 40 %}
+        class="table__status table--alert3"
+      {% elif data.created|elapsed_time_min >= 25 %}
+        class="table__status table--alert2"
+      {% elif data.created|elapsed_time_min >= 15 %}
+        class="table__status table--alert1"
+      {% endif %}
+    >
+      {{ data.created | timesince }}
+    </div>
+  </td>
+
+  <td> {{ data.created | get_shift  }} </td>
+
+  <td>
+    <div class="form__input {{ f.quailty_status.errors|yesno:'form--error,' }}">
+      {{ f.quality_status }}
+      {{ f.quality_status.errors }}
+      {% include "utils/forms/field_errors.html" with field=f.quality_status %}
+    </div>
+  </td>
+
+  <td>
+    <div class="form__input {{ f.comment.errors|yesno:'form--error,' }}">
+      {{ f.comment }}
+      {{ f.comment.errors }}
+      {% include "utils/forms/field_errors.html" with field=f.comment %}
+    </div>
+  </td>
+
+  <td> {{ data.user | default_if_none:"" }} </td>
+
+  {% block extra_rows %} {% endblock extra_rows %}
+{% endblock rows %}

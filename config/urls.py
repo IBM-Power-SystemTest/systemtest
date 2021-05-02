@@ -11,8 +11,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 urlpatterns = [
     path(
         route="",
-        # view=TemplateView.as_view(template_name="pages/home.html"),
-        view=RedirectView.as_view(url="pts/"),
+        view=TemplateView.as_view(template_name="pages/home.html"),
         name="home"
     ),
     path(
@@ -32,7 +31,11 @@ urlpatterns = [
     path(
         route="pts/",
         view=include("systemtest.pts.urls", namespace="pts")
-    )
+    ),
+    path(
+        route="quality/",
+        view=include("systemtest.quality.urls", namespace="quality")
+    ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:

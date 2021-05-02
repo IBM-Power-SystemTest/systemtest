@@ -2,17 +2,36 @@
 {% load static %}
 
 {% block extra_columns %}
-  <th> Regresar Parte </th>
+  <th> Return Part </th>
   <th> NCM Tag </th>
   <th> No NCM Tag </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ form.part_id }} </td>
-  <td> {{ form.ncm_tag }} </td>
-  <td> {{ form.request_status }} </td>
+  <td>
+    <div class="form__input {% if f.part_id.errors %} form--error {% endif %}">
+      {{ f.part_id }}
+      {% include "utils/forms/field_errors.html" with field=f.part_id %}
+    </div>
+  </td>
+
+  <td>
+    <div class="form__input {% if f.ncm_tag.errors %} form--error {% endif %}">
+      {{ f.ncm_tag }}
+      {% include "utils/forms/field_errors.html" with field=f.ncm_tag %}
+    </div>
+  </td>
+
+  <td>
+    <div class="form__input {% if f.request_status.errors %} form--error {% endif %}">
+      {{ f.request_status }}
+      {% include "utils/forms/field_errors.html" with field=f.request_status %}
+    </div>
+  </td>
 {% endblock extra_rows %}
 
-{% block submit %}
-  <input type="button" value="Guardar" onclick="this.form.submit()"/>
-{% endblock submit %}
+{% block button %}
+  <button class="button" type="submit" value="Save" onclick="this.form.submit()">
+    Guardar <i class="fas fa-level-up-alt"></i>
+  </button>
+{% endblock button %}
