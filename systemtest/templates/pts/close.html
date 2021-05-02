@@ -8,7 +8,7 @@
 {% block table_title %} CLOSE {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "ID" "Status" "Date" "Shift" "Workspace" "Part" "Serial" "Description" "NCM Tag" "System" "Testcell" "User" as column_names %}
+  {% to_list "ID" "Status" "Date" "Shift" "Location" "Part" "Serial" "Description" "NCM Tag" "System" "Testcell" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

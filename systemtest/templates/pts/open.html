@@ -9,7 +9,7 @@
 {% block table_title %} OPEN {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "ID" "Status" "Require Time" "Update Time" "Shift" "Part" "Description" "Loaner" "System" "Testcell" "User" as column_names %}
+  {% to_list "ID" "Status" "Require Time" "Update Time" "Shift" "Location" "Part" "Description" "Loaner" "System" "Testcell" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}
@@ -36,6 +36,7 @@
   <td> {{ data.created | timesince }} </td>
   <td> {{ data.modified | timesince }} </td>
   <td> {{ data.created | get_shift }} </td>
+  <td> {{ data.request_group.request_group_workspace }}</td>
   <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
   <td> {{ data.request_group.part_description }} </td>
 
