@@ -38,6 +38,7 @@ class Database:
         if ibm_db.active(self.conn):
             try:
                 closed = ibm_db.close(self.conn)
+                print("Connection closed successfully")
             except Exception as error:
                 print(error)
             finally:

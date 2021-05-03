@@ -27,7 +27,7 @@ def fetch_database() -> dict[str, Any]:
         "OPERATION_NUMBER"
     }
 
-    for row in database.fetch(sql):
+    for row in database.fetch(sql, False):
         columns = set(row.keys())
         if (required_columns - columns):
             continue
@@ -44,10 +44,12 @@ def sync_database():
     workunit_set = waiting_systems.values("workunit")
 
     for row in fetch_database():
+        print(row)
         quality_system.update_or_create(**row)
         workunit_set = workunit_set.exclude(workunit=row.get("workunit"))
 
     for workunit in workunit_set:
         system = quality_system.get(**workunit)
         system.operation_status = "A"
+        print(system)
         system.save()
