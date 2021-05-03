@@ -1,5 +1,6 @@
 from django.urls import path
-from django.views.generic.base import RedirectView
+from django.views.generic.base import RedirectView, TemplateView
+from django.conf import settings
 
 from systemtest.pts import views
 
@@ -64,5 +65,15 @@ urlpatterns = [
         route="request/<pk>/return/pending/",
         view=views.ReturnToPending.as_view(),
         name="return_to_pending"
+    ),
+    path(
+        route="dashboard/",
+        view=TemplateView.as_view(
+            template_name = "pts/dashboard.html",
+            extra_context={
+                "dashboard_url": settings.PTS_DASHBOARD_URL
+            }
+        ),
+        name="dashboard"
     ),
 ]

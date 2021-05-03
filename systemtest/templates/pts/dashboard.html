@@ -1,0 +1,10 @@
+{% extends 'pts/base.html' %}
+
+{% block subtitle %} Dashboard {% endblock subtitle %}
+
+{% block body %}
+  <iframe
+    class="dashboard"
+    src="{{ dashboard_url }}"
+  ></iframe>
+{% endblock body %}

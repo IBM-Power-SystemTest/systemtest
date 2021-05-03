@@ -319,4 +319,7 @@ CORS_URLS_REGEX = r"^/api/.*$"
 PASSWORD_EXPIRE_DAYS = 90
 CHANGE_PASSWORD_MESSAGE_DAYS = PASSWORD_EXPIRE_DAYS - 10
 
-QUALITY_SQL_PATH = "systemtest/quality/utils/quality.sql"
+QUALITY_SQL_PATH = env("QUALITY_SQL_PATH", default="systemtest/quality/utils/quality.sql")
+QUALITY_DASHBOARD_URL = env("QUALITY_DASHBOARD_URL", default="")
+
+PTS_DASHBOARD_URL = env("PTS_DASHBOARD_URL", default="")

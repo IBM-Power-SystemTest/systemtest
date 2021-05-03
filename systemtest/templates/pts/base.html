@@ -18,8 +18,8 @@
 {% endblock title %}
 
 {% block navbar %}
-  {% to_list 'pts:request' 'pts:open' 'pts:transit' 'pts:pending' 'pts:return' 'pts:close' 'pts:history' as urls %}
-  {% to_list 'Request' 'Open' 'Transit' 'Pending' 'Return' 'Close' 'History' as names %}
+  {% to_list 'pts:request' 'pts:open' 'pts:transit' 'pts:pending' 'pts:return' 'pts:close' 'pts:history' 'pts:dashboard' as urls %}
+  {% to_list 'Request' 'Open' 'Transit' 'Pending' 'Return' 'Close' 'History' 'Dashboard' as names %}
 
   {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
 {% endblock navbar %}

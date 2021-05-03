@@ -129,3 +129,9 @@ body::-webkit-scrollbar-thumb {
 .pagination__current {
   padding: 0 8px;
 }
+
+.dashboard {
+  width: 100%;
+  height: calc(100vh - 126px);
+  border: none;
+}
