@@ -8,7 +8,7 @@
 {% block table_title %} TRANSIT {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "ID" "Status" "Time" "Shift" "Location" "Part" "Description" "Loaner" "System" "Testcell" as column_names %}
+  {% to_list "ID" "Status" "Time" "Shift" "Location" "Part" "Description" "System" "Testcell" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %}{% endblock extra_columns %}
 {% endblock columns %}
@@ -30,7 +30,6 @@
     </div>
   </td>
 
-  <td> {{ data.request_status }} </td>
   <td> {{ data.modified | timesince }} </td>
   <td> {{ data.modified | get_shift }}</td>
   <td> {{ data.request_group.request_group_workspace }}</td>
