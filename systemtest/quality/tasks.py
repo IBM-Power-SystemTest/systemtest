@@ -3,6 +3,7 @@ from typing import Any
 
 # Django
 from django.conf import Settings, settings
+from django.db.models import Q
 
 # Celery
 from config.celery_app import app
@@ -42,7 +43,10 @@ def sync_database():
     quality_system = quality_models.QualitySystem.objects
 
     aproved = quality_models.QualityStatus.objects.get(name="APROVED")
-    waiting_systems = quality_system.filter(quality_status=aproved).values("workunit")
+    query = (
+        ~Q(quality_status__name="APPROVED")
+    )
+    waiting_systems = quality_system.filter(query).values("workunit")
 
     for row in fetch_database():
         quality_system.update_or_create(**row)
@@ -50,6 +54,8 @@ def sync_database():
 
     for workunit in waiting_systems:
         system = quality_system.get(**workunit)
+
         system.quality_status = aproved
         system.operation_status = "A"
+
         system.save()
