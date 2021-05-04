@@ -27,7 +27,7 @@ class QualitySystems(LoginRequiredMixin, FormView):
     template_name = "quality/systems.html"
     success_url = reverse_lazy("quality:index")
     query = (
-        ~Q(operation_status="A") &
+        ~Q(quality_status__name="APROVED") &
         ~Q(quality_status__name="PASSED")
     )
 

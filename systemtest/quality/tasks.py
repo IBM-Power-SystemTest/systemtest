@@ -40,16 +40,16 @@ def fetch_database() -> dict[str, Any]:
 @app.task()
 def sync_database():
     quality_system = quality_models.QualitySystem.objects
-    waiting_systems = quality_system.filter(operation_status="W")
-    workunit_set = waiting_systems.values("workunit")
+
+    aproved = quality_models.QualityStatus.objects.get(name="APROVED")
+    waiting_systems = quality_system.filter(quality_status=aproved).values("workunit")
 
     for row in fetch_database():
-        print(row)
         quality_system.update_or_create(**row)
-        workunit_set = workunit_set.exclude(workunit=row.get("workunit"))
+        waiting_systems = waiting_systems.exclude(workunit=row.get("workunit"))
 
-    for workunit in workunit_set:
+    for workunit in waiting_systems:
         system = quality_system.get(**workunit)
+        system.quality_status = aproved
         system.operation_status = "A"
-        print(system)
         system.save()
