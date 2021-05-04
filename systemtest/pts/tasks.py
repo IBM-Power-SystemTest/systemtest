@@ -14,7 +14,6 @@ from systemtest.pts import models as pts_models
 
 database = Database(**settings.DATABASES.get("db2"))
 
-
 def get_pending_request():
     return pts_models.Request.objects.filter(request_status__name="PENDING")
 
@@ -44,7 +43,7 @@ def get_ncm(request: pts_models.Request) -> Union[dict[str, str], None]:
             RPSTMP > '{created}';
     """.format(**data)
 
-    rows = database.fetch(sql)
+    rows = database.fetch(sql, False)
     row = next(rows, {})
 
     if ncm_tag := row.get("NCM_TAG"):
@@ -57,28 +56,30 @@ def get_ncm(request: pts_models.Request) -> Union[dict[str, str], None]:
     return None
 
 
-def return_bad(request: pts_models.Request, ncm_data: dict[str, Any]):
+def return_bad(request: pts_models.Request, ncm_data: dict[str, Any], status: tuple[pts_models.RequestStatus, pts_models.RequestStatus]):
     if ncm_data:
-        bad_status = pts_models.RequestStatus.objects.get(
-            name="BAD")
-
-        if request.request_status != bad_status:
+        if request.request_status != status[0]:
             request.__dict__.update(ncm_data)
             request.save()
 
         if ncm_data.get("is_returned"):
-            request.request_status = pts_models.RequestStatus.objects.get(
-                name="CLOSE BAD")
+            request.request_status = status[1]
             request.save()
 
 
 @app.task()
 def looking_bad():
+    bad_status = pts_models.RequestStatus.objects.get(name="BAD")
+    close_bad_status = pts_models.RequestStatus.objects.get(name="CLOSE BAD")
+    status = (bad_status, close_bad_status)
+
     for pending_request in get_pending_request():
         if ncm_data := get_ncm(pending_request.get_first_request()) is None:
             ncm_data = get_ncm(pending_request)
-        return_bad(pending_request, ncm_data)
+        return_bad(pending_request, ncm_data, status)
 
     for bad_part in get_bad_request():
         ncm_data = get_ncm(bad_part)
-        return_bad(bad_part, ncm_data)
+        return_bad(bad_part, ncm_data, status)
+
+    database.close()
