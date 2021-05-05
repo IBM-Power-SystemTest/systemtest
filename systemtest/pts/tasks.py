@@ -12,7 +12,6 @@ from config.celery_app import app
 from systemtest.utils.db2 import Database
 from systemtest.pts import models as pts_models
 
-database = Database(**settings.DATABASES.get("db2"))
 
 def get_pending_request():
     return pts_models.Request.objects.filter(request_status__name="PENDING")
@@ -69,6 +68,8 @@ def return_bad(request: pts_models.Request, ncm_data: dict[str, Any], status: tu
 
 @app.task()
 def looking_bad():
+    database = Database(**settings.DATABASES.get("db2"))
+
     bad_status = pts_models.RequestStatus.objects.get(name="BAD")
     close_bad_status = pts_models.RequestStatus.objects.get(name="CLOSE BAD")
     status = (bad_status, close_bad_status)
