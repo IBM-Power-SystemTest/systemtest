@@ -6,7 +6,6 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
-from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path(
@@ -42,19 +41,6 @@ if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn for local web socket development
     urlpatterns += staticfiles_urlpatterns()
 
-# API URLS
-urlpatterns += [
-    # API base url
-    path(
-        route="api/",
-        view=include("config.api_router")
-    ),
-    # DRF auth token
-    path(
-        route="auth-token/",
-        view=obtain_auth_token
-    ),
-]
 
 if settings.DEBUG:
     # This allows the error pages to be debugged during development, just visit
