@@ -8,7 +8,7 @@
 {% block table_title %} PENDING {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "ID" "Status" "Time" "Shift" "Location" "Description" "System" "Testcell" "Required Part" "Recived Part" "User" as column_names %}
+  {% to_list "ID" "Status" "Time" "Shift" "Location" "Description" "System" "Testcell" "Required Part" "Last Part" "User" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

@@ -12,7 +12,7 @@
 
     <a class="pagination__previus" href="?page={{ page_obj.previous_page_number }}">
       {% if is_legacy %}
-        <img src="{% static 'images/icons/png/previous--outline.png' %}" alt="previous page">
+        <img src="{% static 'images/icons/png/previous--outline--black.png' %}" alt="previous page">
       {% else %}
         <img src="{% static 'images/icons/png/previous--outline.png' %}" alt="previous page">
       {% endif %}
@@ -26,7 +26,7 @@
   {% if page_obj.has_next %}
     <a class="pagination__next" href="?page={{ page_obj.next_page_number }}">
       {% if is_legacy %}
-        <img src="{% static 'images/icons/png/next--outline.png' %}" alt="next page">
+        <img src="{% static 'images/icons/png/next--outline--black.png' %}" alt="next page">
       {% else %}
         <img src="{% static 'images/icons/png/next--outline.png' %}" alt="next page">
       {% endif %}
@@ -34,7 +34,7 @@
 
     <a href="?page={{ page_obj.paginator.num_pages }}">
       {% if is_legacy %}
-        <img src="{% static 'images/icons/png/skip-next--outline.png' %}" alt="last page">
+        <img src="{% static 'images/icons/png/skip-next--outline--black.png' %}" alt="last page">
       {% else %}
         <img src="{% static 'images/icons/png/skip-next--outline.png' %}" alt="last page">
       {% endif %}

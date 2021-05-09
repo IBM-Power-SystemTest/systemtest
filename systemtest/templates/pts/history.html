@@ -15,7 +15,7 @@
 
 {% block table_body %}
   {% for request in object_list %}
-    <tr class="table__row">
+    <tr class="table__row {% cycle 'table__row--odd' 'table__row--pair' %}">
       <td> {{ request.request.pk }} </td>
       <td> {{ request.request_status }} </td>
       <td> {{ request.created }} </td>

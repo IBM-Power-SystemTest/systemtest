@@ -5,6 +5,7 @@ table .tooltip {
 .table__wrapper {
   width: 100%;
   display: block;
+  margin-top: -60px;
   color: #343a3f;
   font-size: 12px;
   text-align: center;
@@ -16,7 +17,7 @@ table .tooltip {
 }
 
 .table__title {
-  margin: 20px;
+  margin-bottom: 20px;
   font-size: 25px;
   letter-spacing: 4px;
   text-transform: uppercase;
@@ -39,6 +40,10 @@ table .tooltip {
 
 .table__row:hover td {
   background: #a2a9b0;
+}
+
+.table__row--padding {
+  padding: 7px 7px;
 }
 
 

@@ -42,11 +42,15 @@
     {% block navbar %} {% endblock navbar %}
 
     {% if messages %}
-      <ul class="messages">
+      <div class="toast__wrapper">
         {% for message in messages %}
-          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+          <div class="toast {% if message.tags %} toast--{{ message.tags }} {% endif %}">
+            <p class="toast__message">
+              <i class="fas fa-exclamation-circle"></i> {{ message }}
+            </p>
+          </div>
         {% endfor %}
-      </ul>
+      </div>
     {% endif %}
 
     <div class="body">

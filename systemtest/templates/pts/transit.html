@@ -18,11 +18,11 @@
 
   <td>
     <div
-      {% if data.created|elapsed_time_min >= 40 %}
+      {% if data.modified|elapsed_time_min >= 40 %}
         class="table__status table--alert3"
-      {% elif data.created|elapsed_time_min >= 25 %}
+      {% elif data.modified|elapsed_time_min >= 25 %}
         class="table__status table--alert2"
-      {% elif data.created|elapsed_time_min >= 15 %}
+      {% elif data.modified|elapsed_time_min >= 15 %}
         class="table__status table--alert1"
       {% endif %}
     >

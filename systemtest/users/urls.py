@@ -34,7 +34,7 @@ urlpatterns = [
         route='password/change/',
         view=auth_views.PasswordChangeView.as_view(
             template_name="users/password_change.html",
-            success_url=reverse_lazy("pts:index")
+            success_url=reverse_lazy("users:update")
         ),
         name='password_change'
     ),

@@ -122,10 +122,73 @@ body::-webkit-scrollbar-thumb {
   color: var(--gray_20);
   font-size: 1.4rem;
 }
+
 .pagination img {
   height: 30px;
 }
 
 .pagination__current {
   padding: 0 8px;
+}
+
+
+.toast__wrapper {
+  display: flex;
+  position: fixed;
+  flex-direction: column;
+  padding-left: 25px;
+}
+
+.toast {
+  margin-top: 8px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: var(--gray_20);
+  color: var(--gray_80);
+  font-size: 1.2rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 3px;
+  text-align: start;
+}
+
+.toast__message {
+  padding: 0;
+  color: var(--gray_80);
+}
+
+.toast--error {
+  border-right: 5px solid var(--error_50);
+  background: var(--error_20);
+}
+
+.toast--error i {
+  color: var(--error_50);
+}
+
+.toast--warning {
+  border-right: 5px solid var(--alert_30);
+  background: #fdf6dd;
+}
+
+.toast--warning i {
+  color: var(--alert_30);
+}
+
+.toast--success {
+  border-right: 5px solid var(--ok_50);
+  background: var(--ok_10);
+}
+
+.toast--success i {
+  color: var(--ok_50);
+}
+
+.toast--info {
+  border-right: 5px solid var(--primary_60);
+  background: var(--primary_20);
+}
+
+.toast--info i {
+  color: var(--primary_60);
 }

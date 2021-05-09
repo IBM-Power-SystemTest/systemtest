@@ -33,6 +33,11 @@
   background: var(--gray_70);
 }
 
+.table{
+  position: relative;
+  bottom: 60px;
+}
+
 
 .table__title {
   margin: 20px;

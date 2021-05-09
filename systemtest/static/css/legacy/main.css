@@ -77,3 +77,79 @@ body {
 .footer__text {
   display: none;
 }
+
+
+.pagination {
+  height: 30px;
+  padding: 3px;
+  margin-left: 25px;
+  margin-top: 20px;
+  color: #343a3f;
+  font-size: 12px;
+}
+
+.pagination img {
+  height: 24px;
+  border: none;
+}
+
+.pagination__current {
+  position: relative;
+  padding: 0 8px;
+  bottom: 7px;
+}
+
+
+.toast__wrapper {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 0 0 0 15px;
+}
+
+.toast {
+  width: 300px;
+  padding: 2px 10px;
+  background: #dde1e6;
+  color: #343a3f;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  border-radius: 3px;
+}
+
+.toast__message {
+  padding: 0;
+  color: #343a3f;
+}
+
+.toast--error {
+  border-left: 5px solid #fa4d56;
+  background: #ffd7d9;
+}
+
+.toast--warning {
+  border-left: 5px solid #f1c21b;
+  background: #fdf6dd;
+}
+
+.toast--warning i {
+  color: #f1c21b;
+}
+
+.toast--success {
+  border-left: 5px solid #24a148;
+  background: #defbe6;
+}
+
+.toast--success i {
+  color: #24a148;
+}
+
+.toast--info {
+  border-left: 5px solid #0072c3;
+  background: #bae6ff;
+}
+
+.toast--info i {
+  color: #0072c3;
+}
