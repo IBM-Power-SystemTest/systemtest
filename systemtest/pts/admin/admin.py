@@ -1,4 +1,5 @@
 from django.contrib import admin
+
 from systemtest.pts import models
 from systemtest.utils.models import AbstractOptionsModelAdmin
 
@@ -31,9 +32,6 @@ class RequestGroupAdmin(admin.ModelAdmin):
         "system_number",
         "system_cell",
         "part_description",
-        "part_number",
-        "request_group_workspace",
-        "is_loaner",
     )
     search_fields = (
         "pk",
@@ -41,12 +39,13 @@ class RequestGroupAdmin(admin.ModelAdmin):
         "system_cell",
         "part_number",
         "part_description",
-        "request_bay",
     )
-    # filter_vertical = (
-    #     'request_group_workspace',
-    #     'is_loaner',
-    # )
+    list_filter = (
+        "request_group_workspace",
+        "is_loaner",
+        "is_vpd",
+        "is_serialized",
+    )
 
 
 @admin.register(models.Request)
@@ -59,22 +58,29 @@ class ResquestAdmin(admin.ModelAdmin):
         "serial_number",
         "modified",
         "ncm_tag",
+        "user"
     )
     list_editable = (
         "request_status",
         "part_number",
         "serial_number",
-        "ncm_tag",
     )
-    list_display_links = ("pk", "request_group")
     search_fields = (
         "pk",
-        "request_group",
+        "part_number",
+        "serial_number",
         "ncm_tag",
+        "user__username",
+        "comment"
     )
-    # filter_vertical = (
-    #     'request_status',
-    # )
+    list_filter = (
+        "request_status",
+        ("modified", admin.DateFieldListFilter),
+        "request_group__request_group_workspace",
+        "request_group__is_loaner",
+        "request_group__is_vpd",
+        "request_group__is_serialized",
+    )
 
 
 @admin.register(models.RequestHistory)
@@ -88,19 +94,13 @@ class RequestHistoryAdmin(admin.ModelAdmin):
         "comment",
         "user",
     )
-    list_display_links = (
-        "request",
-        "created",
-    )
     search_fields = (
-        "request",
+        "request__pk",
+        "part_number",
         "serial_number",
-        "request_status",
-        "created",
-        "user",
+        "user__username",
     )
-    # filter_vertical = (
-    #     'request_track_status',
-    #     'created',
-    #     'user'
-    # )
+    list_filter = (
+        "request_status",
+        ("created", admin.DateFieldListFilter),
+    )

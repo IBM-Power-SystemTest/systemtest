@@ -14,21 +14,25 @@ class QualitySystemAdmin(admin.ModelAdmin):
         "workunit",
         "system_number",
         "product_line",
+        "operation_number",
+        "operation_status",
         "quality_status",
-        "created",
+        "comment",
+        "modified",
         "user",
     )
     list_editable = ("quality_status",)
-    list_display_links = ("workunit",)
     search_fields = (
-        "workunit",
         "system_number",
-        "product_line",
+        "workunit",
+        "user__username",
     )
-    search_fields = (
-        "workunit",
-        "system_number",
+    list_filter = (
+        "operation_number",
+        "operation_status",
         "product_line",
+        "quality_status",
+        ("modified", admin.DateFieldListFilter),
     )
 
 
@@ -36,13 +40,21 @@ class QualitySystemAdmin(admin.ModelAdmin):
 class QualityHistoryAdmin(admin.ModelAdmin):
     list_display = (
         "system",
+        "operation_number",
+        "operation_status",
         "quality_status",
-        "created",
+        "comment",
         "user",
     )
     search_fields = (
-        "workunit",
-        "system_number",
-        "product_line",
-        "quality_status"
+        "system__workunit",
+        "system__system_number",
+        "user__username",
+    )
+    list_filter = (
+        "operation_number",
+        "operation_status",
+        "system__product_line",
+        "quality_status",
+        ("created", admin.DateFieldListFilter),
     )

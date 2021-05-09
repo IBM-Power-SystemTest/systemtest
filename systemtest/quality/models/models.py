@@ -73,7 +73,7 @@ class QualityAbstractSystem(models.Model):
 
 class QualitySystem(QualityAbstractSystem):
     system_number = utils_models.CharFieldUpper(
-        "Numero de sistema",
+        "System Number [ MFGN ]",
         help_text="MFGN (7 chars)",
         max_length=7,
         validators=[utils_models.Validators.chars(7)],
@@ -92,7 +92,7 @@ class QualitySystem(QualityAbstractSystem):
 
     workunit_qty = models.PositiveIntegerField(
         "WorkUnit Quantity",
-        help_text="Cantidad de sistemas de la familia",
+        help_text="Quantity from same MFGN",
         null=True,
         blank=True,
         default=1,
@@ -102,13 +102,13 @@ class QualitySystem(QualityAbstractSystem):
     product_line = utils_models.CharFieldUpper(
         "Product Line",
         max_length=20,
-        help_text="Tipo de sistema",
+        help_text="System type",
         uppercase=True
     )
 
     modified = models.DateTimeField(
-        "Actualizacion",
-        help_text="Fecha y hora de ultimo cambio de estado",
+        "Updated",
+        help_text="DateTime from last change",
         auto_now=True,
     )
 
@@ -118,7 +118,7 @@ class QualitySystem(QualityAbstractSystem):
 
         for field in fields:
             name = field.name
-            if name == "workunit" or name == "created":
+            if name == "created":
                 continue
             if hasattr(self, name):
                 value = getattr(self, name)
@@ -141,7 +141,7 @@ class QualitySystem(QualityAbstractSystem):
         return reverse("quality:system_detail", args=[str(self.pk)])
 
     def __str__(self):
-        return f"{self.system_number} {self.workunit} {self.operation_status} {self.quality_status}"
+        return f"{self.system_number} => {self.workunit}"
 
     class Meta:
         db_table = "quality_system"
@@ -162,9 +162,9 @@ class QualityHistory(QualityAbstractSystem):
     system = models.ForeignKey(
         to=QualitySystem,
         on_delete=models.PROTECT,
-        verbose_name="Requerimiento",
-        help_text="Numero del requerimiento original, con el estado actual",
-        related_name="request_history"
+        verbose_name="System",
+        help_text="Original system",
+        related_name="system_history"
     )
 
     class Meta:
