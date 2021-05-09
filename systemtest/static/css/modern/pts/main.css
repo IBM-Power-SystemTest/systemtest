@@ -140,6 +140,9 @@
   margin-left: 25px;
 }
 
+.form .table__wrapper .dataTables_wrapper .dt-buttons {
+  z-index: 100;
+}
 
 .form .table__wrapper .dataTables_wrapper .dt-buttons button.dt-button {
   all: unset;

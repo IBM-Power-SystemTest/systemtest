@@ -42,6 +42,6 @@ class LoginView(auth_views.LoginView):
 
         messages.info(
             self.request,
-            "Welcome back (Last login: {:%Y-%m-%d %H:%M})".format(last_login)
+            "Welcome back ( Last login: {:%B %d, %H:%M} )".format(last_login)
         )
         return HttpResponseRedirect(self.get_success_url())
