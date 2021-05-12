@@ -1,6 +1,13 @@
-from systemtest.quality.views.passed import QualityReturn
+"""
+URLs for Quality app
+    References:
+        https://docs.djangoproject.com/en/3.1/topics/http/urls/
+        https://docs.djangoproject.com/en/3.1/ref/urls/
+"""
+
 from django.urls import path
 from django.views.generic.base import RedirectView
+
 from systemtest.quality import views
 
 app_name = "quality"

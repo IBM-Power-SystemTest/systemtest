@@ -7,6 +7,7 @@
 {% endblock scripts %}
 
 {% block body %}
+  {% block over_table %} {% endblock over_table %}
   <form method="POST" class="form">
     {% csrf_token %}
     {{ form.management_form }}
@@ -28,6 +29,7 @@
               {% for data, f in rows %}
                 <tr class="table__row {% cycle 'table__row--odd' 'table__row--pair' %}">
                   {{ f.id }}
+                  {{ f.request_status.as_hidden }}
                   {% block rows %} {% endblock rows %}
                 </tr>
               {% endfor %}
@@ -39,11 +41,10 @@
     </div>
 
     {% block button %}
-      <button class="button" type="submit" value="Save" onclick="this.form.submit()">
-        Save <i class="fas fa-level-up-alt"></i>
-      </button>
+      <input class="button" type="button" value="  Save  " onclick="this.form.submit()"/>
     {% endblock button %}
 
   </form>
+  {% block under_table %} {% endblock under_table %}
   {% block pagination %} {% endblock pagination %}
 {% endblock body %}

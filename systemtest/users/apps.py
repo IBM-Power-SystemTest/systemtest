@@ -1,3 +1,9 @@
+"""
+Users app config
+    References:
+        https://docs.djangoproject.com/en/3.1/ref/applications/
+"""
+
 from django.apps import AppConfig
 
 

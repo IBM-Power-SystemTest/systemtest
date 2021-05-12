@@ -1,8 +1,16 @@
+"""
+Celery task for PTS app, registry of task and configure in database
+
+    refences:
+        https://docs.celeryproject.org/en/v4.4.7/userguide/tasks.html
+        https://docs.celeryproject.org/en/v4.4.7/userguide/periodic-tasks.html
+        https://github.com/celery/celery/blob/master/examples/django/demoapp/tasks.py
+"""
+
 # Python
-from typing import Any, Union
+from typing import Any
 
 # Django
-from django.db.models import Q
 from django.conf import settings
 
 # Celery
@@ -10,75 +18,69 @@ from config.celery_app import app
 
 # APPs
 from systemtest.utils.db2 import Database
-from systemtest.pts import models as pts_models
-
-database = Database(**settings.DATABASES.get("db2"))
-
-
-def get_pending_request():
-    return pts_models.Request.objects.filter(request_status__name="PENDING")
-
-
-def get_bad_request():
-    return pts_models.Request.objects.filter(request_status__name="BAD")
-
-
-def get_ncm(request: pts_models.Request) -> Union[dict[str, str], None]:
-    data = {
-        "part_number": request.part_number,
-        "serial_number": request.serial_number,
-        "created": request.created
-    }
-
-    sql = """
-        SELECT
-            RPREJS AS NCM_TAG,
-            RPCULC AS CURRENT_LOCATION
-        FROM
-            QRYQ.MFSGPRP10_GRC
-        WHERE
-            RPITEM = '00000{part_number}' AND   -- Part number has 12 chars,
-                                                -- 5 chars aditional to save in db,
-                                                -- so filled extra chars with 0s
-            RPPTSN = '{serial_number}' AND
-            RPSTMP > '{created}';
-    """.format(**data)
-
-    rows = database.fetch(sql)
-    row = next(rows, {})
-
-    if ncm_tag := row.get("NCM_TAG"):
-        data["ncm_tag"] = ncm_tag
-
-        row = next(rows, {})
-        data["is_returned"] = row.get("CURRENT_LOCATION", "").strip() == "PNCM"
-
-        return data
-    return None
-
-
-def return_bad(request: pts_models.Request, ncm_data: dict[str, Any]):
-    if ncm_data:
-        bad_status = pts_models.RequestStatus.objects.get(
-            name="BAD")
-
-        if request.request_status != bad_status:
-            request.__dict__.update(ncm_data)
-            request.save()
-
-        if ncm_data.get("is_returned"):
-            request.request_status = pts_models.RequestStatus.objects.get(
-                name="CLOSE BAD")
-            request.save()
+from systemtest.pts.utils.models import *
 
 
 @app.task()
-def looking_bad():
-    for pending_request in get_pending_request():
-        if ncm_data := get_ncm(pending_request.get_first_request()) is None:
-            ncm_data = get_ncm(pending_request)
+def looking_bad() -> None:
+    """
+    Checks all parts with status PENDING and BAD looking for ncm data and location
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
+
+    # Create DB config
+    database = Database(**settings.DATABASES.get("db2"))
+
+    # Get status to move Request
+    bad_status = get_status("BAD")
+    close_bad_status = get_status("CLOSE BAD")
+
+    # Create a function to handle a ncm_data and Request status
+    def return_bad(request: pts_models.Request, ncm_data: dict[str, Any]) -> None:
+        """
+        Updates the Request data and moves it state as the case may be
+
+        Args:
+            request:
+                Request object to update ncm data
+            ncm_data:
+                Dict with ncm data (Request data to update must be the
+                same as the dictionary keys and may carry additional keys)
+
+        Returns:
+            None, update and save Request object inline
+        """
+        if ncm_data:
+            # If Request has ncm_data and status is different of BAD move
+            # to BAD and fill ncm_data, like pn, sn, ncm_tag and status
+            if request.request_status != bad_status:
+                request.__dict__.update(ncm_data)
+                request.request_status = bad_status
+                request.save()
+
+            # If ncm_data 'is returned' ( which means that the location of
+            # the part is PNCM } close part. NCM data was previously added
+            # if you didn't have it before
+            if ncm_data.get("is_returned"):
+                request.request_status = close_bad_status
+                request.save()
+
+    # Cheking the parts that are PENDING, both the part that was ordered
+    # and the last part registered
+    for pending_request in get_request_by_status_name("PENDING"):
+        if ncm_data := get_ncm(pending_request.get_first_request(), database):
+            ncm_data = get_ncm(pending_request, database)
         return_bad(pending_request, ncm_data)
 
-    for bad_part in get_bad_request():
-        ncm_data = get_ncm(bad_part)
+    # Cheking the parts that are BAD, especially the locality of this,
+    # which is PNCM to move to the next state
+    for bad_part in get_request_by_status_name("BAD"):
+        ncm_data = get_ncm(bad_part, database)
         return_bad(bad_part, ncm_data)
+
+    database.close()

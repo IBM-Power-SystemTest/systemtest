@@ -21,7 +21,7 @@
 
   <td>
     {% if request.user == data.get_first_request.user %}
-      <a href="{{ data.get_absolute_url }}cancel">
+      <a href="{% url 'pts:cancel' data.pk %}">
         {% if is_legacy %}
           <img src="{% static 'images/icons/png/delete--alt--black.png' %}" alt="Delete">
         {% else %}
@@ -30,6 +30,4 @@
       </a>
     {% endif %}
   </td>
-
-  {{ f.request_status.as_hidden }}
 {% endblock extra_rows %}

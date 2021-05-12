@@ -15,6 +15,7 @@
 {% endblock columns %}
 
 {% block rows %}
+  {% define data.get_first_request as data_first %}
   <td> {{ data.pk }} </td>
 
   <td>
@@ -37,7 +38,7 @@
   <td> {{ data.modified | timesince }} </td>
   <td> {{ data.created | get_shift }} </td>
   <td> {{ data.request_group.request_group_workspace }}</td>
-  <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
+  <td> {{ data_first.part_number }} {{ data_first.serial_number | default_if_none:"" }} </td>
   <td> {{ data.request_group.part_description }} </td>
 
   <td>
@@ -52,7 +53,7 @@
 
   <td> {{ data.request_group.system_number }} </td>
   <td> {{ data.request_group.system_cell }} </td>
-  <td> {{ data.user }} </td>
+  <td> {{ data_first.user }} </td>
 
   {% block extra_rows %} {% endblock extra_rows %}
 {% endblock rows %}

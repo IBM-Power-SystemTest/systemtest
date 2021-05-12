@@ -8,6 +8,17 @@ from systemtest.utils import models as utils_models
 
 
 class RequestGroupWorkspace(utils_models.AbstractOptionsModel):
+    """
+    RequestGroupWorkspace table to know the location of group of requirements
+        References:
+            https://docs.djangoproject.com/en/3.1/topics/db/models/#abstract-base-classes
+            https://docs.djangoproject.com/en/3.1/ref/models/options/
+
+    Attributes:
+        Meta:
+            Model/table options
+    """
+
     class Meta:
         db_table = "pts_request_group_workspace"
         verbose_name = "group workspace"
@@ -15,6 +26,37 @@ class RequestGroupWorkspace(utils_models.AbstractOptionsModel):
 
 
 class RequestGroup(models.Model):
+    """
+    Group table to grop several requirements with common data
+        References:
+            https://docs.djangoproject.com/en/3.1/topics/db/models/
+            https://docs.djangoproject.com/en/3.1/ref/models/options/
+
+    Attributes:
+        part_description:
+            Name or description of part to request
+        part_number:
+            Part Numbers of the original requirement
+        is_vpd:
+            Parts that are given to change
+        is_serialized:
+            If Part number has serial number
+        system_number:
+            Or MFGN
+        system_cell:
+            Logic testcell where the system is
+        is_loaner:
+            Only if the system needs loaner parts
+        qty:
+            Number of pieces of the same PN
+        request_group_workspace:
+            Location where the system is
+        request_bay:
+            Cluster of user
+        Meta:
+            Model/table options
+    """
+
     # Part info
     part_description = utils_models.CharFieldUpper(
         "Description",
@@ -72,8 +114,8 @@ class RequestGroup(models.Model):
         to=RequestGroupWorkspace,
         on_delete=models.PROTECT,
         default=1,
-        verbose_name="Area",
-        help_text="Area where the system is",
+        verbose_name="Location",
+        help_text="Location where the system is",
     )
     request_bay = utils_models.CharFieldUpper(
         "Cluster TA",
@@ -84,9 +126,6 @@ class RequestGroup(models.Model):
         validators=[utils_models.Validators.chars(4)],
         uppercase=True,
     )
-
-    def get_absolute_url(self):
-        return reverse("pts:detail_group", args=[str(self.pk)])
 
     def __str__(self) -> str:
         output = (

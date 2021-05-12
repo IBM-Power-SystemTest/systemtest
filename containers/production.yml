@@ -6,7 +6,7 @@ services:
       context: ..
       dockerfile: ./containers/django/production.dockerfile
     ports:
-      - "8000:8000"
+      - "3000:8000"
     depends_on:
       - postgres
       - redis
@@ -19,7 +19,7 @@ services:
   postgres:
     image: postgres:13
     ports:
-      - "5432:5432"
+      - "3001:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data:Z
     env_file:
@@ -43,7 +43,7 @@ services:
   flower:
     <<: *django
     ports:
-      - "5555:5555"
+      - "3002:5555"
     command: /commands/celery_flower.sh
 
 volumes:
