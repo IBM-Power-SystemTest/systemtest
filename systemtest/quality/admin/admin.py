@@ -5,11 +5,26 @@ from systemtest.utils.models import AbstractOptionsModelAdmin
 
 @admin.register(models.QualityStatus)
 class QualityStatusAdmin(AbstractOptionsModelAdmin):
+    """
+    Model admin for QualityStatus
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+    """
+
     pass
 
 
 @admin.register(models.QualitySystem)
 class QualitySystemAdmin(admin.ModelAdmin):
+    """
+    Model admin for QualitySystem
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-options
+    """
+
     list_display = (
         "workunit",
         "system_number",
@@ -38,6 +53,14 @@ class QualitySystemAdmin(admin.ModelAdmin):
 
 @admin.register(models.QualityHistory)
 class QualityHistoryAdmin(admin.ModelAdmin):
+    """
+    Model admin for QualityHistory
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-options
+    """
+
     list_display = (
         "system",
         "operation_number",

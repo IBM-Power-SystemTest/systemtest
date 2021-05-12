@@ -1,3 +1,10 @@
+"""
+URLs for PTS app
+    References:
+        https://docs.djangoproject.com/en/3.1/topics/http/urls/
+        https://docs.djangoproject.com/en/3.1/ref/urls/
+"""
+
 from django.urls import path
 from django.views.generic.base import RedirectView
 

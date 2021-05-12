@@ -6,6 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
+    """
+    Django UpdateView for user data
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/class-based-views/generic-editing/#django.views.generic.edit.UpdateView
+    """
     model = get_user_model()
     fields = (
         "first_name",

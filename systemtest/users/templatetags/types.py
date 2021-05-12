@@ -1,16 +1,57 @@
+"""
+Custom Django TemplaTags for Users templates,
+template tags to handle python type like lists, zip objects, define a var
+    References:
+        https://docs.djangoproject.com/en/3.1/howto/custom-template-tags/
+"""
+
 from django import template
+
 register = template.Library()
 
 
 @register.simple_tag
-def to_list(*args):
+def to_list(*args) -> tuple:
+    """
+    Recives a positional args expanded and return it in list format
+
+    Args:
+        args:
+            Positional args expanded
+
+    Returns:
+        Compacted positional args (tuple)
+    """
+
     return args
 
 
 @register.simple_tag
-def define(val=""):
+def define(val: str = "") -> str:
+    """
+    Sets a value in Django template
+
+    Args:
+        val
+
+    Returns:
+        Values passed in args
+    """
     return val
 
+
 @register.filter(name="zip")
-def zip_lists(a: list, b:list):
+def zip_lists(a: list, b: list):
+    """
+    Zip two list of same lenght
+
+    Args:
+        a:
+            First list
+        b:
+            Second list
+
+    Returns:
+        Both list zipped
+    """
     return zip(a, b)

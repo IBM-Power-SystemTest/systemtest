@@ -55,6 +55,7 @@ body {
 .navbar__list a:focus {
   border-bottom: 3px solid #0072c3;
   -moz-border-radius: 5px;
+  border-radius: 5px;
   background-color: #0072c3;
 }
 
@@ -114,6 +115,7 @@ body {
   font-size: 12px;
   font-weight: 700;
   text-align: center;
+  -moz-border-radius: 3px;
   border-radius: 3px;
 }
 

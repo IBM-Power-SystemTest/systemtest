@@ -11,6 +11,17 @@ from systemtest.utils import models as utils_models
 
 
 class QualityStatus(utils_models.AbstractOptionsModel):
+    """
+    QualityStatus table to know the status of the system
+        References:
+            https://docs.djangoproject.com/en/3.1/topics/db/models/#abstract-base-classes
+            https://docs.djangoproject.com/en/3.1/ref/models/options/
+
+    Attributes:
+        Meta:
+            Model/table options
+    """
+
     class Meta:
         db_table = "quality_status"
         verbose_name = "status"
@@ -18,6 +29,30 @@ class QualityStatus(utils_models.AbstractOptionsModel):
 
 
 class QualityAbstractSystem(models.Model):
+    """
+    Abstract model for Quality Systems tables (QualitySystem and QualityHistoy)
+    group common fields between these tables
+        References:
+            https://docs.djangoproject.com/en/3.1/topics/db/models/#abstract-base-classes
+            https://docs.djangoproject.com/en/3.1/ref/models/options/
+
+    Attributes:
+        operation_number:
+            Number of operation is
+        operation_status:
+            Operation status to know if system goes to consolidation
+        quality_status:
+            Indicates the system status
+        created:
+            Creation DateTime
+        user:
+            User who made the insert or update
+        comment:
+            Addition comment
+        Meta:
+            Model/table options
+    """
+
     operation_number = utils_models.CharFieldUpper(
         "Operation Number",
         help_text="Number of operation comming from",
@@ -38,8 +73,8 @@ class QualityAbstractSystem(models.Model):
         default=1,
         null=True,
         blank=True,
-        verbose_name="Estado",
-        help_text="Estado del sistema"
+        verbose_name="Status",
+        help_text="System status"
     )
 
     created = models.DateTimeField(
@@ -72,6 +107,27 @@ class QualityAbstractSystem(models.Model):
 
 
 class QualitySystem(QualityAbstractSystem):
+    """
+    QualitySystem table based on the QualityAbstractSystem adding extra fields
+        References:
+            https://docs.djangoproject.com/en/3.1/topics/db/models/
+            https://docs.djangoproject.com/en/3.1/ref/models/options/
+
+    Attributes:
+        system_number:
+            MFGN
+        workunit:
+            WU also setted as PK (ID)
+        workunit_qty:
+            Quantity of system that are on the same MFGN
+        product_line:
+            System type
+        modified:
+            DateTime from the last update
+        Meta:
+            Model/table options
+    """
+
     system_number = utils_models.CharFieldUpper(
         "System Number [ MFGN ]",
         help_text="MFGN (7 chars)",
@@ -113,34 +169,97 @@ class QualitySystem(QualityAbstractSystem):
     )
 
     def get_history_data(self):
+        """
+        Gets a data necesary for QualityHistory object looking for common fields
+
+        Args:
+            self:
+                Request intance.
+
+        Returns:
+            A dict mapping keys to the corresponding field for QualityHistory table
+
+            example:
+                {
+                    'system': <QualitySystem: 1AU9LT7 => 3BDR2JCD>,
+                    'operation_number': '0850',
+                    'operation_status': 'W',
+                    'quality_status': <QualityStatus: WAITING>,
+                    'user': <User: alanv>,
+                    'comment': None
+                }
+        """
+
+        # Gets fields from RequestHistory
         fields = QualityHistory._meta.fields
+
+        # Base field is ForeignKey to System instance
         data = {"system": self}
 
         for field in fields:
+            # Get field name
             name = field.name
+
+            # Field to unfetch
             if name == "created":
                 continue
+
+            # Check if System instance has the field name
             if hasattr(self, name):
+
+                # Saving the System instance in QualityHistory data
                 value = getattr(self, name)
                 data[name] = value
 
         return data
 
     def save(self, *args, **kwargs) -> None:
+        """
+        After normal save create a RequestHistory instance and save in database
+
+            reference:
+                https://docs.djangoproject.com/en/3.1/ref/models/instances/#django.db.models.Model.save
+
+        Args:
+            self:
+                Request intance.
+
+        Returns:
+            None
+        """
+
+        # Checking if QualitySystem has previus status if fail status is None
         try:
             old_status = QualitySystem.objects.get(pk=self.pk).quality_status
         except ObjectDoesNotExist:
             old_status = None
 
+        # If status is different than previus status save in history
         if (old_status is None) or (old_status != self.quality_status):
             QualityHistory(**self.get_history_data()).save()
-
             super().save(*args, **kwargs)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
+        """
+        To create a unique url for each System used to modify only this System
+        Use a url 'quality:system_detail'='/quality/system_detail/<pk>' parsing the pk [workunit] of system on the args
+            References:
+                https://docs.djangoproject.com/en/3.1/ref/models/instances/#get-absolute-url
+
+        Args:
+            self:
+                QualitySystem intance.
+
+        Returns:
+            str for parsed URL
+
+            example:
+                '/quality/system_detail/3BDRZJSR/'
+        """
+
         return reverse("quality:system_detail", args=[str(self.pk)])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"{self.system_number} => {self.workunit}"
 
     class Meta:
@@ -150,6 +269,22 @@ class QualitySystem(QualityAbstractSystem):
 
 
 class QualityHistory(QualityAbstractSystem):
+    """
+    QualityHistory table based on the QualityAbstractSystem adding extra
+    fields. This table is used for save all change in one original system
+        References:
+            https://docs.djangoproject.com/en/3.1/topics/db/models/
+            https://docs.djangoproject.com/en/3.1/ref/models/options/
+
+    Attributes:
+        id:
+            Change the base pk (interger) to UUID for have most rows
+        request:
+            ForeignKey to original system One System and Many History rows
+        Meta:
+            Model/table options
+    """
+
     id = models.UUIDField(
         "UID",
         help_text="Unique Identifier [ UUID ]",

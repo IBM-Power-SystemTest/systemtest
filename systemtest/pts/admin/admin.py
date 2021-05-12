@@ -6,16 +6,38 @@ from systemtest.utils.models import AbstractOptionsModelAdmin
 
 @admin.register(models.RequestGroupWorkspace)
 class RequestGroupWorkspaceAdmin(AbstractOptionsModelAdmin):
+    """
+    Model admin for RequestGroupWorkspace
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+    """
+
     pass
 
 
 @admin.register(models.RequestStatus)
 class RequestStatusAdmin(AbstractOptionsModelAdmin):
+    """
+    Model admin for RequestStatus
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+    """
+
     pass
 
 
 @admin.register(models.RequestGroup)
 class RequestGroupAdmin(admin.ModelAdmin):
+    """
+    Model admin for RequestGroup
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-options
+    """
+
     list_display = (
         "pk",
         "system_number",
@@ -50,6 +72,14 @@ class RequestGroupAdmin(admin.ModelAdmin):
 
 @admin.register(models.Request)
 class ResquestAdmin(admin.ModelAdmin):
+    """
+    Model admin for Request
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-options
+    """
+
     list_display = (
         "pk",
         "request_group",
@@ -85,6 +115,14 @@ class ResquestAdmin(admin.ModelAdmin):
 
 @admin.register(models.RequestHistory)
 class RequestHistoryAdmin(admin.ModelAdmin):
+    """
+    Model admin for RequestHistory
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-options
+    """
+
     list_display = (
         "request",
         "part_number",

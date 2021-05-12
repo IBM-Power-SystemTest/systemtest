@@ -1,8 +1,8 @@
 # Python
-from typing import Any, Dict, Tuple, Union
+from typing import Any, Dict
 
 # Django
-from django import forms, http
+from django import http
 from django.http.response import HttpResponse, HttpResponseNotAllowed, HttpResponseRedirect
 
 from django.forms.models import BaseModelForm

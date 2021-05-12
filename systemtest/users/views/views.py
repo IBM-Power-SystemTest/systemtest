@@ -13,19 +13,32 @@ from django.conf import settings
 
 class LoginView(auth_views.LoginView):
     def form_valid(self, form):
-        """ Security check complete. Log the user in.
-            Also check the days left to change password, get last_login time
-            and print send some status messages
+        """
+        Security check complete. Log the user in.
+        Also check the days left to change password, get last_login time
+        and print send some status messages
+
+        Args:
+            self:
+                Instance
+            form:
+                Form sended from HTTP POST
+
+        Returns:
+            HTTP response to success url
         """
 
         user = form.get_user()
         last_login = user.last_login if user.last_login else date.today()
 
+        # Login user
         auth_login(self.request, user)
 
+        # Checking last_password_hange data
         last_password_date = user.last_password_modified
         password_days_delta = (date.today() - last_password_date).days
 
+        # If password passes the limit to change the password deactivate it
         if password_days_delta >= settings.PASSWORD_EXPIRE_DAYS:
             user.is_active = False
             user.save()
@@ -33,6 +46,7 @@ class LoginView(auth_views.LoginView):
             messages.error(self.request, f"Your user has been deactivated")
             return HttpResponseRedirect(reverse_lazy("users:login"))
 
+        # If user's password is about to expire send message to change it
         elif password_days_delta >= settings.CHANGE_PASSWORD_MESSAGE_DAYS:
             remain_days = settings.PASSWORD_EXPIRE_DAYS - password_days_delta
             messages.warning(

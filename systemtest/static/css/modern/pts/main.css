@@ -33,14 +33,9 @@
   background: var(--gray_70);
 }
 
-.table{
-  position: relative;
-  bottom: 60px;
-}
-
 
 .table__title {
-  margin: 20px;
+  margin-bottom: 20px;
   font-size: 2.5rem;
   letter-spacing: 4px;
   text-transform: uppercase;
@@ -140,9 +135,6 @@
   margin-left: 25px;
 }
 
-.form .table__wrapper .dataTables_wrapper .dt-buttons {
-  z-index: 100;
-}
 
 .form .table__wrapper .dataTables_wrapper .dt-buttons button.dt-button {
   all: unset;

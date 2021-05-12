@@ -1,23 +1,29 @@
-from django.contrib.messages.api import success
+"""
+URLs for Users app
+    References:
+        https://docs.djangoproject.com/en/3.1/topics/http/urls/
+        https://docs.djangoproject.com/en/3.1/ref/urls/
+"""
+
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.urls.base import reverse_lazy
 
-from systemtest.users import views as users_views
+from systemtest.users import views
 
 app_name = "users"
 
 urlpatterns = [
     path(
         route='login/',
-        view=users_views.LoginView.as_view(
+        view=views.LoginView.as_view(
             template_name="users/login.html"
         ),
         name='login'
     ),
     path(
         route='signup/',
-        view=users_views.SignUpView.as_view(),
+        view=views.SignUpView.as_view(),
         name='signup'
     ),
     path(
@@ -27,7 +33,7 @@ urlpatterns = [
     ),
     path(
         route="update/",
-        view=users_views.UserUpdateView.as_view(),
+        view=views.UserUpdateView.as_view(),
         name="update"
     ),
     path(

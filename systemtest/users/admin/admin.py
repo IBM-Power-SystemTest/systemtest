@@ -7,17 +7,38 @@ from systemtest.utils.models import AbstractOptionsModelAdmin
 
 @admin.register(models.Department)
 class DepartmentAdmin(AbstractOptionsModelAdmin):
+    """
+    Model admin for Department
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+    """
+
     pass
 
 
 @admin.register(models.Job)
 class JobAdmin(AbstractOptionsModelAdmin):
+    """
+    Model admin for Job
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+    """
+
     pass
 
 
 @admin.register(models.User)
 class UserAdmin(auth_admin.UserAdmin):
-    # inlines = (UserInline, )
+    """
+    Model admin for User
+        References:
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-objects
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#the-register-decorator
+            https://docs.djangoproject.com/en/3.1/ref/contrib/admin/#modeladmin-options
+    """
+
     list_display = (
         "pk",
         "username",
