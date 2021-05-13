@@ -9,7 +9,7 @@
 {% block table_title %} PASSED SYSTEMS {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Operation Number" "Created" "Shift" "Status" "Comment" "User" "Return" as column_names %}
+  {% to_list "System" "WorkUnit" "Quantity" "Product Line" "Operation Number" "Updated" "Shift" "Status" "Comment" "User" "Return" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

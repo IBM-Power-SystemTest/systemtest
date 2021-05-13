@@ -1,375 +1,320 @@
 <img src="./systemtest/static/images/logos/rebus_h_black.png" alt="IBM rebus Logo" title="IBM" align="right" height="55">
 
-
 # PowerTest WebApps
 
-![python] ![flask] ![pandas]
+![python] ![django-logo] ![celery-logo]
 
-![postgres] ![mongo]
+![postgres] ![redis-logo]
 
-![aws] ![heroku]
+![docker-logo] ![podman-logo]
 
-<!-- <details>
-<summary>Index</summary> -->
+<details>
+<summary>Index</summary>
 
 ## Content table
 
-- [Requirements](#![requirements]-Requirements)
-- [Installation](#![installation]-Installation)
-- [Usage](#![usage]-Basic-Usage)
-  - [Linear](#Linear)
-    - [Schema](#schema)
-    - [E.G.](#E.G.)
-  - [Pie](#Pie)
-    - [Schema](#schema)
-    - [E.G.](#E.G.)
-  - [Bar](#Bar)
-    - [Schema](#schema)
-    - [E.G.](#E.G.)
-- [Documentation](#![documentation]-Documentation)
-  - [API](#API)
-    - [Document endpoints](#Document-endpoints)
-  - [Charts](#Charts)
-- [Technologies](#![technologies]-Technologies)
+- [Requirements](#Requirements)
+  - [Dependencies](#Dependencies)
+  - [Envs](#Envs)
+    - [Local](#Envs---Local)
+    - [Production](#Envs---Local)
+- [Run](#Run)
+  - [Local](#Run---Local)
+  - [Production](#Run---Production)
+- [Update](#Update)
+  - [Local](#Update---Local)
+  - [Production](#Update---Production)
 - [Links](#![links]-Links-&-References)
 - [License](#![license]-License)
 - [Author](#![author]-Author)
 
-<!-- </details> -->
+</details>
 
-This API process and format data usage from [P-Maker] to generate useful graphics for the administration of the platform.
-Charts based on [highcharts]
+Django Web Applications for PowerTest
 
 <br/>
 
-## ![requirements] Requirements
+## Requirements
 
->Python >= 3.8 <br/>
->Pip >= 20.2.3 <br/>
->MongoDB >= 4.0 <br/>
->PostgreSQL >=12.4
+> podman >= 2.2.1 </br>
+> podman-composer >= 0.1.7dev
 
-## ![installation] Installation
+> docker >= 20.10.6 </br>
+> docker-compose >= 1.29.1
 
-Install dependencies
+</br>
 
-```bash
-pip install -r requirements.txt
-```
+> Python >= 3.9 <br/>
+> Pip >= 21 <br/>
+> PostgreSQL >=13 <br/>
+> Redis >= 6
+
+### Dependencies
 
 <details>
-<summary>Dependencies</summary>
+<summary> Modules </summary>
 
-> APScheduler==3.6.3 <br/>
-> flasgger==0.9.5 <br/>
-> Flask==1.1.2 <br/>
-> Flask-Cors==3.0.9 <br/>
-> Flask-RESTful==0.3.8 <br/>
-> gunicorn==20.0.4 <br/>
-> numpy==1.19.2 <br/>
-> pandas==1.1.3 <br/>
-> psycopg2==2.8.6 <br/>
-> psycopg2-binary==2.8.6 <br/>
-> requests==2.24.0 <br/>
-> SQLAlchemy==1.3.19 <br/>
+> [pytz==2020.4][pytz] <br/>
+> [python-slugify==4.0.1][python-slugify] <br/>
+> [Pillow==8.0.1][pillow] <br/>
+> [argon2-cffi==20.1.0][argon2] <br/>
+> [whitenoise==5.2.0][whitenoise] <br/>
+> [redis==3.5.3][redis-py] <br/>
+> [hiredis==1.1.0][hiredis] <br/>
+> [uvicorn[standard]==0.13.1][uvicorn] <br/>
+> [ibm-db==3.0.3][ibmdb] <br/>
+> [psycopg2==2.8.6][psycopg2] <br/>
+> <br>
+> [celery==4.4.7][celery] <br/>
+> [django-celery-beat==2.1.0][celery-beat] <br/>
+> [django-timezone-field==4.1.1][celery-timezone] <br/>
+> [flower==0.9.5][flower] <br/>
+> <br>
+> [django==3.1.5][django] <br/>
+> [django-environ==0.4.5][environ] <br/>
+> [django-redis==4.12.1][django-redis] <br/>
 
-</details> <br/>
-
-Set env variables
-
-```bash
-PG_HOST # Host of PstgreSQL [ e.g. localhost ]
-PG_PORT # Port of host [ e.g. 5432 ]
-PG_DATABASE # Database name [ e.g. postgres ]
-PG_USER # User with read permissions [ e.g. postgres ]
-PG_PASSWORD # Password of user
-
-FLASK_APP = api.py # Change entrypoint of flask to api.py instead app.py
-```
-
-    ❗ Depending on the console changes the way of exporting the variables
 <br/>
-Run
+
+### Dependecies - Local
+
+> [Werkzeug==1.0.1][werkzeug] <br/>
+> [ipdb==0.13.4][ipdb] <br/>
+> [watchgod==0.6][watchdog] <br/>
+> <br/>
+> [pylint-django==2.3.0][pylint-django] <br/>
+> [pylint-celery==0.3][pylint-celery] <br/>
+> <br/>
+> [django-debug-toolbar==3.2][toolbar] <br/>
+> [django-extensions==3.1.0][django-extensions] <br/>
+
+<br/>
+
+### Dependecies - Production
+
+> gunicorn==20.0.4
+
+</details><br/>
+
+### Envs
+
+### Envs - Local
+
+<details>
+<summary> envs </summary>
+
+Envs for _Django_ - **./.envs/.django.local.env**
 
 ```bash
-flask run
+# General
+# ------------------------------------------------------------------------------
+USE_DOCKER # If runs with containers [ yes ]
+IPYTHONDIR # Folder to save autofiles of IPython [ /app/.ipython ]
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL # Redis URL [ redis://redis:6379/0 ]
+
+# Celery
+# ------------------------------------------------------------------------------
+CELERY_BROKER_URL # Usually is redis so is the same URL [ redis://redis:6379/0 ]
+
+# Flower
+CELERY_FLOWER_USER # User for fower web [ celery_user ]
+CELERY_FLOWER_PASSWORD # Password for flower web [ celery_password ]
+
+# Apps
+# ------------------------------------------------------------------------------
+PTS_DASHBOARD_URL # URL shared to insert into HTML iframe
+QUALITY_DASHBOARD_URL # URL shared to insert into HTML iframe
 ```
 
-## ![usage] Basic Usage
+<br/>
 
-The API is made up of two basic components. The type of graph and the information to graph it is based on the data collected from the DB
+Envs for _PostgreSQL_ - **./.envs/postgres.local.env**
 
-### **Linear**
-
-A *line chart* is a graphical representation of an asset's **historical action** that connects a series of data points with a continuous line.
-
-Two main objects *'Series'* [ Array of data ] and *'Categories'* [ Array of main categories ]
-
-<details>
-<summary>Responses</summary>
-
-**Schema**
-
-```YAML
-{
-  categories: [ string ] # Array with range of datesstring
-  series: [ # Objects array with the name of its category and an array with its data
-    {
-    data: [ number ] # Number Length of array is the same in all categories andAnd this is dynamic depending on the range of time available in the selected range
-    name: string
-    }
-  ]
-}
-```
-
-**E.G.**
-
-```JSON
-{
-  "categories": [
-    "2020-03",
-    "2020-06",
-    "2020-09",
-    "2020-12"
-  ],
-  "series": [
-    {
-      "data": [
-        13,
-        20,
-        20,
-        17
-      ],
-      "name": "Total"
-    },
-    {
-      "data": [
-        4,
-        4,
-        7,
-        0
-      ],
-      "name": "Backend"
-    },
-    {
-      "data": [
-        9,
-        16,
-        13,
-        17
-      ],
-      "name": "Frontend"
-    }
-  ]
-}
+```bash
+POSTGRES_HOST # PostgreSQL host [ localhost ]
+POSTGRES_PORT # PostgreSQL posrt [ 5432 ]
+POSTGRES_DB # Database name [ systemtest ]
+POSTGRES_USER # Database user [ postgres_user ]
+POSTGRES_PASSWORD # Database password [ postgres_password ]
 ```
 
 </details>
 
-> *[Highcharts line example][linear]*
+<br/>
 
-### **Pie**
-
-A *Pie Chart* a special chart that uses "pie slices" to show **relative sizes of data**.
-It is a really good way to show relative sizes: it is easy to see which movie types are **most liked**, and which are **least liked**, at a glance.
+### Envs - Production
 
 <details>
-<summary>Responses</summary>
+<summary> envs </summary>
 
-**Schema**
+Envs for _Django_ - **./envs/.django.production.env**
 
-```YAML
-{
-  data: [
-    {
-      name: string
-      y: number
-    }
-  ]
-}
+```bash
+# General
+# ------------------------------------------------------------------------------
+DJANGO_SETTINGS_MODULE # Django settings module [ config.settings.production ]
+DJANGO_SECRET_KEY # Random string to creates HASHES [ QtpaNdY6A8Wq6KlnhdsO1t ]
+DJANGO_ADMIN_URL # URL to access to adminsite [ admin/ ]
+DJANGO_ALLOWED_HOSTS # Wildcard * to allow all IPs [ * ]
+
+# Security
+# ------------------------------------------------------------------------------
+# TIP: better off using DNS, however, redirect is OK too
+DJANGO_SECURE_SSL_REDIRECT # If redirects all HTTP to HTTPS [ False ]
+
+# Redis
+# ------------------------------------------------------------------------------
+REDIS_URL # Redis URL [ redis://redis:6379/0 ]
+
+# Celery
+# ------------------------------------------------------------------------------
+CELERY_BROKER_URL # Usually is redis so is the same URL [ redis://redis:6379/0 ]
+
+# Flower
+CELERY_FLOWER_USER # User for fower web [ celery_user ]
+CELERY_FLOWER_PASSWORD # Password for flower web [ celery_password ]
+
+# Apps
+# ------------------------------------------------------------------------------
+PTS_DASHBOARD_URL # URL shared to insert into HTML iframe
+QUALITY_DASHBOARD_URL # URL shared to insert into HTML iframe
 ```
 
-**E.G.**
+<br/>
 
-```JSON
-{
-  "data": [
-    {
-      "name": "Mexico",
-      "y": 45.5
-    },
-    {
-      "name": "Colombia",
-      "y": 54.5
-    }
-  ]
-}
+Envs for _PostgreSQL_ - **./envs/.postgres.production.env**
+
+```bash
+POSTGRES_HOST # PostgreSQL host [ localhost ]
+POSTGRES_PORT # PostgreSQL posrt [ 5432 ]
+POSTGRES_DB # Database name [ systemtest ]
+POSTGRES_USER # Database user [ postgres_user ]
+POSTGRES_PASSWORD # Database password [ postgres_password ]
+```
+
+<br/>
+
+Envs for _IBM DB2_ - **./envs/.db2.production.env**
+
+```bash
+DB2_HOST # DB2 host [ localhost ]
+DB2_PORT # DB2 posrt [ 50000 ]
+DB2_DB # Database name [ Q9 ]
+DB2_USER # Database user [ db2_user ]
+DB2_PASSWORD # Database password [ db2_password ]
+DB2_PROTOCOL= # Protocol to make connection [ TCPIP ]
 ```
 
 </details>
+<br/>
 
-> *[Highcharts pie example][pie]*
+## Run
 
-### **Bar**
+### Run - Local
 
-A *bar chart* is a way of summarizing a set of categorical data (continuous data can be made categorical by auto-binning). The bar chart displays data using a number of bars, each representing a particular category.
-
-<details>
-<summary>Responses</summary>
-
-**Schema**
-
-```YAML
-{
-  categories: [ string ] # Array with first group [ category ]
-  series: [ # Objects array with the name of its category and an array with its data
-    {
-      data: [ number ] # Length of array is the same of the array of main categories
-      name: string
-    }
-  ]
-}
+```bash
+docker-compose -p project_name -f containers/local.yml up -d
 ```
 
-**E.G.**
+<br/>
 
-```JSON
-{
-  "categories": [
-    "spanish",
-    "english"
-  ],
-  "series": [
-    {
-      "data": [
-        13,
-        20
-      ],
-      "name": "Male"
-    },
-    {
-      "data": [
-        4,
-        4
-      ],
-      "name": "Female"
-    }
-  ]
-}
+### Run - Production
+
+```bash
+podman-compose -p project_name -f containers/production.yml up -d
 ```
 
-</details>
+<br/>
 
+## Update
 
-> *[Highcharts bar example][bar]*
+### Update - Local
 
-## ![documentation] Documentation
-
-### API
-
-The documentation is based on the specification of **OpenAPI 3.0** *[ [Swagger] ]* which in fact is the standard for what API documentation refers to.
-
-The documentation is generated by the *[flasgger]* module. The **OAS** *[ OpenAPI Specification ]* is used through YAML formats which in turn are referenced in the code with the *[python docstrings][docstring]*
-
-<details>
-<summary>Document endpoints</summary>
-
-**YAML [ docs/pie.yml ]**
-
-```YAML
-Returns the data in the format necessary for pie chart
-Support any categorical data from Database
----
-parameters:
-  - in: path
-    name: group
-    type: string
-    enum: [gender, country, profession, city, social_networks, users_tags, language, social_networks] 
-    required: true
-responses:
-  200:
-    description: Array of objects with data and name
-    schema: 
-      type: array
-      items:
-        type: object
-        properties:
-          name:
-            type: string
-          y:
-            type: number    
-      example:
-        data:
-          - name: Mexico
-            y: 45.5
-          - name: Colombia
-            y: 54.5
+```bash
+docker-compose -p project_name -f containers/local.yml up -d --build
 ```
 
-**Python / Docstring**
+### Update - Production
 
-```python
-class Pie(Resource):
-    def get(self, group: str) -> dict:
-        '''file: docs/pie.yml'''
-        . . .
+```bash
+podman-compose -p project_name -f containers/production.yml up -d --build
 ```
+<br/>
 
-</details>
+## Links & References
 
-> [API Docs][api doc]
->> [OAS 3.0][swagger] <br/>
->> [flasgger][flasgger] <br/>
->> [Python PEP257][docstring]
+- [Docker][docker]
+- [Docker Dockerfile][docker-dockerfile]
+- [Docker Compose][docker-compose]
+- [Docker Compose Up][docker-compose-up]
+- [Django][django-docs]
+- [Celery][celery-docs]
+- [PostgersSQL][postgresql]
+- [IBM DB2][ibmdb-docs]
 
-### Charts
+<br/>
 
-Because the API was designed for a specific fronted library for greater efficiency and not to overload the frontend, it is necessary to check how each specific graph receives the information.
+## License
 
-> [Highcharts Demos][highcharts]
->> [Basic line][linear] <br/>
->> [Pie with legend][pie] <br/>
->> [Basic bar][bar]
+![license logo]
 
-## ![technologies] Main Technologies
+PowerTest _SystemTest Web Applications_ is [BSD-3 licenced][license]
 
-<a style="float:left;">![python logo]</a>
-<a style="float:left;">![flask logo]</a>
-<a style="float: left">![swagger logo]</a>
-<a style="">![postgres logo]</a>
+<br/>
 
-## ![links] Links & References
+## Author
 
-- [P-Maker web][p-maker]
-- [Highcharts demos][highcharts]
-- [API DOCS][api doc]
-- [OpenAPI Specification][swagger]
-- [Flask Home][flask home]
-- [PostgeSQL Home][postgresql home]
+### @AlanVazquez alan.vazquez.pacheco@ibm.com
 
-## ![license] License
-
-![mit license]
-
-P-Maker *Dashboard API* is [MIT licenced][MIT]
-
-## ![author] Author
-
-### @AlanVazquez
-
-<a href="https://github.com/AlanVazquez99" style="float: left;"> ![github] </a>
-<a href="https://www.linkedin.com/in/alan-isaac-vazquez/" style="padding: 100px"> ![LinkedIn] </a>
-
-<!-- All links for document -->
-<!-- Basic Links -->
 <!-- Reference links -->
-[postgresql home]: https://www.postgresql.org/ "PostgreSQL Home"
-<!-- Aditional reference links -->
-<!-- IMGs Links -->
+[pytz]: https://github.com/stub42/pytz
+[python-slugify]: https://github.com/un33k/python-slugify
+[pillow]: https://github.com/python-pillow/Pillow
+[argon2]: https://github.com/hynek/argon2_cffi
+[whitenoise]: https://github.com/evansd/whitenoise
+[redis-py]: https://github.com/andymccurdy/redis-py
+[hiredis]: https://github.com/redis/hiredis-py
+[uvicorn]: https://github.com/encode/uvicorn
+[ibmdb]: https://github.com/ibmdb/python-ibmdb
+[psycopg2]: https://github.com/psycopg/psycopg2
+[celery]: https://github.com/celery/celery
+[celery-beat]: https://github.com/celery/django-celery-beat
+[celery-timezone]: https://github.com/celery/django-celery-beat/pull/378
+[flower]: https://github.com/mher/flower
+[environ]: https://github.com/joke2k/django-environ
+[werkzeug]: https://github.com/pallets/werkzeug
+[ipdb]: https://github.com/gotcha/ipdb
+[watchdog]: https://github.com/samuelcolvin/watchgod
+[pylint-django]: https://github.com/PyCQA/pylint-django
+[pylint-celery]: https://github.com/PyCQA/pylint-celery
+[toolbar]: https://github.com/jazzband/django-debug-toolbar
+[django-redis]: https://github.com/jazzband/django-redis
+[django-extensions]: https://github.com/django-extensions/django-extensions
+[gunicorn]: https://github.com/benoitc/gunicorn
+[django]: https://www.djangoproject.com/
+
+[docker]: https://docs.docker.com/reference/
+[docker-dockerfile]: https://docs.docker.com/engine/reference/builder/
+[docker-compose]: https://docs.docker.com/compose/compose-file/compose-file-v3/
+[docker-compose-up]: https://docs.docker.com/compose/reference/up/
+[django-docs]: https://docs.djangoproject.com/en/3.1/
+[celery-docs]: https://docs.celeryproject.org/en/v4.4.7/getting-started/introduction.html
+[postgresql]: https://www.postgresql.org/docs/13/index.html
+[ibmdb-docs]: https://github.com/ibmdb/python-ibmdb/wiki/APIs
+
 <!-- badges -->
 [python]: https://img.shields.io/badge/python%20-%2314354C.svg?&style=for-the-badge&logo=python&logoColor=white
 [postgres]: https://img.shields.io/badge/postgres-%23316192.svg?&style=for-the-badge&logo=postgresql&logoColor=white
-<!-- Icons Links -->
+[django-logo]: https://img.shields.io/badge/django%20-%0c4b33.svg?&style=for-the-badge&logo=django&logoColor=white&color=0c4b33
+[celery-logo]: https://img.shields.io/badge/celery%20-%b6de64.svg?&style=for-the-badge&logo=celery&logoColor=white&color=b6de64
+[docker-logo]: https://img.shields.io/badge/docker%20-%2314354C.svg?&style=for-the-badge&logo=docker&logoColor=white&color=2496ed
+[podman-logo]: https://img.shields.io/badge/podman%20-%2314354C.svg?&style=for-the-badge&logo=podman&logoColor=white&color=892ca0
+[redis-logo]: https://img.shields.io/badge/redis%20-%2314354C.svg?&style=for-the-badge&logo=redis&logoColor=white&color=e92c00
+
 <!-- Other Links -->
-[MIT]: https://tldrlegal.com/license/mit-license "MIT License"
-[docstring]: https://www.python.org/dev/peps/pep-0257/ "Python Docstrings PEP257"
+
+[license]: https://tldrlegal.com/license/bsd-3-clause-license-(revised) "License descriptions"
+[license logo]: https://img.shields.io/pypi/l/Django?style=for-the-badge
