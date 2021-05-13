@@ -231,11 +231,13 @@ class QualitySystem(QualityAbstractSystem):
         # Checking if QualitySystem has previus status if fail status is None
         try:
             old_status = QualitySystem.objects.get(pk=self.pk).quality_status
+            old_operation_status = QualitySystem.objects.get(pk=self.pk).operation_status
         except ObjectDoesNotExist:
             old_status = None
+            old_operation_status = None
 
         # If status is different than previus status save in history
-        if (old_status is None) or (old_status != self.quality_status):
+        if (old_status is None) or (old_status != self.quality_status) or (old_operation_status != self.operation_status):
             QualityHistory(**self.get_history_data()).save()
             super().save(*args, **kwargs)
 
