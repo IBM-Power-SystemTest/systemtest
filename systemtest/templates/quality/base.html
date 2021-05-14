@@ -20,5 +20,5 @@
   {% to_list 'quality:index' 'quality:passed' 'quality:history' as urls %}
   {% to_list 'Inspect' 'Passed' 'History' as names %}
 
-  {% include 'utils/basic/navbar_base.html' with urls=urls names=names %}
+  {% include 'utils/basic/navbar.html' with urls=urls names=names %}
 {% endblock navbar %}

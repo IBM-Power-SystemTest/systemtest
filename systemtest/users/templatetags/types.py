@@ -5,7 +5,9 @@ template tags to handle python type like lists, zip objects, define a var
         https://docs.djangoproject.com/en/3.1/howto/custom-template-tags/
 """
 
+from typing import Any
 from django import template
+from django.conf import settings
 
 register = template.Library()
 
@@ -55,3 +57,8 @@ def zip_lists(a: list, b: list):
         Both list zipped
     """
     return zip(a, b)
+
+
+@register.simple_tag
+def get_setting(name: str) -> Any:
+    return getattr(settings, name, "")

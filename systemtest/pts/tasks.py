@@ -19,6 +19,7 @@ from config.celery_app import app
 # APPs
 from systemtest.utils.db2 import Database
 from systemtest.pts.utils.models import *
+from systemtest.utils.utils import dict_counter
 
 
 @app.task()
@@ -39,6 +40,8 @@ def looking_bad() -> dict[str, int]:
     # Get status to move Request
     bad_status = get_status("BAD")
     close_bad_status = get_status("CLOSE BAD")
+
+    count_dict = {}
 
     # Create a function to handle a ncm_data and Request status
     def return_bad(request: pts_models.Request, ncm_data: dict[str, Any]) -> None:
@@ -61,36 +64,37 @@ def looking_bad() -> dict[str, int]:
             if request.request_status != bad_status:
                 request.__dict__.update(ncm_data)
                 request.request_status = bad_status
+
+                dict_counter(count_dict, "BAD")
                 request.save()
+
 
             # If ncm_data 'is returned' ( which means that the location of
             # the part is PNCM } close part. NCM data was previously added
             # if you didn't have it before
             if ncm_data.get("is_returned"):
                 request.request_status = close_bad_status
-                request.save()
 
-    count = 0
+                dict_counter(count_dict, "CLOSE BAD")
+                request.save()
 
     # Cheking the parts that are PENDING, both the part that was ordered
     # and the last part registered
     for pending_request in get_request_by_status_name("PENDING"):
         if ncm_data := get_ncm(pending_request.get_first_request(), database):
             ncm_data = get_ncm(pending_request, database)
-            count += 1
-        return_bad(pending_request, ncm_data)
 
-    count_dict = {"FROM PENDING": count}
-    count = 0
+        dict_counter(count_dict, "FROM PENDING")
+        return_bad(pending_request, ncm_data)
 
     # Cheking the parts that are BAD, especially the locality of this,
     # which is PNCM to move to the next state
     for bad_part in get_request_by_status_name("BAD"):
         ncm_data = get_ncm(bad_part, database)
-        count += 1
+
+        dict_counter(count_dict, "FROM BAD")
         return_bad(bad_part, ncm_data)
 
     database.close()
 
-    count_dict["FROM RETURN"] = count
     return count_dict
