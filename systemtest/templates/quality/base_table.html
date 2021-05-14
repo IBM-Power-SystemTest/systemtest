@@ -24,7 +24,6 @@
         </thead>
 
         <tbody class="table__body">
-          {% localtime on %}
             {% block table_body %}
               {% for data, f in rows %}
                 <tr class="table__row">
@@ -33,7 +32,6 @@
                 </tr>
               {% endfor %}
             {% endblock table_body %}
-          {% endlocaltime %}
         </tbody>
 
       </table>

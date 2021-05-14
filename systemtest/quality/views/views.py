@@ -42,8 +42,8 @@ class QualitySystems(LoginRequiredMixin, FormView):
 
     model = quality_models.QualitySystem
     query = (
-        ~Q(quality_status__name="APROVED") &
-        ~Q(quality_status__name="PASSED")
+        ~Q(quality_status__name="PASSED") &
+        ~Q(operation_status="A")
     )
 
     def get_queryset(self) -> QuerySet:

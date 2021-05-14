@@ -22,7 +22,7 @@ from systemtest.pts.utils.models import *
 
 
 @app.task()
-def looking_bad() -> None:
+def looking_bad() -> dict[str, int]:
     """
     Checks all parts with status PENDING and BAD looking for ncm data and location
 
@@ -70,17 +70,27 @@ def looking_bad() -> None:
                 request.request_status = close_bad_status
                 request.save()
 
+    count = 0
+
     # Cheking the parts that are PENDING, both the part that was ordered
     # and the last part registered
     for pending_request in get_request_by_status_name("PENDING"):
         if ncm_data := get_ncm(pending_request.get_first_request(), database):
             ncm_data = get_ncm(pending_request, database)
+            count += 1
         return_bad(pending_request, ncm_data)
+
+    count_dict = {"FROM PENDING": count}
+    count = 0
 
     # Cheking the parts that are BAD, especially the locality of this,
     # which is PNCM to move to the next state
     for bad_part in get_request_by_status_name("BAD"):
         ncm_data = get_ncm(bad_part, database)
+        count += 1
         return_bad(bad_part, ncm_data)
 
     database.close()
+
+    count_dict["FROM RETURN"] = count
+    return count_dict

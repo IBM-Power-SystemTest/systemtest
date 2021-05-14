@@ -38,7 +38,7 @@
   <td> {{ data.modified | timesince }} </td>
   <td> {{ data.created | get_shift }} </td>
   <td> {{ data.request_group.request_group_workspace }}</td>
-  <td> {{ data_first.part_number }} {{ data_first.serial_number | default_if_none:"" }} </td>
+  <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
   <td> {{ data.request_group.part_description }} </td>
 
   <td>
