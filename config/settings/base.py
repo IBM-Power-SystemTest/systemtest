@@ -218,10 +218,14 @@ FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
+# https://docs.djangoproject.com/en/3.2/ref/settings/#session-cookie-age
+SESSION_COOKIE_AGE = (60**2) * 8  # 8 Hours in seconds
+# https://docs.djangoproject.com/en/3.2/ref/settings/#session-cookie-name
+SESSION_COOKIE_NAME = "sessionid_systemtest"
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
 CSRF_COOKIE_HTTPONLY = True
-# https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
-SECURE_BROWSER_XSS_FILTER = True
+# https://docs.djangoproject.com/en/3.2/ref/settings/#csrf-cookie-name
+CSRF_COOKIE_NAME = "csrftoken_systemtest"
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
 
