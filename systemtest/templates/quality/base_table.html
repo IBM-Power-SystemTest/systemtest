@@ -8,13 +8,16 @@
 {% endblock scripts %}
 
 {% block body %}
+  {% block over_table %} {% endblock over_table %}
+  {% block over_pagination %} {% endblock over_pagination %}
+
   <form method="POST" class="form">
     {% csrf_token %}
     {{ form.management_form }}
     {% include 'utils/forms/formset_errors.html' with formset=form %}
 
     <div class="table__wrapper">
-      <table class="table">
+      <table class="table" cellspacing=0 cellpadding=20>
         <caption class="table__title"> {% block table_title %}{% endblock table_title %} </caption>
 
         <thead class="table__header">
@@ -26,14 +29,13 @@
         <tbody class="table__body">
             {% block table_body %}
               {% for data, f in rows %}
-                <tr class="table__row">
+                <tr class="table__row {% cycle 'table__row--odd' 'table__row--pair' %}">
                   {{ f.workunit }}
                   {% block rows %} {% endblock rows %}
                 </tr>
               {% endfor %}
             {% endblock table_body %}
         </tbody>
-
       </table>
     </div>
 
@@ -44,5 +46,7 @@
     {% endblock button %}
 
   </form>
-  {% block pagination %} {% endblock pagination %}
+
+  {% block under_table %} {% endblock under_table %}
+  {% block under_pagination %} {% endblock under_pagination %}
 {% endblock body %}

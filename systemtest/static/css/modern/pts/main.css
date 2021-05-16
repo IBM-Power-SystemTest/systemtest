@@ -14,7 +14,6 @@
 .form {
   display: block;
   width: 100%;
-  padding-top: 25px;
 }
 
 .table__wrapper {
@@ -163,7 +162,7 @@
 }
 
 #DataTables_Table_0_filter {
-  margin-right: 30px;
+  margin-right: 25px;
   box-sizing: border-box;
   color: var(--gray_20);
   font-size: 1.4rem;

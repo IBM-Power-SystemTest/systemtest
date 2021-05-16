@@ -1,43 +1,55 @@
 {% load static %}
+{% load types %}
 
-<div class="pagination">
-  {% if page_obj.has_previous %}
-    <a href="?page=1">
-      {% if is_legacy %}
-        <img src="{% static 'images/icons/png/skip-previous--outline--black.png' %}" alt="first page">
-      {% else %}
-        <img src="{% static 'images/icons/png/skip-previous--outline.png' %}" alt="first page">
+{% if page_obj %}
+  <div class="pagination">
+    <div class="pagination__wrapper">
+      {% if page_obj.has_previous %}
+        <a class="pagination__page pagination--corner" href="?{% param_replace page=1 %}">
+          1
+        </a>
+        <span class="pagination__text">
+          . . .
+        </span>
+        <a class="pagination__page" href="?{% param_replace page=page_obj.previous_page_number %}">
+          <i class="fas fa-chevron-left"></i>
+        </a>
       {% endif %}
-    </a>
 
-    <a class="pagination__previus" href="?page={{ page_obj.previous_page_number }}">
-      {% if is_legacy %}
-        <img src="{% static 'images/icons/png/previous--outline--black.png' %}" alt="previous page">
-      {% else %}
-        <img src="{% static 'images/icons/png/previous--outline.png' %}" alt="previous page">
+      <span class="pagination__page pagination--current">
+        {{ page_obj.number }}
+      </span>
+
+      {% if page_obj.has_next %}
+        <a class="pagination__page" href="?{% param_replace page=page_obj.next_page_number %}">
+          <i class="fas fa-chevron-right"></i>
+        </a>
+        <span class="pagination__text">
+          . . .
+        </span>
+        <a class="pagination__page pagination--corner" href="?{% param_replace page=page_obj.paginator.num_pages %}">
+          {{ page_obj.paginator.num_pages }}
+        </a>
       {% endif %}
-    </a>
-  {% endif %}
+    </div>
 
-  <span class="pagination__current">
-    {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-  </span>
+    <div class="pagination__wrapper">
+      <span class="pagination__text">
+        {{ page_obj.start_index }} - {{ page_obj.end_index }} [ {{ page_obj.paginator.count }} ]
+      </span>
 
-  {% if page_obj.has_next %}
-    <a class="pagination__next" href="?page={{ page_obj.next_page_number }}">
-      {% if is_legacy %}
-        <img src="{% static 'images/icons/png/next--outline--black.png' %}" alt="next page">
-      {% else %}
-        <img src="{% static 'images/icons/png/next--outline.png' %}" alt="next page">
-      {% endif %}
-    </a>
-
-    <a href="?page={{ page_obj.paginator.num_pages }}">
-      {% if is_legacy %}
-        <img src="{% static 'images/icons/png/skip-next--outline--black.png' %}" alt="last page">
-      {% else %}
-        <img src="{% static 'images/icons/png/skip-next--outline.png' %}" alt="last page">
-      {% endif %}
-    </a>
-  {% endif %}
-</div>
+      <form class="form form--filter"  method="GET">
+        <div class="form__input
+          {{ field.field.required|yesno:'form--required,form--non-required' }}
+          {% if field.errors %}
+            form--error
+          {% endif %}
+        "
+        >
+          {{ pagination.value }}
+          {{ pagination_form.pagination }}
+        </div>
+      </form>
+    </div>
+  </div>
+{% endif %}

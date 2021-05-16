@@ -1,6 +1,8 @@
 # Django
-from django import forms
 from django.forms.models import modelformset_factory
+
+# Django filters
+import django_filters as filters
 
 # APPs
 from systemtest.quality import models
@@ -12,3 +14,19 @@ QualitySystemFormset = modelformset_factory(
     fields=["quality_status", "comment"],
     extra=0
 )
+
+
+class SystemHistoryFilterSet(filters.FilterSet):
+    created = filters.DateRangeFilter()
+
+    class Meta:
+        model = models.QualityHistory
+        fields = (
+            "system__workunit",
+            "system__system_number",
+            "operation_number",
+            "operation_status",
+            "quality_status",
+            "system__product_line",
+            "created",
+        )

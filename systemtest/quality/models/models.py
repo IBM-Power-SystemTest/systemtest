@@ -28,7 +28,7 @@ class QualityStatus(utils_models.AbstractOptionsModel):
         verbose_name_plural = "status"
 
 
-class QualityAbstractSystem(models.Model):
+class AbstractQualitySystem(models.Model):
     """
     Abstract model for Quality Systems tables (QualitySystem and QualityHistoy)
     group common fields between these tables
@@ -106,7 +106,7 @@ class QualityAbstractSystem(models.Model):
         abstract = True
 
 
-class QualitySystem(QualityAbstractSystem):
+class QualitySystem(AbstractQualitySystem):
     """
     QualitySystem table based on the QualityAbstractSystem adding extra fields
         References:
@@ -270,7 +270,7 @@ class QualitySystem(QualityAbstractSystem):
         verbose_name_plural = "systems"
 
 
-class QualityHistory(QualityAbstractSystem):
+class QualityHistory(AbstractQualitySystem):
     """
     QualityHistory table based on the QualityAbstractSystem adding extra
     fields. This table is used for save all change in one original system

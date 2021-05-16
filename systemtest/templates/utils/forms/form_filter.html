@@ -1,0 +1,15 @@
+<form class="form form--filter" action="" method="get">
+  <div class="form__wrapper">
+    {% for field in filter.form %}
+      {% include 'utils/forms/field_container_filter.html' with field=field %}
+    {% endfor %}
+  </div>
+
+  <div class="form__wrapper">
+    <button class="button" type="submit" value="Query">
+      Query <i class="fas fa-database"></i>
+    </button>
+
+    {% include 'utils/basic/pagination.html' with page_obj=page_obj %}
+  </div>
+</form>

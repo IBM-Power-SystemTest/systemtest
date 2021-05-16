@@ -21,3 +21,4 @@ flower==0.9.5  # https://github.com/mher/flower
 django==3.1.5  # pyup: < 3.1  # https://www.djangoproject.com/
 django-environ==0.4.5  # https://github.com/joke2k/django-environ
 django-redis==4.12.1  # https://github.com/jazzband/django-redis
+django-filter==2.4.0 # https://github.com/carltongibson/django-filter

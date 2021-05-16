@@ -1,11 +1,17 @@
 """
 Utilities for Django Models
 """
-
+# Python
 from typing import Tuple, Union
+
+# Django DB
 from django.db import models
-from django.contrib import admin
+from django.db.models import Q, Model, QuerySet
+from django.db.models.base import ModelBase
 from django.core.validators import RegexValidator, MaxValueValidator, MinValueValidator
+
+# Django Admin
+from django.contrib import admin
 
 
 class Validators:
@@ -172,3 +178,19 @@ class AbstractOptionsModelAdmin(admin.ModelAdmin):
     list_display = ("pk", "name")
     list_editable = ("name",)
     search_fields = ("pk", "name")
+
+
+def get_objects_by_query(model: ModelBase, query: Q) -> QuerySet:
+    """
+    Filter a Models objects by Django queries
+
+    Args:
+        model:
+            Models object to filter
+        query:
+            Django Query object to made complex filters
+
+    Returns:
+        QuerySet with objects from model filtered
+    """
+    return model.objects.filter(query)

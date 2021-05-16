@@ -4,8 +4,11 @@
 {% load types %}
 
 {% block subtitle %} History {% endblock subtitle %}
-
 {% block table_title %} HISTORY {% endblock table_title %}
+
+{% block over_table %}
+  {% include 'utils/forms/form_filter.html' with filter=filter %}
+{% endblock over_table %}
 
 {% block columns %}
   {% to_list "ID" "Status" "Date" "Shift" "Location" "Part" "Serial" "Description" "NCM Tag" "System" "Testcell" "User" as column_names %}
@@ -39,7 +42,3 @@
 {% endblock table_body %}
 
 {% block button %} {% endblock button %}
-
-{% block pagination %}
-  {% include 'utils/basic/pagination.html' with page_obj=page_obj %}
-{% endblock pagination %}

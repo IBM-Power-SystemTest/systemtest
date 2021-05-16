@@ -28,7 +28,7 @@ class RequestStatus(utils_models.AbstractOptionsModel):
         verbose_name_plural = "status"
 
 
-class RequestAbstractModel(models.Model):
+class AbstractRequestModel(models.Model):
     """
     Abstract model for Request tables (Request and RequestHistory)
     group common fields between these tables
@@ -102,7 +102,7 @@ class RequestAbstractModel(models.Model):
         abstract = True
 
 
-class Request(RequestAbstractModel):
+class Request(AbstractRequestModel):
     """
     Request table based on the RequestAbstractModel adding extra fields
         References:
@@ -255,7 +255,7 @@ class Request(RequestAbstractModel):
         verbose_name_plural = "requests"
 
 
-class RequestHistory(RequestAbstractModel):
+class RequestHistory(AbstractRequestModel):
     """
     RequestHistory table based on the RequestAbstractModel adding extra fields
     This table is used for save all change in one original request

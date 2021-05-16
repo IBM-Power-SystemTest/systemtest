@@ -18,14 +18,18 @@
 {% endblock title %}
 
 {% block navbar %}
-  {% to_list 'pts:request' 'pts:open' 'pts:transit' 'pts:pending' 'pts:return' 'pts:close' 'pts:history' as urls %}
+  {% to_list 'pts:request' 'pts:open' 'pts:transit' 'pts:pending' 'pts:return' as urls %}
   {% to_list 'Request' 'Open' 'Transit' 'Pending' 'Return' 'Close' 'History' as names %}
 
   {% include 'utils/basic/navbar.html' with urls=urls names=names %}
 
-  {% get_setting "PTS_DASHBOARD_URL" as dashboard_url %}
-  {% if user.is_staff and dashboard_url and not is_legacy %}
-    {% include 'utils/basic/navbar_link.html' with url_name='pts:dashboard' link_name='Dashboard' %}
-  {% endif %}
+  {% if not is_legacy %}
+    {% include 'utils/basic/navbar_link.html' with url_name='pts:close' link_name='Close' %}
+    {% include 'utils/basic/navbar_link.html' with url_name='pts:history' link_name='History' %}
 
+    {% get_setting "PTS_DASHBOARD_URL" as dashboard_url %}
+    {% if user.is_staff and dashboard_url %}
+      {% include 'utils/basic/navbar_link.html' with url_name='pts:dashboard' link_name='Dashboard' %}
+    {% endif %}
+  {% endif %}
 {% endblock navbar %}

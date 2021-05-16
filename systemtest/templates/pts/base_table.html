@@ -1,4 +1,5 @@
 {% extends 'pts/base.html' %}
+
 {% load static %}
 {% load tz %}
 
@@ -8,6 +9,8 @@
 
 {% block body %}
   {% block over_table %} {% endblock over_table %}
+  {% block over_pagination %} {% endblock over_pagination %}
+
   <form method="POST" class="form">
     {% csrf_token %}
     {{ form.management_form }}
@@ -34,7 +37,6 @@
               {% endfor %}
             {% endblock table_body %}
         </tbody>
-
       </table>
     </div>
 
@@ -43,6 +45,7 @@
     {% endblock button %}
 
   </form>
+
   {% block under_table %} {% endblock under_table %}
-  {% block pagination %} {% endblock pagination %}
+  {% block under_pagination %} {% endblock under_pagination %}
 {% endblock body %}

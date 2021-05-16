@@ -5,7 +5,8 @@
 
 {% block styles %}
   {% if is_legacy %}
-
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
   {% else %}
     <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
     <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">

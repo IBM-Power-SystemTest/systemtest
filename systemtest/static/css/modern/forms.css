@@ -231,3 +231,39 @@ input:checked+.switch--slider::after {
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.2);
 }
+
+
+.form.form--filter {
+  width: unset;
+  margin: 0;
+  padding: 0 25px;
+}
+
+.form.form--filter .form__wrapper {
+  display: grid;
+  grid-template: auto / repeat(5, 1fr);
+  gap: 10px
+}
+
+.form.form--filter .form__wrapper:last-child {
+  grid-template: auto / 1fr 1fr 1fr;
+  margin-top: 10px;
+}
+
+.form.form--filter input,
+.form.form--filter select,
+.form.form--filter label,
+.form.form--filter .form__input {
+  grid-column: unset;
+  margin: 0;
+}
+
+.form.form--filter label {
+  margin-bottom: 8px;
+}
+
+
+.form.form--filter .button:first-child {
+  grid-column: 1;
+  margin-left: 0;
+}
