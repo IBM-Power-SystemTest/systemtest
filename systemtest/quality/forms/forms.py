@@ -8,6 +8,7 @@ import django_filters as filters
 
 # APPs
 from systemtest.quality import models as quality_models
+from systemtest.utils.forms import CharInFilter
 
 # https://docs.djangoproject.com/en/3.1/topics/forms/formsets/
 # https://docs.djangoproject.com/en/3.1/ref/forms/models/
@@ -19,8 +20,12 @@ QualitySystemFormset = modelformset_factory(
 
 
 class SystemHistoryFilterSet(filters.FilterSet):
-    created = filters.DateRangeFilter()
+    system__workunit = CharInFilter()
+    system__system_number = CharInFilter()
+    operation_number = CharInFilter()
     operation_status = filters.ChoiceFilter(choices=(("A", "A"), ("W", "W")))
+    system__product_line = CharInFilter()
+    created = filters.DateRangeFilter()
 
     class Meta:
         model = quality_models.QualityHistory

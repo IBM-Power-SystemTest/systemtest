@@ -8,7 +8,7 @@ from django.db import models
 
 # APPs
 from systemtest.utils.models import get_objects_by_query
-from systemtest.utils.forms import NumberInFilter
+from systemtest.utils.forms import NumberInFilter, CharInFilter
 from systemtest.pts import models as pts_models, forms as pts_forms
 
 
@@ -16,10 +16,13 @@ class RequestFilterSet(filters.FilterSet):
     query = Q(name="CLOSE GOOD") | Q(name="CLOSE BAD") | Q(name="CANCEL")
     status = get_objects_by_query(pts_models.RequestStatus, query)
 
+    id = NumberInFilter()
     request_status = filters.ModelChoiceFilter(queryset=status)
+    ncm_tag = NumberInFilter()
+    part_number = CharInFilter()
+    serial_number = CharInFilter()
+    request_group__system_number = CharInFilter()
     modified = filters.DateRangeFilter()
-    id = NumberInFilter(lookup_expr="in")
-    ncm_tag = NumberInFilter(lookup_expr="in")
 
     class Meta:
         model = pts_models.Request
@@ -53,9 +56,12 @@ class RequestFilterSet(filters.FilterSet):
 
 
 class HistoryFilterSet(filters.FilterSet):
+    request__id = NumberInFilter()
+    part_number = CharInFilter()
+    serial_number = CharInFilter()
+    request__request_group__system_number = CharInFilter()
+    request__ncm_tag = NumberInFilter()
     created = filters.DateRangeFilter()
-    request__id = NumberInFilter(lookup_expr="in")
-    request__ncm_tag = NumberInFilter(lookup_expr="in")
 
     class Meta:
         model = pts_models.RequestHistory

@@ -11,6 +11,7 @@ from django import forms
 # Django filters
 import django_filters as filters
 
+
 def set_placeholder(field: Any, text: str) -> Any:
     """
     Pass a Django form field and set a placeholder widget attribute,
@@ -38,6 +39,7 @@ class PaginationForm(forms.Form):
         (50, "50"),
         (100, "100"),
         (150, "150"),
+        (150, "250"),
     )
 
     pagination = forms.ChoiceField(
@@ -52,4 +54,8 @@ class PaginationForm(forms.Form):
 
 
 class NumberInFilter(filters.BaseInFilter, filters.CharFilter):
+    pass
+
+
+class CharInFilter(filters.BaseInFilter, filters.CharFilter):
     pass
