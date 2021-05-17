@@ -1,11 +1,14 @@
 # Django filters
 import django_filters as filters
 
-# Django db
+# Django
 from django.db.models import Q
+from django import forms
+from django.db import models
 
 # APPs
 from systemtest.utils.models import get_objects_by_query
+from systemtest.utils.forms import NumberInFilter
 from systemtest.pts import models as pts_models, forms as pts_forms
 
 
@@ -15,6 +18,8 @@ class RequestFilterSet(filters.FilterSet):
 
     request_status = filters.ModelChoiceFilter(queryset=status)
     modified = filters.DateRangeFilter()
+    id = NumberInFilter(lookup_expr="in")
+    ncm_tag = NumberInFilter(lookup_expr="in")
 
     class Meta:
         model = pts_models.Request
@@ -31,9 +36,26 @@ class RequestFilterSet(filters.FilterSet):
             "modified",
         )
 
+        filter_overrides = {
+            models.CharField: {
+                "filter_class": filters.CharFilter,
+                "extra": lambda f: {
+                    "lookup_expr": "icontains",
+                },
+            },
+            models.BooleanField: {
+                "filter_class": filters.BooleanFilter,
+                "extra": lambda f: {
+                    "widget": forms.CheckboxInput,
+                },
+            }
+        }
+
 
 class HistoryFilterSet(filters.FilterSet):
     created = filters.DateRangeFilter()
+    request__id = NumberInFilter(lookup_expr="in")
+    request__ncm_tag = NumberInFilter(lookup_expr="in")
 
     class Meta:
         model = pts_models.RequestHistory
@@ -49,3 +71,18 @@ class HistoryFilterSet(filters.FilterSet):
             "request__ncm_tag",
             "created",
         )
+
+        filter_overrides = {
+            models.CharField: {
+                "filter_class": filters.CharFilter,
+                "extra": lambda f: {
+                    "lookup_expr": "icontains",
+                },
+            },
+            models.BooleanField: {
+                "filter_class": filters.BooleanFilter,
+                "extra": lambda f: {
+                    "widget": forms.CheckboxInput,
+                },
+            }
+        }

@@ -8,6 +8,8 @@ from typing import Any
 from django.forms.widgets import ChoiceWidget
 from django import forms
 
+# Django filters
+import django_filters as filters
 
 def set_placeholder(field: Any, text: str) -> Any:
     """
@@ -47,3 +49,7 @@ class PaginationForm(forms.Form):
             }
         )
     )
+
+
+class NumberInFilter(filters.BaseInFilter, filters.CharFilter):
+    pass

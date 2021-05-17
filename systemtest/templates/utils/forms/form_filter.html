@@ -1,7 +1,11 @@
 <form class="form form--filter" action="" method="get">
   <div class="form__wrapper">
     {% for field in filter.form %}
-      {% include 'utils/forms/field_container_filter.html' with field=field %}
+      {% if field.field.widget.input_type == "checkbox" %}
+        {% include 'utils/forms/field_toggle.html' with field=field %}
+      {% else %}
+        {% include 'utils/forms/field_container_filter.html' with field=field %}
+      {% endif %}
     {% endfor %}
   </div>
 

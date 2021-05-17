@@ -262,8 +262,16 @@ input:checked+.switch--slider::after {
   margin-bottom: 8px;
 }
 
-
 .form.form--filter .button:first-child {
   grid-column: 1;
   margin-left: 0;
+}
+
+.form.form--filter .switch {
+  display: block;
+}
+
+.form.form--filter .switch--slider {
+  top: 0;
+  bottom: 0;
 }
