@@ -1,8 +1,11 @@
 {% extends 'people/requirements.html' %}
 
+{% load static %}
+
 {% block extra_columns %}
   <th> Update tart Date </th>
   <th> Update days </th>
+  <th> Cancel </th>
 {% endblock extra_columns %}
 
 {% block extra_rows %}
@@ -10,5 +13,12 @@
   {% include "utils/tables/input.html" with field=f.comment %}
   {% include "utils/tables/input.html" with field=f.start %}
   {% include "utils/tables/input.html" with field=f.days %}
+  <td>
+    {% if request.user == data.by_user %}
+      <a href="{% url 'people:cancel' data.pk %}">
+        <img src="{% static 'images/icons/png/delete--alt.png' %}" alt="Delete">
+      </a>
+    {% endif %}
+  </td>
 {% endblock extra_rows %}
 

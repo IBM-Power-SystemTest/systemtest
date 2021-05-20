@@ -13,6 +13,7 @@ from django.forms.models import BaseModelForm
 from django.urls.base import reverse_lazy
 from django.views.generic import FormView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import DeleteView
 
 from systemtest.people import forms as people_forms, models as people_models
 
@@ -37,7 +38,10 @@ class RequirementsView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("people:requirements")
 
     model = people_models.PeopleRequirement
-    query = Q(start__gte=now())
+    query = (
+        Q(start__gte=now()) &
+        ~Q(status__name="CANCEL")
+    )
 
     def get_template_names(self) -> list[str]:
         if self.request.user.groups.filter(name="LEAD ADMIN"):
@@ -134,4 +138,45 @@ class RequirementsView(LoginRequiredMixin, FormView):
         for form in forms:
             form.save()
 
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class PeopleRequirementCancel(DeleteView):
+    model = people_models.PeopleRequirement
+    success_url = reverse_lazy("people:requirements")
+
+    def get(self, *args, **kwargs) -> HttpResponse:
+        """
+        Redirect Http GET to delete method
+
+        Args:
+            args:
+                Positional arguments
+            kwargs:
+                Keyword arguments
+
+        Returns:
+            Httpresponse to delete method
+        """
+
+        return self.delete()
+
+    def delete(self) -> HttpResponse:
+        """
+        Change the status of object on the fetched object and then redirect to the
+        success URL.
+
+        Args:
+            self:
+                Instance
+
+        Returns:
+            Redirect to succes url
+        """
+
+        self.object = self.get_object()
+        self.object.status = people_models.PeopleStatus.objects.get(
+            name="CANCEL"
+        )
+        self.object.save()
         return HttpResponseRedirect(self.get_success_url())

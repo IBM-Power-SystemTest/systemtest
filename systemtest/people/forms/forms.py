@@ -33,6 +33,10 @@ class PeopleRequirementForm(forms.ModelForm):
 
 class PeopleRequirementUpdateForm(forms.ModelForm):
 
+    status = forms.ModelChoiceField(
+        queryset=people_models.PeopleStatus.objects.exclude(name="CANCEL")
+    )
+
     class Meta:
         model = people_models.PeopleRequirement
         fields = (

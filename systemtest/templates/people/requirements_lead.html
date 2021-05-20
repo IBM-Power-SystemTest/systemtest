@@ -1,5 +1,11 @@
 {% extends 'people/requirements.html' %}
 
+{% load static %}
+
+{% block extra_columns %}
+  <th> Cancel </th>
+{% endblock extra_columns %}
+
 {% block extra_rows %}
   <td>
     <div
@@ -16,4 +22,12 @@
   </td>
 
   <td> {{ data.comment | default_if_none:"" }} </td>
+
+  <td>
+    {% if request.user == data.by_user %}
+      <a href="{% url 'people:cancel' data.pk %}">
+        <img src="{% static 'images/icons/png/delete--alt.png' %}" alt="Delete">
+      </a>
+    {% endif %}
+  </td>
 {% endblock extra_rows %}

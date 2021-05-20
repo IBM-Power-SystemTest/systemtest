@@ -29,6 +29,11 @@ urlpatterns = [
         name="requirements"
     ),
     path(
+        route="<pk>/cancel/",
+        view=views.PeopleRequirementCancel.as_view(),
+        name="cancel"
+    ),
+    path(
         route="history/",
         view=views.PeopleHistoryView.as_view(),
         name="history"
