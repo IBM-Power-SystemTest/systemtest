@@ -9,20 +9,10 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td>
-    <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
-      {{ f.part_id }}
-      {% include "utils/forms/field_errors.html" with field=f.part_id %}
-    </div>
-  </td>
+  {% include "utils/tables/input.html" with field=f.part_id %}
 
   {% if data.request_status.name == "BAD" %}
-    <td>
-      <div class="form__input {{ f.ncm_tag.errors|yesno:'form--error,' }}">
-        {{ f.ncm_tag }}
-        {% include "utils/forms/field_errors.html" with field=f.ncm_tag %}
-      </div>
-    </td>
+    {% include "utils/tables/input.html" with field=f.ncm_tag %}
   {% else %}
     <td> {{ f.ncm_tag.as_hidden }} </td>
   {% endif %}

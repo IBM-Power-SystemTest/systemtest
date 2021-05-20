@@ -1,0 +1,28 @@
+{% extends 'people/base_table.html' %}
+
+{% load static %}
+{% load measures %}
+{% load types %}
+
+{% block subtitle %} Requirements {% endblock subtitle %}
+
+{% block table_title %} REQUIREMENTS {% endblock table_title %}
+
+{% block columns %}
+  {% to_list "ID" "Requested by" "Requested for" "Requirement" "Description" "Request Date" "Start Date" "End Date" "Days" "Status" "Comment" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block rows %}
+  <td> {{ data.id }} </td>
+  <td> {{ data.by_user }} </td>
+  <td> {{ data.for_user }} </td>
+  <td> {{ data.type }} </td>
+  <td> {{ data.description | default_if_none:"" }} </td>
+  <td> {{ data.created }} </td>
+  <td> {{ data.start }} </td>
+  <td> {{ data.start | delta_days:data.days }} </td>
+  <td> {{ data.days }} </td>
+  {% block extra_rows %} {% endblock extra_rows %}
+{% endblock rows %}

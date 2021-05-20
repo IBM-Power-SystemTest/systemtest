@@ -52,23 +52,8 @@
   </td>
 
   <td> {{ data.created | get_shift  }} </td>
-
-  <td>
-    <div class="form__input {{ f.quailty_status.errors|yesno:'form--error,' }}">
-      {{ f.quality_status }}
-      {{ f.quality_status.errors }}
-      {% include "utils/forms/field_errors.html" with field=f.quality_status %}
-    </div>
-  </td>
-
-  <td>
-    <div class="form__input {{ f.comment.errors|yesno:'form--error,' }}">
-      {{ f.comment }}
-      {{ f.comment.errors }}
-      {% include "utils/forms/field_errors.html" with field=f.comment %}
-    </div>
-  </td>
-
+  {% include "utils/tables/input.html" with field=f.quiality_status %}
+  {% include "utils/tables/input.html" with field=f.comment %}
   <td> {{ data.user | default_if_none:"" }} </td>
 
   {% block extra_rows %} {% endblock extra_rows %}

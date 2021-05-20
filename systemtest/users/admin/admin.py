@@ -76,3 +76,13 @@ class UserAdmin(auth_admin.UserAdmin):
         "last_name",
         "email",
     )
+
+    fieldsets = auth_admin.UserAdmin.fieldsets + (
+        ("Details", {
+            "fields": (
+                "job",
+                "shift",
+                "mfs"
+            )
+        }, ),
+    )

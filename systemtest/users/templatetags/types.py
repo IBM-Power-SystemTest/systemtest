@@ -5,7 +5,9 @@ template tags to handle python type like lists, zip objects, define a var
         https://docs.djangoproject.com/en/3.1/howto/custom-template-tags/
 """
 
-from typing import Any
+from typing import Any, Literal
+from datetime import datetime, timedelta
+
 from django import template
 from django.conf import settings
 
@@ -91,3 +93,9 @@ def param_replace(context, **kwargs):
     for k in [k for k, v in d.items() if not v]:
         del d[k]
     return d.urlencode()
+
+
+@register.filter(name="delta_days")
+def delta_days(start_datetime: datetime, days: int, op_sum: bool = True) -> datetime:
+    delta = timedelta(days=days) if op_sum else -timedelta(days=days)
+    return start_datetime + delta

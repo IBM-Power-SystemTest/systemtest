@@ -1,0 +1,19 @@
+{% extends 'people/requirements.html' %}
+
+{% block extra_rows %}
+  <td>
+    <div
+      {% if data.status.name == "APPROVED" %}
+        class="table__status table--pass"
+      {% elif data.status.name == "REJECTED" %}
+        class="table__status table--alert3"
+      {% elif data.status.name == "PENDING" or data.comment %}
+        class="table__status table--alert"
+      {% endif %}
+    >
+      {{ data.status }}
+    </div>
+  </td>
+
+  <td> {{ data.comment | default_if_none:"" }} </td>
+{% endblock extra_rows %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load types %}
+
+{% block styles %}
+  {% if is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block title %}
+  PEOPLE MNGT | {% block subtitle %}{% endblock subtitle %}
+{% endblock title %}
+
+{% block navbar %}
+  {% to_list 'people:request' 'people:requirements' 'people:history' as urls %}
+  {% to_list 'Request' 'Requirements' 'History' as names %}
+
+  {% include 'utils/basic/navbar.html' with urls=urls names=names %}
+{% endblock navbar %}

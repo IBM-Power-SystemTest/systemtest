@@ -1,0 +1,7 @@
+<td>
+  <div class="form__input {{ field.errors|yesno:'form--error,' }}">
+    {{ field }}
+    {{ field.errors }}
+    {% include "utils/forms/field_errors.html" with field=field %}
+  </div>
+</td>

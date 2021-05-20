@@ -7,24 +7,8 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td>
-    <div class="form__input {% if f.part_id.errors %} form--error {% endif %}">
-      {{ f.part_id }}
-      {% include "utils/forms/field_errors.html" with field=f.part_id %}
-    </div>
-  </td>
+  {% include "utils/tables/input.html" with field=f.part_id %}
+  {% include "utils/tables/input.html" with field=f.request_statis %}
+  {% include "utils/tables/input.html" with field=f.comment %}
 
-  <td>
-    <div class="form__input {% if f.request_status.errors %} form--error {% endif %}">
-      {{ f.request_status }}
-      {% include "utils/forms/field_errors.html" with field=f.request_status %}
-    </div>
-  </td>
-
-  <td>
-    <div class="form__input {% if f.comment.errors %} form--error {% endif %}">
-      {{ f.comment }}
-      {% include "utils/forms/field_errors.html" with field=f.comment %}
-    </div>
-  </td>
 {% endblock extra_rows %}

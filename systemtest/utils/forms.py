@@ -59,3 +59,7 @@ class NumberInFilter(filters.BaseInFilter, filters.CharFilter):
 
 class CharInFilter(filters.BaseInFilter, filters.CharFilter):
     pass
+
+
+class DateInput(forms.DateInput):
+    input_type = "date"

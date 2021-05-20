@@ -6,6 +6,10 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 from django.views.generic.base import RedirectView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+class TemplateView(LoginRequiredMixin, TemplateView):
+    pass
 
 urlpatterns = [
     path(
@@ -34,6 +38,10 @@ urlpatterns = [
     path(
         route="quality/",
         view=include("systemtest.quality.urls", namespace="quality")
+    ),
+    path(
+        route="people/",
+        view=include("systemtest.people.urls", namespace="people")
     ),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

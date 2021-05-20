@@ -7,15 +7,6 @@
 
 {% block extra_rows %}
   <td> {{ data.ncm_tag | default_if_none:"" }} </td>
-
-  <td>
-    {% if data.request_status.name == "GOOD" %}
-      <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
-        {{ f.part_id }}
-        {% include "utils/forms/field_errors.html" with field=f.part_id %}
-      </div>
-    {% endif %}
-  </td>
-
+  {% include "utils/tables/input.html" with field=f.part_id %}
   {{ f.ncm_tag.as_hidden }}
 {% endblock extra_rows %}

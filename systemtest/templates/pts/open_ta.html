@@ -10,15 +10,7 @@
 
 {% block extra_rows %}
   <td> {{ data.comment | default_if_none:"" }} </td>
-
-  <td>
-    <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
-      {{ f.part_id }}
-      {{ f.part_id.errors }}
-      {% include "utils/forms/field_errors.html" with field=f.part_id %}
-    </div>
-  </td>
-
+  {% include "utils/tables/input.html" with field=f.part_id %}
   <td>
     {% if request.user == data.get_first_request.user %}
       <a href="{% url 'pts:cancel' data.pk %}">

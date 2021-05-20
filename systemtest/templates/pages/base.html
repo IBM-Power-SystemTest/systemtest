@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load types %}
+{% load users %}
 
 {% block styles %}
   {% if is_legacy %}
@@ -20,4 +21,8 @@
   {% to_list 'PARTS TRACKING SYSTEM' 'QUALITY INSPECTION' as names %}
 
   {% include 'utils/basic/navbar.html' with urls=urls names=names %}
+
+  {% if request.user|has_group:"LEAD" %}
+    {% include 'utils/basic/navbar_link.html' with url_name='people:index' link_name='PEOPLE MGNT' %}
+  {% endif %}
 {% endblock navbar %}

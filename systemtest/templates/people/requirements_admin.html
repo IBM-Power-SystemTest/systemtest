@@ -1,0 +1,14 @@
+{% extends 'people/requirements.html' %}
+
+{% block extra_columns %}
+  <th> Update tart Date </th>
+  <th> Update days </th>
+{% endblock extra_columns %}
+
+{% block extra_rows %}
+  {% include "utils/tables/input.html" with field=f.status %}
+  {% include "utils/tables/input.html" with field=f.comment %}
+  {% include "utils/tables/input.html" with field=f.start %}
+  {% include "utils/tables/input.html" with field=f.days %}
+{% endblock extra_rows %}
+

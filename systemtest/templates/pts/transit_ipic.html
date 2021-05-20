@@ -10,13 +10,7 @@
 
 {% block extra_rows %}
   <td> {{ data.user }} </td>
-
-  <td>
-    <div class="form__input {% if f.part_id.errors %} form--error {% endif %}">
-      {{ f.part_id }}
-      {% include "utils/forms/field_errors.html" with field=f.part_id %}
-    </div>
-  </td>
+  {% include "utils/tables/input.html" with field=f.part_id %}
 
   <td>
     <a href="{{ data.get_absolute_url }}return/open/">

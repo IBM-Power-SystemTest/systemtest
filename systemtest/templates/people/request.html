@@ -1,0 +1,54 @@
+{% extends 'people/base.html' %}
+
+{% load static %}
+{% load types %}
+
+{% block subtitle %}Request{% endblock subtitle %}
+
+{% block styles %}
+  {% if is_legacy %}
+    <link rel="stylesheet" href="{% static 'css/legacy/pts/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/legacy/users/main.css' %}">
+  {% else %}
+    <link rel="stylesheet" href="{% static 'css/modern/pts/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/modern/users/main.css' %}">
+  {% endif %}
+{% endblock styles %}
+
+{% block body %}
+  <main class="content">
+    <div class="card-form">
+      <img
+        class="card-form__img"
+        src="{% static 'images/logos/power.png' %}"
+      />
+
+      <form class="form" method="POST">
+        {% csrf_token %}
+
+        {% to_list "description" as full_size %}
+        {% include 'utils/forms/form_fields.html' with form=form full_size=full_size %}
+
+        <br><br>
+
+        {{ detailed_form.management_form }}
+        {% include 'utils/forms/formset_errors.html' with formset=detailed_form %}
+        {% for form in detailed_form %}
+          {% cycle 'form--left' 'form--right' as class_position silent %}
+          {% include 'utils/forms/form_errors.html' with form=form %}
+
+          {% for field in form %}
+            {% include "utils/forms/field_container.html" with field=field class_position=class_position %}
+          {% endfor %}
+        {% endfor %}
+
+        <button class="button" type="submit" value="Request">
+          Request <i class="fas fa-plus"></i>
+        </button>
+
+      </form>
+    </div>
+  </main>
+{% endblock body %}

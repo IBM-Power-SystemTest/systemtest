@@ -1,0 +1,49 @@
+{% extends 'people/base_table.html' %}
+
+{% load measures %}
+{% load types %}
+
+{% block subtitle %} History {% endblock subtitle %}
+{% block table_title %} HISTORY {% endblock table_title %}
+
+{% block over_table %}
+  {% include 'utils/forms/form_filter.html' with filter=filter %}
+{% endblock over_table %}
+
+{% block columns %}
+  {% to_list "ID" "Requested by" "Requested for" "Requirement" "Description" "Updated" "Start Date" "End Date" "Days" "Status" "Comment" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block table_body %}
+  {% for requirement in object_list %}
+    <tr class="table__row">
+      <td> {{ requirement.requirement.id }} </td>
+      <td> {{ requirement.requirement.by_user }} </td>
+      <td> {{ requirement.requirement.for_user }} </td>
+      <td> {{ requirement.requirement.type }} </td>
+      <td> {{ requirement.requirement.description | default_if_none:"" }} </td>
+      <td> {{ requirement.created }} </td>
+      <td> {{ requirement.start }} </td>
+      <td> {{ requirement.start | delta_days:requirement.days }} </td>
+      <td> {{ requirement.days }} </td>
+      <td>
+        <div
+          {% if requirement.status.name == "APPROVED" %}
+            class="table__status table--pass"
+          {% elif requirement.status.name == "REJECTED" %}
+            class="table__status table--alert3"
+          {% elif requirement.status.name == "PENDING" or requirement.comment %}
+            class="table__status table--alert"
+          {% endif %}
+        >
+          {{ requirement.status }}
+        </div>
+      </td>
+      <td> {{ requirement.comment | default_if_none:"" }} </td>
+    </tr>
+  {% endfor %}
+{% endblock table_body %}
+
+{% block button %} {% endblock button %}

@@ -88,6 +88,7 @@ LOCAL_APPS = [
     "systemtest.users.apps.UsersConfig",
     "systemtest.pts.apps.PtsConfig",
     "systemtest.quality.apps.QualityConfig",
+    "systemtest.people.apps.PeopleConfig",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

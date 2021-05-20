@@ -10,9 +10,8 @@
 
   <td>
     {% if data.request_status.name == "BAD" %}
-      <div class="form__input {{ f.part_id.errors|yesno:'form--error,' }}">
+      <div class="form__input">
         {{ f.part_id }}
-        {% include "utils/forms/field_errors.html" with field=f.part_id %}
       </div>
     {% endif %}
   </td>

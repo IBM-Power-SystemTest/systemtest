@@ -1,0 +1,53 @@
+{% extends 'people/base.html' %}
+
+{% load static %}
+{% load tz %}
+
+{% block scripts %}
+  {% include 'utils/tables/datatables.html' %}
+{% endblock scripts %}
+
+{% block body %}
+  {% block over_table %} {% endblock over_table %}
+  {% block over_pagination %} {% endblock over_pagination %}
+
+  <form method="POST" class="form">
+    {% csrf_token %}
+    {{ form.management_form }}
+    {% include 'utils/forms/formset_errors.html' with formset=form %}
+
+    <div class="table__wrapper">
+      <table class="table" cellspacing=0 cellpadding=20>
+        <caption class="table__title"> {% block table_title %}{% endblock table_title %} </caption>
+
+        <thead class="table__header">
+          <tr>
+            {% block columns %} {% endblock columns %}
+          </tr>
+        </thead>
+
+        <tbody class="table__body">
+            {% block table_body %}
+              {% for data, f in rows %}
+                <tr class="table__row {% cycle 'table__row--odd' 'table__row--pair' %}">
+                  {{ f.id.as_hidden }}
+                  {{ f.status.as_hidden }}
+                  {% block rows %} {% endblock rows %}
+                </tr>
+              {% endfor %}
+            {% endblock table_body %}
+        </tbody>
+      </table>
+    </div>
+
+    {% block button %}
+      <button class="button" type="submit" value="Save" onclick="this.form.submit()">
+        Save <i class="fas fa-level-up-alt"></i>
+      </button>
+    {% endblock button %}
+
+  </form>
+
+  {% block under_table %} {% endblock under_table %}
+  {% block under_pagination %} {% endblock under_pagination %}
+{% endblock body %}
