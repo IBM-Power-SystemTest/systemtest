@@ -38,4 +38,9 @@ urlpatterns = [
         view=views.PeopleHistoryView.as_view(),
         name="history"
     ),
+    path(
+        route="summary/",
+        view=views.PeopleSummary.as_view(),
+        name="summary"
+    ),
 ]

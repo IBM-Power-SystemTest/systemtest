@@ -39,7 +39,8 @@ class RequirementsView(LoginRequiredMixin, FormView):
 
     model = people_models.PeopleRequirement
     query = (
-        Q(start__gte=now()) &
+        Q(start__year__gte=now().year) &
+        Q(start__year__gte=now().month) &
         ~Q(status__name="CANCEL")
     )
 

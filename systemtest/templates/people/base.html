@@ -18,8 +18,8 @@
 {% endblock title %}
 
 {% block navbar %}
-  {% to_list 'people:request' 'people:requirements' 'people:history' as urls %}
-  {% to_list 'Request' 'Requirements' 'History' as names %}
+  {% to_list 'people:request' 'people:requirements' 'people:summary' 'people:history' as urls %}
+  {% to_list 'Request' 'Requirements' 'Summary' 'History' as names %}
 
   {% include 'utils/basic/navbar.html' with urls=urls names=names %}
 {% endblock navbar %}

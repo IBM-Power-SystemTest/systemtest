@@ -12,3 +12,4 @@ from .views import *
 from .request import *
 from .requirements import *
 from .history import *
+from .summary import *

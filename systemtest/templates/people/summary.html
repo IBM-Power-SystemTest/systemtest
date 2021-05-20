@@ -1,0 +1,37 @@
+{% extends 'people/base_table.html' %}
+
+{% load measures %}
+{% load types %}
+
+{% block subtitle %} Summary {% endblock subtitle %}
+{% block table_title %} SUMMARY {% endblock table_title %}
+
+{% block over_table %}
+  {% include 'utils/forms/form_filter.html' with filter=filter %}
+{% endblock over_table %}
+
+{% block columns %}
+  {% to_list "User" "Name" "MFS User" "Job"  "Shift" "Vacaciones" "Falta" "Falta Injustificada" "Suspencion" "Retardo" "Otro" as column_names %}
+  {% include 'utils/tables/column_names.html' with column_names=column_names %}
+  {% block extra_columns %} {% endblock extra_columns %}
+{% endblock columns %}
+
+{% block table_body %}
+  {% for summary in summary_list %}
+    <tr class="table__row">
+      <td> {{ summary.user }} </td>
+      <td> {{ summary.user.first_name }} {{ summary.user.last_name }} </td>
+      <td> {{ summary.user.mfs | default_if_none:"" }} </td>
+      <td> {{ summary.user.job | default_if_none:"" }} </td>
+      <td> {{ summary.user.shift | default_if_none:"" }} </td>
+      <td> {{ summary.requirements.VACACIONES }} </td>
+      <td> {{ summary.requirements.FALTA }} </td>
+      <td> {{ summary.requirements.FALTA_INJUSTIFICADA }} </td>
+      <td> {{ summary.requirements.SUSPENSION }} </td>
+      <td> {{ summary.requirements.RETARDO }} </td>
+      <td> {{ summary.requirements.OTRO }} </td>
+    </tr>
+  {% endfor %}
+{% endblock table_body %}
+
+{% block button %} {% endblock button %}

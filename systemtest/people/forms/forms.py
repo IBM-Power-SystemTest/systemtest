@@ -1,7 +1,6 @@
 # Django
 from django import forms
 from django.db import models
-from django.contrib.auth import get_user_model
 from django.forms.models import modelformset_factory
 
 # Django filters
@@ -10,12 +9,13 @@ import django_filters as filters
 # APPs
 from systemtest.people import models as people_models
 from systemtest.utils.forms import DateInput, CharInFilter
+from systemtest.people.utils.models import get_users_leads
 
 
 class PeopleRequirementForm(forms.ModelForm):
     for_user = forms.ModelChoiceField(
         help_text="User who receives the request",
-        queryset=get_user_model().objects.filter(groups__name="LEAD")
+        queryset=get_users_leads()
     )
 
     class Meta:
