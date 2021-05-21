@@ -1,4 +1,5 @@
 from typing import Any
+from datetime import timedelta
 
 from django.utils.timezone import now
 
@@ -38,9 +39,10 @@ class RequirementsView(LoginRequiredMixin, FormView):
     success_url = reverse_lazy("people:requirements")
 
     model = people_models.PeopleRequirement
+
+    delta_time = timedelta(days=15)
     query = (
-        Q(start__year__gte=now().year) &
-        Q(start__year__gte=now().month) &
+        Q(start__gt=(now() - delta_time)) &
         ~Q(status__name="CANCEL")
     )
 
