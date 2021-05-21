@@ -15,7 +15,7 @@ services:
     env_file:
       - ../.envs/.django.local.env
       - ../.envs/.postgres.local.env
-      - ../.envs/.db2.production.env
+      - ../.envs/.db2.local.env
     ports:
       - "8000:8000"
     command: /commands/django_local.sh
