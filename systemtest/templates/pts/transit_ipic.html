@@ -9,7 +9,7 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ data.user }} </td>
+  <td> {{ data.user.username }} </td>
   {% include "utils/tables/input.html" with field=f.part_id %}
 
   <td>

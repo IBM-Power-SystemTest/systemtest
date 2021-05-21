@@ -24,7 +24,7 @@
   <td> {{ data.request_group.system_cell }} </td>
   <td> {{ data.get_first_request.part_number }} {{ data.get_first_request.serial_number | default_if_none:"" }} </td>
   <td> {{ data.part_number }} {{ data.serial_number | default_if_none:"" }} </td>
-  <td> {{ data.user }} </td>
+  <td> {{ data.user.username }} </td>
   {% block extra_rows %} {% endblock extra_rows %}
 {% endblock rows %}
 

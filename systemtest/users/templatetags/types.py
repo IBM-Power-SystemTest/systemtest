@@ -99,3 +99,8 @@ def param_replace(context, **kwargs):
 def delta_days(start_datetime: datetime, days: int, op_sum: bool = True) -> datetime:
     delta = timedelta(days=days) if op_sum else -timedelta(days=days)
     return start_datetime + delta
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

@@ -2,6 +2,7 @@
 from django import forms
 from django.db import models
 from django.forms.models import modelformset_factory
+from django.contrib.auth import get_user_model
 
 # Django filters
 import django_filters as filters
@@ -9,13 +10,14 @@ import django_filters as filters
 # APPs
 from systemtest.people import models as people_models
 from systemtest.utils.forms import DateInput, CharInFilter
-from systemtest.people.utils.models import get_users_leads
+from systemtest.people.utils.models import get_users_department
+from systemtest.utils.forms import CharInFilter
 
 
 class PeopleRequirementForm(forms.ModelForm):
     for_user = forms.ModelChoiceField(
         help_text="User who receives the request",
-        queryset=get_users_leads()
+        queryset=get_users_department("PRUEBAS", "first_name")
     )
 
     class Meta:
@@ -76,6 +78,40 @@ class PeopleHistoryFilterSet(filters.FilterSet):
             "requirement__for_user",
             "created",
             "requirement__description",
+        )
+
+        filter_overrides = {
+            models.CharField: {
+                "filter_class": filters.CharFilter,
+                "extra": lambda f: {
+                    "lookup_expr": "icontains",
+                },
+            },
+            models.BooleanField: {
+                "filter_class": filters.BooleanFilter,
+                "extra": lambda f: {
+                    "widget": forms.CheckboxInput,
+                },
+            }
+        }
+
+
+class PeopleUserFilterSet(filters.FilterSet):
+    username = CharInFilter()
+    first_name = CharInFilter()
+    last_name = CharInFilter()
+    mfs = CharInFilter()
+    shift = CharInFilter()
+
+    class Meta:
+        model = get_user_model()
+        fields = (
+            "username",
+            "first_name",
+            "last_name",
+            "mfs",
+            "job",
+            "shift"
         )
 
         filter_overrides = {

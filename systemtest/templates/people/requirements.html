@@ -9,7 +9,7 @@
 {% block table_title %} REQUIREMENTS {% endblock table_title %}
 
 {% block columns %}
-  {% to_list "ID" "Requested by" "Requested for" "Requirement" "Description" "Request Date" "Start Date" "End Date" "Days" "Status" "Comment" as column_names %}
+  {% to_list "ID" "Requested by" "Requested for" "Requirement" "Description" "Submit Date" "Start Date" "End Date" "Days" "Status" "Comment" as column_names %}
   {% include 'utils/tables/column_names.html' with column_names=column_names %}
   {% block extra_columns %} {% endblock extra_columns %}
 {% endblock columns %}

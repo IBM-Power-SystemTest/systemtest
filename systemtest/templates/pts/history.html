@@ -36,7 +36,7 @@
 
       <td> {{ request.request.request_group.system_number }} </td>
       <td> {{ request.request.request_group.system_cell }} </td>
-      <td> {{ request.user }} </td>
+      <td> {{ request.user.username }} </td>
     </tr>
   {% endfor %}
 {% endblock table_body %}

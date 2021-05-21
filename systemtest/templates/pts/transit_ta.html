@@ -6,7 +6,7 @@
 {% endblock extra_columns %}
 
 {% block extra_rows %}
-  <td> {{ data.get_first_request.user }} </td>
+  <td> {{ data.get_first_request.user.username }} </td>
   {% include "utils/tables/input.html" with field=f.part_id %}
 {% endblock extra_rows %}
 

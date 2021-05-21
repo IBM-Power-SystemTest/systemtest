@@ -109,7 +109,7 @@ class User(AbstractUser):
         return reverse("users:detail", kwargs={"username": self.username})
 
     def __str__(self) -> str:
-        return self.username
+        return f"{self.first_name} {self.last_name} [ {self.username} ]"
 
     class Meta:
         db_table = "users_user"

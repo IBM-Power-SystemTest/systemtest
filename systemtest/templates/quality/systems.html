@@ -52,7 +52,7 @@
   </td>
 
   <td> {{ data.created | get_shift  }} </td>
-  {% include "utils/tables/input.html" with field=f.quiality_status %}
+  {% include "utils/tables/input.html" with field=f.quality_status %}
   {% include "utils/tables/input.html" with field=f.comment %}
   <td> {{ data.user | default_if_none:"" }} </td>
 

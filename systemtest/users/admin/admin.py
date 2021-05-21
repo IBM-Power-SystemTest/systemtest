@@ -80,6 +80,7 @@ class UserAdmin(auth_admin.UserAdmin):
     fieldsets = auth_admin.UserAdmin.fieldsets + (
         ("Details", {
             "fields": (
+                "department",
                 "job",
                 "shift",
                 "mfs"
